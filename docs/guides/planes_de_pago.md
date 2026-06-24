@@ -64,6 +64,8 @@ El PDF enumera varios métodos de pago: americano o inglés, alemán, francés, 
 | `TES` | Tasa efectiva semestral | Caso particular de TEP cuando los pagos son semestrales |
 | `TEC` | Tasa efectiva cuatrimestral | Caso particular de TEP cuando los pagos son cada 4 meses |
 | `TEM` | Tasa efectiva mensual | Caso particular de TEP cuando los pagos son mensuales |
+| `TET` | Tasa efectiva trimestral | Caso particular de TEP cuando los pagos son trimestrales |
+| `TEB` | Tasa efectiva bimestral | Caso particular de TEP cuando los pagos son bimestrales |
 | `n` | Número total de cuotas | Depende del plazo y la frecuencia |
 | `nc` | Número de la cuota que se calcula | Se usa especialmente cuando cambia la tasa |
 | `SI` | Saldo inicial del periodo | Saldo sobre el cual se calculan intereses |
@@ -859,8 +861,6 @@ Al terminar el cálculo, se debe revisar lo siguiente:
 | Los ingresos fuertes llegan en julio y diciembre | Peruano | La estructura de cuota doble se adapta a esos meses |
 | Se quiere pagar menos intereses totales | Usualmente alemán | Al amortizar más capital temprano, baja la base de intereses |
 | Se quiere facilidad de comunicación al cliente | Francés | La cuota constante es más comprensible |
-
----
 
 ---
 

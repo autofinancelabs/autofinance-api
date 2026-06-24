@@ -207,7 +207,7 @@ a la tasa compensatoria porque incluye seguros y costos; es el indicador de tran
 |---|---|---|
 | Conversión de tasas (§3) | H4.2, H6.5 | tasas_equivalentes_y_tasa_efectiva, tasa_interes_compuesta_nominal |
 | Préstamo (§4) | H4.4 | planes_de_pago, metodo_frances |
-| Cuota francesa (§5) | H5.1 | metodo_frances, metodo_frances_formulas_ejemplos |
+| Cuota francesa (§5) | H5.1 | metodo_frances |
 | Compra Inteligente (§6) | H5.2 | metodo_frances_compra_inteligente_balloon |
 | `j = i + TSD` (§7) | H5.6 | metodo_frances_compra_inteligente_balloon |
 | Gracia (§9) | H5.3 | planes_de_pago, metodo_frances_compra_inteligente_balloon |

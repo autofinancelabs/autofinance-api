@@ -44,9 +44,9 @@ Si el proyecto no supera esa tasa mínima, no crea valor suficiente para justifi
 
 ---
 
-# 2. Valor Actual Neto (VAN)
+## 2. Valor Actual Neto (VAN)
 
-## 2.1 ¿Qué es el VAN?
+### 2.1 ¿Qué es el VAN?
 
 El Valor Actual Neto mide el valor monetario que crea o destruye un proyecto al traer sus flujos de caja futuros al presente usando el COK, y luego restar la inversión inicial.
 
@@ -62,7 +62,7 @@ El VAN responde a la pregunta:
 
 ---
 
-## 2.2 Fórmula del VAN
+### 2.2 Fórmula del VAN
 
 Si la inversión inicial ocurre en el momento 0 y los flujos se reciben desde el período 1 hasta el período n:
 
@@ -87,7 +87,7 @@ $$
 
 ---
 
-## 2.3 Criterios de decisión del VAN
+### 2.3 Criterios de decisión del VAN
 
 | Resultado | Interpretación | Decisión |
 |---:|---|---|
@@ -99,7 +99,7 @@ El VAN suele considerarse el criterio más confiable porque mide creación de ri
 
 ---
 
-## 2.4 Fórmula en Excel o Google Sheets
+### 2.4 Fórmula en Excel o Google Sheets
 
 Si la inversión inicial está en el año 0 y los flujos futuros están desde el año 1:
 
@@ -123,9 +123,9 @@ Importante: en Excel, la función `VNA` o `NPV` descuenta desde el período 1. P
 
 ---
 
-## 2.5 Ejemplo resuelto de VAN
+### 2.5 Ejemplo resuelto de VAN
 
-### Datos del proyecto
+#### Datos del proyecto
 
 | Año | Flujo de caja |
 |---:|---:|
@@ -136,7 +136,7 @@ Importante: en Excel, la función `VNA` o `NPV` descuenta desde el período 1. P
 
 COK = 10%
 
-### Desarrollo
+#### Desarrollo
 
 $$
 VAN = -1000 + \frac{400}{(1+0.10)^1} + \frac{500}{(1+0.10)^2} + \frac{600}{(1+0.10)^3}
@@ -154,7 +154,7 @@ $$
 VAN = 227.65
 $$
 
-### Interpretación
+#### Interpretación
 
 El proyecto tiene un VAN positivo de 227.65. Esto significa que, después de recuperar la inversión inicial y cumplir con la rentabilidad mínima exigida del 10%, el proyecto todavía crea 227.65 unidades monetarias de valor.
 
@@ -162,9 +162,9 @@ Decisión: aceptar el proyecto.
 
 ---
 
-# 3. Tasa Interna de Retorno (TIR)
+## 3. Tasa Interna de Retorno (TIR)
 
-## 3.1 ¿Qué es la TIR?
+### 3.1 ¿Qué es la TIR?
 
 La Tasa Interna de Retorno es la tasa de descuento que hace que el VAN sea igual a cero. Representa la rentabilidad porcentual implícita del proyecto según sus flujos de caja.
 
@@ -180,7 +180,7 @@ La TIR responde a la pregunta:
 
 ---
 
-## 3.2 Fórmula de la TIR
+### 3.2 Fórmula de la TIR
 
 La TIR se obtiene resolviendo la siguiente igualdad:
 
@@ -198,7 +198,7 @@ A diferencia del VAN, la TIR no se calcula directamente con una fórmula simple 
 
 ---
 
-## 3.3 Criterios de decisión de la TIR
+### 3.3 Criterios de decisión de la TIR
 
 | Resultado | Interpretación | Decisión |
 |---:|---|---|
@@ -208,7 +208,7 @@ A diferencia del VAN, la TIR no se calcula directamente con una fórmula simple 
 
 ---
 
-## 3.4 Fórmula en Excel o Google Sheets
+### 3.4 Fórmula en Excel o Google Sheets
 
 Cuando se tienen todos los flujos, incluyendo la inversión inicial en el año 0:
 
@@ -236,9 +236,9 @@ En Excel en inglés:
 
 ---
 
-## 3.5 Ejemplo resuelto de TIR
+### 3.5 Ejemplo resuelto de TIR
 
-### Datos del proyecto
+#### Datos del proyecto
 
 | Año | Flujo de caja |
 |---:|---:|
@@ -247,7 +247,7 @@ En Excel en inglés:
 | 2 | 500 |
 | 3 | 600 |
 
-### Planteamiento
+#### Planteamiento
 
 La TIR es la tasa que cumple:
 
@@ -267,7 +267,7 @@ $$
 TIR \approx 21.65\%
 $$
 
-### Interpretación
+#### Interpretación
 
 Si el COK del proyecto es 10%, entonces:
 
@@ -279,9 +279,9 @@ El proyecto genera una rentabilidad superior a la mínima exigida. Por lo tanto,
 
 ---
 
-# 4. Ejemplo combinado: VAN y TIR en un mismo proyecto
+## 4. Ejemplo combinado: VAN y TIR en un mismo proyecto
 
-## 4.1 Proyecto A
+### 4.1 Proyecto A
 
 | Año | Flujo de caja |
 |---:|---:|
@@ -295,7 +295,7 @@ COK = 12%
 
 ---
 
-## 4.2 Cálculo del VAN
+### 4.2 Cálculo del VAN
 
 $$
 VAN = -5000 + \frac{1200}{1.12} + \frac{1500}{1.12^2} + \frac{1600}{1.12^3} + \frac{1700}{1.12^4}
@@ -324,7 +324,7 @@ $$
 
 ---
 
-## 4.3 Cálculo de la TIR
+### 4.3 Cálculo de la TIR
 
 La TIR cumple:
 
@@ -346,7 +346,7 @@ $$
 
 ---
 
-## 4.4 Decisión
+### 4.4 Decisión
 
 | Indicador | Resultado | Criterio | Decisión |
 |---|---:|---|---|
@@ -357,7 +357,7 @@ Conclusión: el proyecto debe rechazarse porque no genera suficiente valor y su 
 
 ---
 
-# 5. Diferencia clave entre VAN y TIR
+## 5. Diferencia clave entre VAN y TIR
 
 | Criterio | VAN | TIR |
 |---|---|---|
@@ -369,7 +369,7 @@ Conclusión: el proyecto debe rechazarse porque no genera suficiente valor y su 
 
 ---
 
-# 6. Recomendación práctica
+## 6. Recomendación práctica
 
 Para evaluar un solo proyecto, VAN y TIR suelen llevar a la misma decisión si los flujos son convencionales. Sin embargo, cuando se comparan proyectos excluyentes, el VAN debe tener prioridad porque mide cuánto valor monetario crea cada alternativa.
 
@@ -379,4 +379,30 @@ Regla práctica:
 Primero mira el VAN.
 Luego usa la TIR como complemento.
 ```
+
+---
+
+## 7. Nota: VAN y TIR aplicados a un préstamo (perspectiva del deudor)
+
+Esta guía presenta el VAN y la TIR para un **proyecto de inversión**: la inversión inicial es una salida (signo negativo en el período 0) y los flujos siguientes son entradas. Sin embargo, en este sistema el VAN y la TIR se calculan **desde el punto de vista del deudor de un préstamo**, donde los signos se invierten:
+
+- En el período 0 el deudor **recibe** el préstamo → entrada (signo positivo).
+- En los períodos siguientes **paga** las cuotas → salidas (signo negativo).
+
+Por eso, para un préstamo, el VAN se escribe así:
+
+$$
+VAN = P_0 - \sum_{t=1}^{n} \frac{C_t}{(1+COK)^t}
+$$
+
+donde $P_0$ es el préstamo recibido en el período 0 y $C_t$ es la cuota total del período $t$.
+
+El criterio se interpreta al revés que en un proyecto de inversión:
+
+| Resultado | Proyecto de inversión | Préstamo (deudor) |
+|---|---|---|
+| VAN > 0 | Crea valor → aceptar | El préstamo es **barato** frente al COK → conviene endeudarse |
+| VAN < 0 | Destruye valor → rechazar | El préstamo es **caro** frente al COK |
+
+La TIR del préstamo, anualizada e incluyendo todos los costos obligatorios (seguros, comisiones, portes), es la **TCEA** (Tasa de Costo Efectivo Anual). El desarrollo detallado, con cronograma y ejemplos, está en [`metodo_frances.md`](metodo_frances.md), [`planes_de_pago.md`](planes_de_pago.md) (§22) y [`metodo_frances_compra_inteligente_balloon.md`](metodo_frances_compra_inteligente_balloon.md).
 
