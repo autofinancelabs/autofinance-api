@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "ddd-playbook": {
+      "source": "salimramirez/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/ddd-playbook/SKILL.md",
+      "computedHash": "77e7545be0c6bc08cc342ec5cde13e9d988052285590620d2ec6f629c28d4fcb"
+    }
+  }
+}
