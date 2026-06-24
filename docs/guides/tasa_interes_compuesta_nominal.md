@@ -42,7 +42,7 @@ A diferencia del **interés simple**, donde el capital base permanece constante 
 | Capitalización | No existe | Sí existe |
 | Tratamiento de los intereses | Se retiran o no se suman al capital | Se reinvierten o se suman al capital |
 | Crecimiento | Lineal | Exponencial |
-| Fórmula típica | \(I = C \cdot i \cdot t\) | \(S = C(1+i)^n\) |
+| Fórmula típica | $I = C \cdot i \cdot t$ | $S = C(1+i)^n$ |
 | Uso típico | Operaciones simples, corto plazo, liquidez | Ahorros, inversiones, préstamos bancarios, tarjetas y deudas con capitalización |
 
 ### 3.1. Mundo del interés simple
@@ -58,7 +58,7 @@ Desde la posición del prestatario, una forma de reducir el efecto de los intere
 
 ### 3.2. Mundo del interés compuesto
 
-En el mundo del **interés compuesto**, muy frecuente en bancos y operaciones financieras, una tasa nominal no es suficiente por sí sola. Debe indicarse también **cada cuánto capitaliza**. Por eso, una tasa nominal \(j\) necesita el dato de capitalización \(m\).
+En el mundo del **interés compuesto**, muy frecuente en bancos y operaciones financieras, una tasa nominal no es suficiente por sí sola. Debe indicarse también **cada cuánto capitaliza**. Por eso, una tasa nominal $j$ necesita el dato de capitalización $m$.
 
 Ejemplos de frases que indican interés compuesto:
 
@@ -87,8 +87,8 @@ Supongamos una inversión inicial de **S/ 1,000** durante **30 años** a una tas
 
 | Escenario | ¿Se reinvierten los intereses? | Fórmula conceptual | Resultado aproximado | Crecimiento efectivo sobre el capital inicial |
 |---|---:|---|---:|---:|
-| Interés simple | No | \(S = C + C \cdot i \cdot t\) | S/ 4,000.00 si se acumulan los retiros | 300.00% |
-| Interés compuesto | Sí | \(S = C(1+i)^n\) | S/ 17,449.40 | 1,644.94% |
+| Interés simple | No | $S = C + C \cdot i \cdot t$ | S/ 4,000.00 si se acumulan los retiros | 300.00% |
+| Interés compuesto | Sí | $S = C(1+i)^n$ | S/ 17,449.40 | 1,644.94% |
 
 ### Interpretación
 
@@ -139,7 +139,7 @@ En los ejercicios se trabaja con año comercial de 360 días y mes comercial de 
 | 1 mes | 2 quincenas, 30 días |
 | 1 quincena | 15 días |
 
-Estas equivalencias permiten calcular correctamente \(m\) y \(n\).
+Estas equivalencias permiten calcular correctamente $m$ y $n$.
 
 ---
 
@@ -159,97 +159,97 @@ Sin embargo, en interés compuesto la TNA por sí sola no basta. También se nec
 
 | Símbolo | Significado | Comentario |
 |---|---|---|
-| \(C\) | Capital inicial o valor presente | Monto colocado, prestado o adeudado al inicio. |
-| \(S\) | Valor futuro o monto acumulado | Monto final después de capitalizar. |
-| \(I\) | Interés generado | Diferencia entre \(S\) y \(C\). |
-| \(j\) | Tasa nominal | Tasa pactada para un período determinado. También puede aparecer como \(TN\). |
-| \(m\) | Número de capitalizaciones de la tasa nominal | Cantidad de veces que capitaliza dentro del período de la tasa nominal. |
-| \(i\) | Tasa del período de capitalización | Tasa que realmente entra a la fórmula compuesta. |
-| \(n\) | Número de períodos de capitalización de la operación | Cantidad de veces que capitaliza durante el plazo real. |
-| \(TEP\) | Tasa efectiva del período | Crecimiento real del capital en el plazo analizado. |
+| $C$ | Capital inicial o valor presente | Monto colocado, prestado o adeudado al inicio. |
+| $S$ | Valor futuro o monto acumulado | Monto final después de capitalizar. |
+| $I$ | Interés generado | Diferencia entre $S$ y $C$. |
+| $j$ | Tasa nominal | Tasa pactada para un período determinado. También puede aparecer como $TN$. |
+| $m$ | Número de capitalizaciones de la tasa nominal | Cantidad de veces que capitaliza dentro del período de la tasa nominal. |
+| $i$ | Tasa del período de capitalización | Tasa que realmente entra a la fórmula compuesta. |
+| $n$ | Número de períodos de capitalización de la operación | Cantidad de veces que capitaliza durante el plazo real. |
+| $TEP$ | Tasa efectiva del período | Crecimiento real del capital en el plazo analizado. |
 
-El PDF usa con frecuencia \(TN\) para la tasa nominal y \(i'\) para la tasa del período de capitalización. En clase también puede usarse \(j\) para la tasa nominal e \(i\) para la tasa efectiva por período.
+El PDF usa con frecuencia $TN$ para la tasa nominal y $i'$ para la tasa del período de capitalización. En clase también puede usarse $j$ para la tasa nominal e $i$ para la tasa efectiva por período.
 
 ### 7.3. Tasa del período de capitalización
 
 La tasa que se usa en la fórmula compuesta es:
 
-\[
+$$
 i = \frac{j}{m}
-\]
+$$
 
 También puede escribirse como:
 
-\[
+$$
 i' = \frac{TN}{m}
-\]
+$$
 
 Donde:
 
-- \(j\) o \(TN\) debe estar expresada en decimal.
-- \(m\) es el número de capitalizaciones dentro del período de la tasa nominal.
+- $j$ o $TN$ debe estar expresada en decimal.
+- $m$ es el número de capitalizaciones dentro del período de la tasa nominal.
 
 Ejemplo:
 
 Si se tiene una **TNA de 120% con capitalización mensual**:
 
-\[
+$$
 j = 120\% = 1.20
-\]
+$$
 
 Como en un año hay 12 meses:
 
-\[
+$$
 m = 12
-\]
+$$
 
 Entonces:
 
-\[
+$$
 i = \frac{1.20}{12} = 0.10 = 10\% \text{ mensual}
-\]
+$$
 
 ### 7.4. Tasa efectiva
 
 La **tasa efectiva** mide el crecimiento real del capital durante un período determinado.
 
-\[
+$$
 TEP = \frac{S}{C} - 1
-\]
+$$
 
 O directamente:
 
-\[
+$$
 TEP = \left(1+\frac{j}{m}\right)^n - 1
-\]
+$$
 
 Por ejemplo, una TNA de 120% capitalizable mensualmente equivale a una tasa mensual de 10%. Si el capital se mantiene 3 meses:
 
-\[
+$$
 TEP = (1+0.10)^3 - 1 = 0.331 = 33.10\%
-\]
+$$
 
 Por tanto, en 3 meses el capital crece efectivamente 33.10%, no 30%.
 
 ---
 
-## 8. Cómo determinar \(m\) y \(n\)
+## 8. Cómo determinar $m$ y $n$
 
-### 8.1. Valor de \(m\)
+### 8.1. Valor de $m$
 
-\(m\) responde a la pregunta:
+$m$ responde a la pregunta:
 
 > ¿Cuántos períodos de capitalización caben dentro del período en que está expresada la tasa nominal?
 
 También puede calcularse con días:
 
-\[
+$$
 m = \frac{\text{días del período de la tasa nominal}}{\text{días del período de capitalización}}
-\]
+$$
 
 Ejemplos:
 
-| Tasa nominal y capitalización | Período nominal | Período de capitalización | Cálculo de \(m\) | \(m\) |
+| Tasa nominal y capitalización | Período nominal | Período de capitalización | Cálculo de $m$ | $m$ |
 |---|---:|---:|---:|---:|
 | TNA c.m. | 360 días | 30 días | 360 / 30 | 12 |
 | TNA c.q. | 360 días | 15 días | 360 / 15 | 24 |
@@ -261,21 +261,21 @@ Ejemplos:
 | TNM c.d. | 30 días | 1 día | 30 / 1 | 30 |
 | TNC c.b. | 120 días | 60 días | 120 / 60 | 2 |
 
-### 8.2. Valor de \(n\)
+### 8.2. Valor de $n$
 
-\(n\) responde a la pregunta:
+$n$ responde a la pregunta:
 
 > ¿Cuántos períodos de capitalización caben dentro del tiempo real de la operación?
 
 Puede calcularse así:
 
-\[
+$$
 n = \frac{\text{días del plazo de la operación}}{\text{días del período de capitalización}}
-\]
+$$
 
 Ejemplos:
 
-| Plazo de operación | Capitalización | Cálculo de \(n\) | \(n\) |
+| Plazo de operación | Capitalización | Cálculo de $n$ | $n$ |
 |---|---:|---:|---:|
 | 3 meses | Mensual | 3 / 1 | 3 |
 | 1 año | Mensual | 12 / 1 | 12 |
@@ -292,83 +292,83 @@ Ejemplos:
 
 Se usa para calcular cuánto valdrá un capital después de cierto tiempo.
 
-\[
+$$
 S = C(1+i)^n
-\]
+$$
 
-Como \(i = \frac{j}{m}\), también puede escribirse así:
+Como $i = \frac{j}{m}$, también puede escribirse así:
 
-\[
+$$
 S = C\left(1+\frac{j}{m}\right)^n
-\]
+$$
 
 O usando la notación del PDF:
 
-\[
+$$
 S = C\left(1+\frac{TN}{m}\right)^n
-\]
+$$
 
 ### 9.2. Valor presente
 
 Se usa para calcular cuánto vale hoy un monto que vence en el futuro.
 
-\[
+$$
 C = \frac{S}{(1+i)^n}
-\]
+$$
 
 O bien:
 
-\[
+$$
 C = \frac{S}{\left(1+\frac{j}{m}\right)^n}
-\]
+$$
 
 ### 9.3. Interés generado
 
-\[
+$$
 I = S - C
-\]
+$$
 
 También puede expresarse como:
 
-\[
+$$
 I = C\left[\left(1+\frac{j}{m}\right)^n - 1\right]
-\]
+$$
 
 ### 9.4. Tasa efectiva del período
 
-\[
+$$
 TEP = \frac{S}{C} - 1
-\]
+$$
 
 O directamente:
 
-\[
+$$
 TEP = \left(1+\frac{j}{m}\right)^n - 1
-\]
+$$
 
 ### 9.5. Número de períodos de capitalización
 
-Se usa cuando se conoce \(C\), \(S\), \(j\) y \(m\), pero se desea hallar el tiempo.
+Se usa cuando se conoce $C$, $S$, $j$ y $m$, pero se desea hallar el tiempo.
 
-\[
+$$
 n = \frac{\ln(S/C)}{\ln\left(1+\frac{j}{m}\right)}
-\]
+$$
 
 ### 9.6. Tasa nominal
 
 Se usa cuando se conoce el capital inicial, el valor futuro, el número de capitalizaciones y el período de capitalización.
 
-\[
+$$
 j = m\left[\left(\frac{S}{C}\right)^{1/n} - 1\right]
-\]
+$$
 
 ### 9.7. Capital necesario para generar un interés específico
 
-Si se desea saber cuánto capital se necesita para generar un interés \(I\), se usa:
+Si se desea saber cuánto capital se necesita para generar un interés $I$, se usa:
 
-\[
+$$
 C = \frac{I}{\left(1+\frac{j}{m}\right)^n - 1}
-\]
+$$
 
 ---
 
@@ -377,11 +377,11 @@ C = \frac{I}{\left(1+\frac{j}{m}\right)^n - 1}
 Antes de resolver cualquier problema de interés compuesto o tasa nominal, sigue este método:
 
 1. Identificar qué se busca: valor futuro, valor presente, interés, tasa efectiva, tiempo, tasa nominal o capital inicial.
-2. Identificar el capital inicial \(C\) o el valor futuro \(S\), según corresponda.
+2. Identificar el capital inicial $C$ o el valor futuro $S$, según corresponda.
 3. Identificar la tasa nominal: TNA, TNS, TNT, TNM, etc.
 4. Identificar el período de capitalización: mensual, diaria, quincenal, bimestral, etc.
-5. Calcular \(m\), es decir, cuántas capitalizaciones caben dentro del período de la tasa nominal.
-6. Calcular \(n\), es decir, cuántas capitalizaciones caben dentro del plazo real de la operación.
+5. Calcular $m$, es decir, cuántas capitalizaciones caben dentro del período de la tasa nominal.
+6. Calcular $n$, es decir, cuántas capitalizaciones caben dentro del plazo real de la operación.
 7. Convertir la tasa a decimal: 6% = 0.06, 120% = 1.20, 0.2% = 0.002.
 8. Aplicar la fórmula correspondiente.
 9. Interpretar el resultado financiero.
@@ -412,33 +412,33 @@ Si tengo un capital de **S/ 1,000** y lo invierto durante **tres períodos mensu
 
 | Dato | Valor |
 |---|---:|
-| Capital inicial \(C\) | S/ 1,000.00 |
-| Tasa nominal \(j\) | TNA 120% = 1.20 |
+| Capital inicial $C$ | S/ 1,000.00 |
+| Tasa nominal $j$ | TNA 120% = 1.20 |
 | Capitalización | Mensual |
 | Tiempo | 3 meses |
 | Período nominal | 1 año = 12 meses |
 
-### Paso 1: calcular \(m\)
+### Paso 1: calcular $m$
 
 La tasa es anual y capitaliza mensualmente:
 
-\[
+$$
 m = 12
-\]
+$$
 
-### Paso 2: calcular \(i\)
+### Paso 2: calcular $i$
 
-\[
+$$
 i = \frac{j}{m} = \frac{1.20}{12} = 0.10 = 10\% \text{ mensual}
-\]
+$$
 
-### Paso 3: calcular \(n\)
+### Paso 3: calcular $n$
 
 El plazo es de 3 meses y la capitalización es mensual:
 
-\[
+$$
 n = 3
-\]
+$$
 
 ### Paso 4: evolución mes a mes
 
@@ -451,49 +451,59 @@ n = 3
 
 ### Paso 5: fórmula directa
 
-\[
+$$
 S = C\left(1+\frac{j}{m}\right)^n
-\]
+$$
 
-\[
+$$
 S = 1{,}000\left(1+\frac{1.20}{12}\right)^3
-\]
+$$
 
-\[
+$$
 S = 1{,}000(1.10)^3
-\]
+$$
 
-\[
+$$
 S = 1{,}331.00
-\]
+$$
 
 ### Paso 6: crecimiento monetario del capital
 
-\[
+$$
 I = S - C
-\]
+$$
 
-\[
+$$
 I = 1{,}331.00 - 1{,}000.00 = 331.00
-\]
+$$
 
 ### Paso 7: crecimiento porcentual o tasa efectiva trimestral
 
-\[
+$$
 TET = \frac{S}{C} - 1
-\]
+$$
 
-\[
+$$
 TET = \frac{1{,}331.00}{1{,}000.00} - 1
-\]
+$$
 
-\[
+$$
 TET = 0.3310 = 33.10\%
-\]
+$$
 
 ### Interpretación
 
 Una TNA de 120% capitalizable mensualmente genera una tasa mensual de 10%. Después de tres capitalizaciones, el capital crece de **S/ 1,000.00** a **S/ 1,331.00**. El crecimiento efectivo trimestral es **33.10%**, no 30%, porque los intereses de cada mes se suman al capital y vuelven a generar intereses.
+
+### Variante introductoria: TNA 12% capitalizable mensualmente
+
+El mismo procedimiento con una tasa más típica. Para un capital de S/ 1,000 a una **TNA de 12% capitalizable mensualmente** durante 3 meses, la tasa mensual es $i = 0.12/12 = 1\%$:
+
+$$
+S = 1{,}000(1.01)^3 = 1{,}030.30
+$$
+
+El interés es **S/ 30.30** y la tasa efectiva trimestral es **3.03%**.
 
 ---
 
@@ -503,26 +513,26 @@ Una TNA de 120% capitalizable mensualmente genera una tasa mensual de 10%. Despu
 
 | Dato | Valor |
 |---|---:|
-| Capital \(C\) | S/ 1,000.00 |
+| Capital $C$ | S/ 1,000.00 |
 | Tasa | TNS 6% c.m. |
 | Plazo | 1 cuatrimestre = 4 meses |
 | Capitalización | Mensual |
 
-\[
+$$
 m = 6
-\]
+$$
 
-\[
+$$
 n = 4
-\]
+$$
 
-\[
+$$
 S = 1{,}000\left(1+\frac{0.06}{6}\right)^4 = 1{,}040.60
-\]
+$$
 
-\[
+$$
 TEC = \frac{1{,}040.60}{1{,}000.00}-1 = 4.06\%
-\]
+$$
 
 **Resultado:** el monto acumulado es **S/ 1,040.60** y la tasa efectiva cuatrimestral es **4.06%**.
 
@@ -532,26 +542,26 @@ TEC = \frac{1{,}040.60}{1{,}000.00}-1 = 4.06\%
 
 | Dato | Valor |
 |---|---:|
-| Capital \(C\) | S/ 1,000.00 |
+| Capital $C$ | S/ 1,000.00 |
 | Tasa | TNS 6% c.m. |
 | Plazo | 1 año = 12 meses |
 | Capitalización | Mensual |
 
-\[
+$$
 m = 6
-\]
+$$
 
-\[
+$$
 n = 12
-\]
+$$
 
-\[
+$$
 S = 1{,}000\left(1+\frac{0.06}{6}\right)^{12} = 1{,}126.83
-\]
+$$
 
-\[
+$$
 TEA = \frac{1{,}126.83}{1{,}000.00}-1 = 12.683\%
-\]
+$$
 
 **Resultado:** el monto acumulado es **S/ 1,126.83** y la tasa efectiva anual es **12.683%**.
 
@@ -561,26 +571,26 @@ TEA = \frac{1{,}126.83}{1{,}000.00}-1 = 12.683\%
 
 | Dato | Valor |
 |---|---:|
-| Capital \(C\) | S/ 1,000.00 |
+| Capital $C$ | S/ 1,000.00 |
 | Tasa | TNS 6% c.d. |
 | Plazo | 1 cuatrimestre = 120 días |
 | Capitalización | Diaria |
 
-\[
+$$
 m = 180
-\]
+$$
 
-\[
+$$
 n = 120
-\]
+$$
 
-\[
+$$
 S = 1{,}000\left(1+\frac{0.06}{180}\right)^{120} = 1{,}040.80
-\]
+$$
 
-\[
+$$
 TEC = \frac{1{,}040.80}{1{,}000.00}-1 = 4.08\%
-\]
+$$
 
 **Resultado:** el monto acumulado es **S/ 1,040.80** y la tasa efectiva cuatrimestral es **4.08%**.
 
@@ -590,26 +600,26 @@ TEC = \frac{1{,}040.80}{1{,}000.00}-1 = 4.08\%
 
 | Dato | Valor |
 |---|---:|
-| Capital \(C\) | S/ 1,000.00 |
+| Capital $C$ | S/ 1,000.00 |
 | Tasa | TNS 6% c.d. |
 | Plazo | 1 año = 360 días |
 | Capitalización | Diaria |
 
-\[
+$$
 m = 180
-\]
+$$
 
-\[
+$$
 n = 360
-\]
+$$
 
-\[
+$$
 S = 1{,}000\left(1+\frac{0.06}{180}\right)^{360} = 1{,}127.47
-\]
+$$
 
-\[
+$$
 TEA = \frac{1{,}127.47}{1{,}000.00}-1 = 12.747\%
-\]
+$$
 
 **Resultado:** el monto acumulado es **S/ 1,127.47** y la tasa efectiva anual es **12.747%**.
 
@@ -619,26 +629,26 @@ TEA = \frac{1{,}127.47}{1{,}000.00}-1 = 12.747\%
 
 | Dato | Valor |
 |---|---:|
-| Capital \(C\) | S/ 1,000.00 |
+| Capital $C$ | S/ 1,000.00 |
 | Tasa | TNT 30% c.m. |
 | Plazo | 4 meses |
 | Capitalización | Mensual |
 
-\[
+$$
 m = 3
-\]
+$$
 
-\[
+$$
 n = 4
-\]
+$$
 
-\[
+$$
 S = 1{,}000\left(1+\frac{0.30}{3}\right)^4 = 1{,}464.10
-\]
+$$
 
-\[
+$$
 TEC = \frac{1{,}464.10}{1{,}000.00}-1 = 46.41\%
-\]
+$$
 
 **Resultado:** el monto acumulado es **S/ 1,464.10** y la tasa efectiva cuatrimestral es **46.41%**.
 
@@ -648,26 +658,26 @@ TEC = \frac{1{,}464.10}{1{,}000.00}-1 = 46.41\%
 
 | Dato | Valor |
 |---|---:|
-| Capital \(C\) | S/ 1,000.00 |
+| Capital $C$ | S/ 1,000.00 |
 | Tasa | TNT 30% c.m. |
 | Plazo | 1 año = 12 meses |
 | Capitalización | Mensual |
 
-\[
+$$
 m = 3
-\]
+$$
 
-\[
+$$
 n = 12
-\]
+$$
 
-\[
+$$
 S = 1{,}000\left(1+\frac{0.30}{3}\right)^{12} = 3{,}138.43
-\]
+$$
 
-\[
+$$
 TEA = \frac{3{,}138.43}{1{,}000.00}-1 = 213.843\%
-\]
+$$
 
 **Resultado:** el monto acumulado es **S/ 3,138.43** y la tasa efectiva anual es **213.843%**.
 
@@ -677,26 +687,26 @@ TEA = \frac{3{,}138.43}{1{,}000.00}-1 = 213.843\%
 
 | Dato | Valor |
 |---|---:|
-| Capital \(C\) | S/ 1,000.00 |
+| Capital $C$ | S/ 1,000.00 |
 | Tasa | TNT 30% c.d. |
 | Plazo | 4 meses = 120 días |
 | Capitalización | Diaria |
 
-\[
+$$
 m = 90
-\]
+$$
 
-\[
+$$
 n = 120
-\]
+$$
 
-\[
+$$
 S = 1{,}000\left(1+\frac{0.30}{90}\right)^{120} = 1{,}490.83
-\]
+$$
 
-\[
+$$
 TEC = \frac{1{,}490.83}{1{,}000.00}-1 = 49.083\%
-\]
+$$
 
 **Resultado:** el monto acumulado es **S/ 1,490.83** y la tasa efectiva cuatrimestral es **49.083%**.
 
@@ -706,26 +716,26 @@ TEC = \frac{1{,}490.83}{1{,}000.00}-1 = 49.083\%
 
 | Dato | Valor |
 |---|---:|
-| Capital \(C\) | S/ 1,000.00 |
+| Capital $C$ | S/ 1,000.00 |
 | Tasa | TNT 30% c.d. |
 | Plazo | 1 año = 360 días |
 | Capitalización | Diaria |
 
-\[
+$$
 m = 90
-\]
+$$
 
-\[
+$$
 n = 360
-\]
+$$
 
-\[
+$$
 S = 1{,}000\left(1+\frac{0.30}{90}\right)^{360} = 3{,}313.50
-\]
+$$
 
-\[
+$$
 TEA = \frac{3{,}313.50}{1{,}000.00}-1 = 231.35\%
-\]
+$$
 
 **Resultado:** el monto acumulado es **S/ 3,313.50** y la tasa efectiva anual es **231.35%**.
 
@@ -735,26 +745,26 @@ TEA = \frac{3{,}313.50}{1{,}000.00}-1 = 231.35\%
 
 | Dato | Valor |
 |---|---:|
-| Capital \(C\) | S/ 5,000.00 |
+| Capital $C$ | S/ 5,000.00 |
 | Tasa | TNA 6% c.m. |
 | Plazo | 1 semestre = 6 meses |
 | Capitalización | Mensual |
 
-\[
+$$
 m = 12
-\]
+$$
 
-\[
+$$
 n = 6
-\]
+$$
 
-\[
+$$
 S = 5{,}000\left(1+\frac{0.06}{12}\right)^6 = 5{,}151.89
-\]
+$$
 
-\[
+$$
 TES = \frac{5{,}151.89}{5{,}000.00}-1 = 3.0378\%
-\]
+$$
 
 **Resultado:** el monto acumulado es **S/ 5,151.89** y la tasa efectiva semestral es **3.0378%**.
 
@@ -764,86 +774,86 @@ TES = \frac{5{,}151.89}{5{,}000.00}-1 = 3.0378\%
 
 | Dato | Valor |
 |---|---:|
-| Capital \(C\) | € 20,000.00 |
+| Capital $C$ | € 20,000.00 |
 | Tasa | TNM 0.2% c.d. |
 | Plazo | 100 días |
 | Capitalización | Diaria |
 
-\[
+$$
 m = 30
-\]
+$$
 
-\[
+$$
 n = 100
-\]
+$$
 
-\[
+$$
 S = 20{,}000\left(1+\frac{0.002}{30}\right)^{100} = 20{,}133.77
-\]
+$$
 
 **Resultado:** el monto acumulado es **€ 20,133.77**.
 
 ---
 
-### Ejemplo 11: valor presente de una deuda de US$ 12,000 a 45 días
+### Ejemplo 11: valor presente de una deuda de US\$ 12,000 a 45 días
 
 | Dato | Valor |
 |---|---:|
-| Valor futuro \(S\) | US$ 12,000.00 |
+| Valor futuro $S$ | US\$ 12,000.00 |
 | Tasa | TNA 15% c.q. |
 | Plazo | 45 días |
 | Capitalización | Quincenal |
 
-\[
+$$
 m = 24
-\]
+$$
 
-\[
+$$
 n = 3
-\]
+$$
 
-\[
+$$
 C = \frac{12{,}000}{\left(1+\frac{0.15}{24}\right)^3} = 11{,}777.78
-\]
+$$
 
 Ahorro por prepago:
 
-\[
+$$
 12{,}000.00 - 11{,}777.78 = 222.22
-\]
+$$
 
-**Resultado:** Pedro debería cancelar hoy **US$ 11,777.78**. El ahorro frente al pago al vencimiento sería **US$ 222.22**.
+**Resultado:** Pedro debería cancelar hoy **US\$ 11,777.78**. El ahorro frente al pago al vencimiento sería **US\$ 222.22**.
 
 ---
 
-### Ejemplo 12: tiempo necesario para que US$ 1,350 acumulen US$ 1,475
+### Ejemplo 12: tiempo necesario para que US\$ 1,350 acumulen US\$ 1,475
 
 | Dato | Valor |
 |---|---:|
-| Capital \(C\) | US$ 1,350.00 |
-| Valor futuro mínimo \(S\) | US$ 1,475.00 |
+| Capital $C$ | US\$ 1,350.00 |
+| Valor futuro mínimo $S$ | US\$ 1,475.00 |
 | Tasa | TNS 4% c.m. |
 | Capitalización | Mensual |
 
-\[
+$$
 m = 6
-\]
+$$
 
-\[
+$$
 n = \frac{\ln(1{,}475/1{,}350)}{\ln(1+0.04/6)} = 13.32723728 \text{ meses}
-\]
+$$
 
 Convertimos a días:
 
-\[
+$$
 t = 13.32723728 \cdot 30 = 399.8171184 \text{ días}
-\]
+$$
 
-Como se pide acumular por lo menos US$ 1,475, se redondea hacia arriba:
+Como se pide acumular por lo menos US\$ 1,475, se redondea hacia arriba:
 
-\[
+$$
 t = 400 \text{ días}
-\]
+$$
 
 **Resultado:** el capital tardará **400 días**, aproximadamente **13 meses y 10 días**.
 
@@ -855,54 +865,54 @@ Juan presta S/ 5,000.00 a Pedro. Luego de 180 días, Pedro devuelve el dinero y 
 
 | Dato | Valor |
 |---|---:|
-| Capital \(C\) | S/ 5,000.00 |
-| Interés implícito \(I\) | S/ 450.00 |
-| Valor futuro \(S\) | S/ 5,450.00 |
+| Capital $C$ | S/ 5,000.00 |
+| Interés implícito $I$ | S/ 450.00 |
+| Valor futuro $S$ | S/ 5,450.00 |
 | Plazo | 180 días |
 | Capitalización asumida | Diaria |
 
-\[
+$$
 m = 360
-\]
+$$
 
-\[
+$$
 n = 180
-\]
+$$
 
-\[
+$$
 j = 360\left[\left(\frac{5{,}450}{5{,}000}\right)^{1/180}-1\right]
-\]
+$$
 
-\[
+$$
 j = 0.172396656 = 17.2396656\%
-\]
+$$
 
 **Resultado:** la tasa nominal anual implícita es **17.2396656%** con capitalización diaria.
 
 ---
 
-### Ejemplo 14: capital necesario para generar US$ 150 de interés
+### Ejemplo 14: capital necesario para generar US\$ 150 de interés
 
 | Dato | Valor |
 |---|---:|
-| Interés deseado \(I\) | US$ 150.00 |
+| Interés deseado $I$ | US\$ 150.00 |
 | Tasa | TNT 2% c.m. |
 | Plazo | 2 meses |
 | Capitalización | Mensual |
 
-\[
+$$
 m = 3
-\]
+$$
 
-\[
+$$
 n = 2
-\]
+$$
 
-\[
+$$
 C = \frac{150}{\left(1+\frac{0.02}{3}\right)^2-1} = 11{,}212.62
-\]
+$$
 
-**Resultado:** se debe depositar **US$ 11,212.62** para generar al menos **US$ 150.00** de interés en dos meses.
+**Resultado:** se debe depositar **US\$ 11,212.62** para generar al menos **US\$ 150.00** de interés en dos meses.
 
 ---
 
@@ -1017,10 +1027,10 @@ C = I / [(1 + j/m)^n - 1]
 
 | Error | Por qué está mal | Cómo corregirlo |
 |---|---|---|
-| Usar la tasa nominal directamente | La tasa debe ajustarse al período de capitalización. | Calcular \(i = j/m\). |
-| Confundir \(m\) con \(n\) | \(m\) depende de la tasa; \(n\) depende del plazo. | Formular dos preguntas: “¿dentro del período nominal?” y “¿durante el plazo real?”. |
+| Usar la tasa nominal directamente | La tasa debe ajustarse al período de capitalización. | Calcular $i = j/m$. |
+| Confundir $m$ con $n$ | $m$ depende de la tasa; $n$ depende del plazo. | Formular dos preguntas: “¿dentro del período nominal?” y “¿durante el plazo real?”. |
 | Usar porcentaje sin dividir entre 100 | Las fórmulas trabajan con tasas decimales. | 6% = 0.06. |
-| Decir que 10% mensual por 3 meses equivale a 30% efectivo | En interés compuesto hay capitalización. | Calcular \((1.10)^3 - 1 = 33.10\%\). |
+| Decir que 10% mensual por 3 meses equivale a 30% efectivo | En interés compuesto hay capitalización. | Calcular $(1.10)^3 - 1 = 33.10\%$. |
 | Ignorar la capitalización | La capitalización cambia el resultado efectivo. | Identificar si es mensual, diaria, quincenal, etc. |
 | No redondear hacia arriba cuando se pide “por lo menos” | Un tiempo menor no alcanza el monto exigido. | Redondear al siguiente día, mes o período aplicable. |
 
@@ -1030,16 +1040,16 @@ C = I / [(1 + j/m)^n - 1]
 
 | N.º | Enunciado resumido | Respuesta |
 |---:|---|---:|
-| 1 | Valor futuro e interés de US$ 500 a 90 días con TNA 8.5% c.m. | US$ 510.70 y US$ 10.70 |
+| 1 | Valor futuro e interés de US\$ 500 a 90 días con TNA 8.5% c.m. | US\$ 510.70 y US\$ 10.70 |
 | 2 | Valor futuro e interés de S/ 600 en 118 días con TNA 16%. | S/ 632.30 y S/ 32.30 |
-| 3 | Valor al vencimiento de US$ 2,500 a 18 meses con TNS 12% c.q. | US$ 3,576.92 |
+| 3 | Valor al vencimiento de US\$ 2,500 a 18 meses con TNS 12% c.q. | US\$ 3,576.92 |
 | 4 | Valor actual de deuda de S/ 1,200 a 120 días con TNC 8.5% c.b. | S/ 1,104.15 |
-| 5 | TNA c.m. de préstamo US$ 10,000 pagadero con US$ 12,000 en 2 meses. | 114.534138% |
+| 5 | TNA c.m. de préstamo US\$ 10,000 pagadero con US\$ 12,000 en 2 meses. | 114.534138% |
 | 6 | Tiempo para que S/ 1,000 gane S/ 100 a TN 15%. | 229 días |
-| 7 | Tiempo para que US$ 5,000 acumulen US$ 6,000 con TNA 10% c.m. | 660 días |
-| 8 | Tiempo para que US$ 12,350 acumulen el doble con TN 11.25%. | 2,219 días |
+| 7 | Tiempo para que US\$ 5,000 acumulen US\$ 6,000 con TNA 10% c.m. | 660 días |
+| 8 | Tiempo para que US\$ 12,350 acumulen el doble con TN 11.25%. | 2,219 días |
 | 9a | Tasa nominal máxima para pedir prestado y aprovechar descuento 3/10, n/40. | 36.56961036% |
-| 9b | Ganancia si accede a préstamo con TN 21% y paga adelantado. | US$ 103.05 |
+| 9b | Ganancia si accede a préstamo con TN 21% y paga adelantado. | US\$ 103.05 |
 | 10 | TNA c.q. implícita en compra de refrigeradora con inicial y recargo. | 158.6755467% |
 
 ---
@@ -1070,7 +1080,7 @@ Resultado:
 =S/(1+j/m)^n
 ```
 
-Ejemplo para US$ 12,000, TNA 15% c.q., 45 días:
+Ejemplo para US\$ 12,000, TNA 15% c.q., 45 días:
 
 ```excel
 =12000/(1+15%/24)^3
@@ -1163,10 +1173,10 @@ Salida:
 
 ## 20. Resumen ejecutivo
 
-La tasa de interés compuesta permite modelar operaciones donde los intereses se acumulan al capital y generan nuevos intereses. En problemas con tasas nominales, lo más importante es identificar el período de capitalización, porque de él dependen la tasa aplicable \(i\) y el número de períodos \(n\). La fórmula principal es:
+La tasa de interés compuesta permite modelar operaciones donde los intereses se acumulan al capital y generan nuevos intereses. En problemas con tasas nominales, lo más importante es identificar el período de capitalización, porque de él dependen la tasa aplicable $i$ y el número de períodos $n$. La fórmula principal es:
 
-\[
+$$
 S = C\left(1+\frac{j}{m}\right)^n
-\]
+$$
 
 A partir de ella se derivan las fórmulas de valor presente, interés, tasa efectiva, tiempo, tasa nominal y capital necesario. La tasa efectiva permite medir el crecimiento real del capital en el período analizado. Además, cuando la frecuencia de capitalización aumenta, el valor futuro y la tasa efectiva también aumentan, siempre que la tasa nominal y el plazo permanezcan constantes.

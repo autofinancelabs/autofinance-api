@@ -14,9 +14,9 @@ En una operación de interés simple, el capital original permanece constante du
 
 La fórmula base es:
 
-```math
+$$
 I = C \cdot i \cdot t
-```
+$$
 
 Donde:
 
@@ -66,9 +66,9 @@ La diferencia esencial entre interés simple e interés compuesto es la **capita
 
 En el **mundo del interés simple**, si se indica una tasa anual simple de 12%, puede prorratearse linealmente:
 
-```math
+$$
 \text{Tasa mensual simple} = \frac{12\%}{12} = 1\%
-```
+$$
 
 En cambio, en el **mundo del interés compuesto**, una tasa nominal anual no queda completamente definida si no se indica cada cuánto se capitaliza. Por ejemplo, no es lo mismo una tasa nominal anual capitalizable mensualmente que una capitalizable trimestralmente.
 
@@ -166,15 +166,15 @@ En los ejercicios de interés simple se debe distinguir entre:
 
 La regla general es:
 
-```math
+$$
 t = \frac{\text{tiempo transcurrido}}{\text{año base}}
-```
+$$
 
 También puede expresarse como:
 
-```math
+$$
 n = \frac{\text{plazo de la operación}}{\text{base anual}}
-```
+$$
 
 Donde `n` o `t` representa el plazo expresado como proporción de año.
 
@@ -182,9 +182,9 @@ Donde `n` o `t` representa el plazo expresado como proporción de año.
 
 El **año ordinario o comercial** considera un año de 360 días. Se usa mucho en cálculos bancarios y comerciales porque simplifica las equivalencias: cada mes se considera de 30 días.
 
-```math
+$$
 t = \frac{\text{días transcurridos}}{360}
-```
+$$
 
 Ejemplos:
 
@@ -198,9 +198,9 @@ Ejemplos:
 
 El **año calendario o exacto** considera un año de 365 días. Si se toma en cuenta el calendario real, los meses pueden tener 28, 29, 30 o 31 días.
 
-```math
+$$
 t = \frac{\text{días transcurridos}}{365}
-```
+$$
 
 En algunos contextos puede considerarse 366 días cuando el año es bisiesto, pero el material del curso trabaja la definición de año exacto con base 365 días.
 
@@ -252,31 +252,31 @@ Por eso, con el mismo capital y la misma tasa anual, el interés ordinario será
 
 ### 11.1 Interés
 
-```math
+$$
 I = S - C
-```
+$$
 
-```math
+$$
 I = C \cdot i \cdot t
-```
+$$
 
 ### 11.2 Valor futuro
 
-```math
+$$
 S = C + I
-```
+$$
 
 Como `I = C·i·t`, entonces:
 
-```math
+$$
 S = C + C \cdot i \cdot t
-```
+$$
 
 Factorizando:
 
-```math
+$$
 S = C(1+i \cdot t)
-```
+$$
 
 La expresión `(1+i·t)` se llama **factor de acumulación a tasa de interés simple**.
 
@@ -284,15 +284,15 @@ La expresión `(1+i·t)` se llama **factor de acumulación a tasa de interés si
 
 Si se conoce el valor futuro y se desea calcular el capital equivalente en el presente:
 
-```math
+$$
 C = \frac{S}{1+i \cdot t}
-```
+$$
 
 También puede escribirse como:
 
-```math
+$$
 C = S(1+i \cdot t)^{-1}
-```
+$$
 
 La expresión `(1+i·t)^-1` se llama **factor de descuento a tasa de interés simple**.
 
@@ -363,13 +363,13 @@ En ejercicios financieros se suele redondear el dinero a dos decimales. Si el pr
 
 ---
 
-# 14. Ejemplos desarrollados
+## 14. Ejemplos desarrollados
 
-## Ejemplo 1: interés y valor futuro con tiempo en años
+### Ejemplo 1: interés y valor futuro con tiempo en años
 
 **Problema:** ¿Cuál es el interés y el valor futuro que produce un capital de S/. 1,000.00 durante 4 años, si está afecto a una tasa de interés simple anual de 24%?
 
-### Datos
+#### Datos
 
 | Dato | Valor |
 |---|---:|
@@ -379,23 +379,23 @@ En ejercicios financieros se suele redondear el dinero a dos decimales. Si el pr
 
 Como la tasa y el tiempo están en años, se usan directamente.
 
-```math
+$$
 I = C \cdot i \cdot t
-```
+$$
 
-```math
+$$
 I = 1000(0.24)(4) = 960
-```
+$$
 
-```math
+$$
 S = C + I = 1000 + 960 = 1960
-```
+$$
 
 También:
 
-```math
+$$
 S = C(1+i \cdot t) = 1000(1+0.24 \cdot 4) = 1960
-```
+$$
 
 | Concepto | Resultado |
 |---|---:|
@@ -404,11 +404,11 @@ S = C(1+i \cdot t) = 1000(1+0.24 \cdot 4) = 1960
 
 ---
 
-## Ejemplo 2: interés y valor futuro con tiempo en meses
+### Ejemplo 2: interés y valor futuro con tiempo en meses
 
 **Problema:** ¿Cuál es el interés y el valor futuro que produce un capital de S/. 7,500.00 en 9 meses, si está afecto a una tasa de interés simple anual de 18%?
 
-### Datos
+#### Datos
 
 | Dato | Valor |
 |---|---:|
@@ -416,33 +416,33 @@ S = C(1+i \cdot t) = 1000(1+0.24 \cdot 4) = 1960
 | Tasa `i` | 18% anual = 0.18 |
 | Tiempo | 9 meses |
 
-### Caso A: interés simple ordinario
+#### Caso A: interés simple ordinario
 
-```math
+$$
 t = \frac{9 \cdot 30}{360} = \frac{270}{360} = 0.75
-```
+$$
 
-```math
+$$
 I = 7500(0.18)(0.75) = 1012.50
-```
+$$
 
-```math
+$$
 S = 7500 + 1012.50 = 8512.50
-```
+$$
 
-### Caso B: interés simple exacto
+#### Caso B: interés simple exacto
 
-```math
+$$
 t = \frac{9 \cdot 30}{365} = \frac{270}{365} = 0.7397260274
-```
+$$
 
-```math
+$$
 I = 7500(0.18)(0.7397260274) = 998.63
-```
+$$
 
-```math
+$$
 S = 7500 + 998.63 = 8498.63
-```
+$$
 
 | Método | Tiempo | Interés | Valor futuro |
 |---|---:|---:|---:|
@@ -451,76 +451,76 @@ S = 7500 + 998.63 = 8498.63
 
 ---
 
-## Ejemplo 3: depósito a plazo fijo por un semestre
+### Ejemplo 3: depósito a plazo fijo por un semestre
 
-**Problema:** Pepe abre un depósito a plazo fijo por US$ 10,000.00 a una tasa simple anual de 6%, con vencimiento de un semestre. Calcular el valor futuro y los intereses usando año ordinario y año calendario.
+**Problema:** Pepe abre un depósito a plazo fijo por US\$ 10,000.00 a una tasa simple anual de 6%, con vencimiento de un semestre. Calcular el valor futuro y los intereses usando año ordinario y año calendario.
 
-### Datos
+#### Datos
 
 | Dato | Valor |
 |---|---:|
-| Capital `C` | US$ 10,000.00 |
+| Capital `C` | US\$ 10,000.00 |
 | Tasa `i` | 6% anual = 0.06 |
 | Plazo | 6 meses = 180 días comerciales |
 | Valor futuro `S` | ? |
 | Interés `I` | ? |
 
-### Caso A: tiempo comercial y año comercial
+#### Caso A: tiempo comercial y año comercial
 
-```math
+$$
 t = \frac{6}{12} = \frac{180}{360} = 0.50
-```
+$$
 
-```math
+$$
 S = C(1+i \cdot t)
-```
+$$
 
-```math
+$$
 S = 10000(1+0.06 \cdot 0.50) = 10300.00
-```
+$$
 
-```math
+$$
 I = S-C = 10300.00-10000.00 = 300.00
-```
+$$
 
-### Caso B: tiempo comercial y año exacto
+#### Caso B: tiempo comercial y año exacto
 
-```math
+$$
 t = \frac{6 \cdot 30}{365} = \frac{180}{365} = 0.493150685
-```
+$$
 
-```math
+$$
 S = 10000\left(1+0.06 \cdot \frac{180}{365}\right) = 10295.89
-```
+$$
 
-```math
+$$
 I = S-C = 10295.89-10000.00 = 295.89
-```
+$$
 
-### Resultado comparativo
+#### Resultado comparativo
 
 | Método | Cálculo del tiempo | Valor futuro `S` | Interés `I` |
 |---|---:|---:|---:|
-| Tiempo comercial y año comercial | `180/360` | US$ 10,300.00 | US$ 300.00 |
-| Tiempo comercial y año exacto | `180/365` | US$ 10,295.89 | US$ 295.89 |
+| Tiempo comercial y año comercial | `180/360` | US\$ 10,300.00 | US\$ 300.00 |
+| Tiempo comercial y año exacto | `180/365` | US\$ 10,295.89 | US\$ 295.89 |
 
 ---
 
-## Ejemplo 4: depósito del 1 de marzo al 1 de setiembre
+### Ejemplo 4: depósito del 1 de marzo al 1 de setiembre
 
-**Problema:** El 1 de marzo, Pepe abre un depósito a plazo fijo por US$ 10,000.00 a una tasa simple anual de 6%. El depósito vence el 1 de setiembre del mismo año. Calcular el valor futuro y los intereses usando año ordinario y año calendario.
+**Problema:** El 1 de marzo, Pepe abre un depósito a plazo fijo por US\$ 10,000.00 a una tasa simple anual de 6%. El depósito vence el 1 de setiembre del mismo año. Calcular el valor futuro y los intereses usando año ordinario y año calendario.
 
-### Datos
+#### Datos
 
 | Dato | Valor |
 |---|---:|
-| Capital `C` | US$ 10,000.00 |
+| Capital `C` | US\$ 10,000.00 |
 | Tasa `i` | 6% anual = 0.06 |
 | Plazo | Del 01/03 al 01/09 |
 | Valor futuro `S` | ? |
 | Interés `I` | ? |
 
-### Conteo de días exactos
+#### Conteo de días exactos
 
 El 1 de setiembre no se cuenta porque ese día vence el depósito.
 
@@ -535,93 +535,93 @@ El 1 de setiembre no se cuenta porque ese día vence el depósito.
 | Setiembre | 0 |
 | **Total** | **184** |
 
-### Caso A: tiempo exacto y año comercial
+#### Caso A: tiempo exacto y año comercial
 
-```math
+$$
 t = \frac{184}{360} = 0.511111111
-```
+$$
 
-```math
+$$
 S = 10000\left(1+0.06 \cdot \frac{184}{360}\right) = 10306.67
-```
+$$
 
-```math
+$$
 I = S-C = 10306.67-10000.00 = 306.67
-```
+$$
 
-### Caso B: tiempo exacto y año exacto
+#### Caso B: tiempo exacto y año exacto
 
-```math
+$$
 t = \frac{184}{365} = 0.504109589
-```
+$$
 
-```math
+$$
 S = 10000\left(1+0.06 \cdot \frac{184}{365}\right) = 10302.47
-```
+$$
 
-```math
+$$
 I = S-C = 10302.47-10000.00 = 302.47
-```
+$$
 
-### Resultado comparativo
+#### Resultado comparativo
 
 | Método | Cálculo del tiempo | Valor futuro `S` | Interés `I` |
 |---|---:|---:|---:|
-| Tiempo exacto y año comercial | `184/360` | US$ 10,306.67 | US$ 306.67 |
-| Tiempo exacto y año exacto | `184/365` | US$ 10,302.47 | US$ 302.47 |
+| Tiempo exacto y año comercial | `184/360` | US\$ 10,306.67 | US\$ 306.67 |
+| Tiempo exacto y año exacto | `184/365` | US\$ 10,302.47 | US\$ 302.47 |
 
 ---
 
-## Ejemplo 5: préstamo de 3 meses con año ordinario y exacto
+### Ejemplo 5: préstamo de 3 meses con año ordinario y exacto
 
-**Problema:** Calcular el interés simple ordinario, el interés simple exacto y el valor futuro de un préstamo de US$ 10,250.00 al 15% anual, que debe devolverse en 3 meses.
+**Problema:** Calcular el interés simple ordinario, el interés simple exacto y el valor futuro de un préstamo de US\$ 10,250.00 al 15% anual, que debe devolverse en 3 meses.
 
 | Dato | Valor |
 |---|---:|
-| Capital `C` | US$ 10,250.00 |
+| Capital `C` | US\$ 10,250.00 |
 | Tasa `i` | 15% anual = 0.15 |
 | Tiempo | 3 meses |
 
-### Caso A: año ordinario
+#### Caso A: año ordinario
 
-```math
+$$
 t = \frac{3 \cdot 30}{360} = \frac{90}{360} = 0.25
-```
+$$
 
-```math
+$$
 I = 10250(0.15)(0.25) = 384.38
-```
+$$
 
-```math
+$$
 S = 10250 + 384.38 = 10634.38
-```
+$$
 
-### Caso B: año exacto
+#### Caso B: año exacto
 
-```math
+$$
 t = \frac{3 \cdot 30}{365} = \frac{90}{365} = 0.2465753425
-```
+$$
 
-```math
+$$
 I = 10250(0.15)(0.2465753425) = 379.11
-```
+$$
 
-```math
+$$
 S = 10250 + 379.11 = 10629.11
-```
+$$
 
 | Método | Tiempo | Interés | Valor futuro |
 |---|---:|---:|---:|
-| Ordinario | `90/360` | US$ 384.38 | US$ 10,634.38 |
-| Exacto | `90/365` | US$ 379.11 | US$ 10,629.11 |
+| Ordinario | `90/360` | US\$ 384.38 | US\$ 10,634.38 |
+| Exacto | `90/365` | US\$ 379.11 | US\$ 10,629.11 |
 
 ---
 
-## Ejemplo 6: préstamo con fechas calendario
+### Ejemplo 6: préstamo con fechas calendario
 
 **Problema:** Repetir el ejercicio anterior, pero suponiendo que la operación inicia el 1 de julio y se cancela el 1 de octubre del mismo año.
 
-### Conteo de días
+#### Conteo de días
 
 | Mes | Días |
 |---|---:|
@@ -632,46 +632,46 @@ S = 10250 + 379.11 = 10629.11
 
 | Dato | Valor |
 |---|---:|
-| Capital `C` | US$ 10,250.00 |
+| Capital `C` | US\$ 10,250.00 |
 | Tasa `i` | 15% anual = 0.15 |
 | Tiempo real | 92 días |
 
-### Caso A: año ordinario
+#### Caso A: año ordinario
 
-```math
+$$
 t = \frac{92}{360} = 0.2555555556
-```
+$$
 
-```math
+$$
 I = 10250(0.15)(0.2555555556) = 392.92
-```
+$$
 
-```math
+$$
 S = 10250 + 392.92 = 10642.92
-```
+$$
 
-### Caso B: año exacto
+#### Caso B: año exacto
 
-```math
+$$
 t = \frac{92}{365} = 0.2520547945
-```
+$$
 
-```math
+$$
 I = 10250(0.15)(0.2520547945) = 387.53
-```
+$$
 
-```math
+$$
 S = 10250 + 387.53 = 10637.53
-```
+$$
 
 | Método | Tiempo | Interés | Valor futuro |
 |---|---:|---:|---:|
-| Tiempo exacto y año ordinario | `92/360` | US$ 392.92 | US$ 10,642.92 |
-| Tiempo exacto y año exacto | `92/365` | US$ 387.53 | US$ 10,637.53 |
+| Tiempo exacto y año ordinario | `92/360` | US\$ 392.92 | US\$ 10,642.92 |
+| Tiempo exacto y año exacto | `92/365` | US\$ 387.53 | US\$ 10,637.53 |
 
 ---
 
-## Ejemplo 7: cálculo de la tasa de interés simple
+### Ejemplo 7: cálculo de la tasa de interés simple
 
 **Problema:** ¿A qué tasa de interés simple se acumularán S/. 72.00 por el préstamo de S/. 1,200.00 en 6 meses?
 
@@ -684,118 +684,118 @@ S = 10250 + 387.53 = 10637.53
 
 Se asume año ordinario porque no se especifica otra cosa.
 
-```math
+$$
 t = \frac{6 \cdot 30}{360} = \frac{180}{360} = 0.5
-```
+$$
 
 Como:
 
-```math
+$$
 I = C \cdot i \cdot t
-```
+$$
 
 Entonces:
 
-```math
+$$
 i = \frac{I}{C \cdot t}
-```
+$$
 
-```math
+$$
 i = \frac{72}{1200(0.5)} = \frac{72}{600} = 0.12
-```
+$$
 
-```math
+$$
 i = 12\% \text{ TSA}
-```
+$$
 
 ---
 
-## Ejemplo 8: valor presente por prepago de deuda
+### Ejemplo 8: valor presente por prepago de deuda
 
-**Problema:** ¿Cuánto debe cancelar Pedro hoy por un préstamo de US$ 11,125.00 que vence dentro de 9 meses, si fue contratado a una tasa de interés simple anual de 15%?
+**Problema:** ¿Cuánto debe cancelar Pedro hoy por un préstamo de US\$ 11,125.00 que vence dentro de 9 meses, si fue contratado a una tasa de interés simple anual de 15%?
 
 | Dato | Valor |
 |---|---:|
-| Valor futuro `S` | US$ 11,125.00 |
+| Valor futuro `S` | US\$ 11,125.00 |
 | Tasa `i` | 15% anual = 0.15 |
 | Tiempo | 9 meses |
 | Capital actual `C` | ? |
 
-```math
+$$
 t = \frac{9 \cdot 30}{360} = \frac{270}{360} = 0.75
-```
+$$
 
-```math
+$$
 C = \frac{S}{1+i \cdot t}
-```
+$$
 
-```math
+$$
 C = \frac{11125}{1+0.15(0.75)} = 10000
-```
+$$
 
-```math
+$$
 Ahorro = S-C = 11125-10000 = 1125
-```
+$$
 
 | Concepto | Resultado |
 |---|---:|
-| Monto a pagar hoy | US$ 10,000.00 |
-| Ahorro financiero | US$ 1,125.00 |
+| Monto a pagar hoy | US\$ 10,000.00 |
+| Ahorro financiero | US\$ 1,125.00 |
 
 ---
 
-## Ejemplo 9: cálculo del tiempo necesario
+### Ejemplo 9: cálculo del tiempo necesario
 
-**Problema:** ¿Cuánto tiempo se necesita para que un capital de US$ 1,350.00 acumule al menos US$ 1,475.00, si está expuesto a una tasa de interés simple anual de 9%?
+**Problema:** ¿Cuánto tiempo se necesita para que un capital de US\$ 1,350.00 acumule al menos US\$ 1,475.00, si está expuesto a una tasa de interés simple anual de 9%?
 
 | Dato | Valor |
 |---|---:|
-| Capital `C` | US$ 1,350.00 |
-| Valor futuro deseado `S` | US$ 1,475.00 |
+| Capital `C` | US\$ 1,350.00 |
+| Valor futuro deseado `S` | US\$ 1,475.00 |
 | Tasa `i` | 9% anual = 0.09 |
 | Tiempo `t` | ? |
 
-```math
+$$
 t = \frac{S/C - 1}{i}
-```
+$$
 
-```math
+$$
 t = \frac{1475/1350 - 1}{0.09} = 1.028806584 \text{ años}
-```
+$$
 
 En días de año ordinario:
 
-```math
+$$
 t = 1.028806584 \cdot 360 = 370.3703702 \text{ días}
-```
+$$
 
-Como se necesita alcanzar **por lo menos** US$ 1,475.00, se redondea hacia arriba:
+Como se necesita alcanzar **por lo menos** US\$ 1,475.00, se redondea hacia arriba:
 
-```math
+$$
 t = 371 \text{ días}
-```
+$$
 
-### Verificación
+#### Verificación
 
 Con 370 días:
 
-```math
+$$
 S = 1350\left(1+0.09 \cdot \frac{370}{360}\right) = 1474.88
-```
+$$
 
-No alcanza US$ 1,475.00.
+No alcanza US\$ 1,475.00.
 
 Con 371 días:
 
-```math
+$$
 S = 1350\left(1+0.09 \cdot \frac{371}{360}\right) = 1475.21
-```
+$$
 
 Sí alcanza el monto requerido.
 
 ---
 
-## Ejemplo 10: tasa implícita en una operación informal
+### Ejemplo 10: tasa implícita en una operación informal
 
 **Problema:** Juan pidió prestado S/. 5,000.00 y acordó devolver S/. 6,000.00 en 2 meses. ¿Cuál es la tasa de interés simple anual implícita?
 
@@ -806,34 +806,34 @@ Sí alcanza el monto requerido.
 | Tiempo | 2 meses |
 | Tasa `i` | ? |
 
-```math
+$$
 t = \frac{2 \cdot 30}{360} = \frac{60}{360} = \frac{1}{6}
-```
+$$
 
-```math
+$$
 i = \frac{S/C - 1}{t}
-```
+$$
 
-```math
+$$
 i = \frac{6000/5000 - 1}{60/360} = \frac{0.2}{1/6} = 1.2
-```
+$$
 
-```math
+$$
 i = 120\% \text{ anual}
-```
+$$
 
 ---
 
-## Ejemplo 11: descuento por pronto pago
+### Ejemplo 11: descuento por pronto pago
 
-**Problema:** Una factura de US$ 2,800.00 tiene condiciones **3/10, n/30**. Esto significa que hay un descuento de 3% si se paga hasta el día 10; si no, se paga el monto completo hasta el día 30.
+**Problema:** Una factura de US\$ 2,800.00 tiene condiciones **3/10, n/30**. Esto significa que hay un descuento de 3% si se paga hasta el día 10; si no, se paga el monto completo hasta el día 30.
 
 Se pide:
 
 1. ¿Cuál es la tasa máxima a la que puede obtenerse un préstamo bancario para aprovechar el descuento?
 2. ¿Qué utilidad se logra si el banco presta a una tasa de interés simple anual de 18% y se paga la factura el día 10?
 
-### Interpretación de `3/10, n/30`
+#### Interpretación de `3/10, n/30`
 
 | Elemento | Significado |
 |---|---|
@@ -841,44 +841,44 @@ Se pide:
 | `n/30` | Si no se toma el descuento, se paga el total hasta el día 30. |
 | Periodo relevante | 20 días, porque se adelanta el pago del día 30 al día 10. |
 
-### Datos
+#### Datos
 
 | Dato | Valor |
 |---|---:|
-| Factura | US$ 2,800.00 |
+| Factura | US\$ 2,800.00 |
 | Descuento | 3% |
 | Pago con descuento | `2800 × 0.97 = 2716` |
-| Ahorro por descuento | US$ 84.00 |
+| Ahorro por descuento | US\$ 84.00 |
 | Tiempo financiero | 20 días |
 
-### a) Tasa máxima aceptable
+#### a) Tasa máxima aceptable
 
-```math
+$$
 i = \frac{84}{2716 \cdot (20/360)} = 0.5567010309
-```
+$$
 
-```math
+$$
 i = 55.67010309\%
-```
+$$
 
-### b) Utilidad con préstamo al 18% anual
+#### b) Utilidad con préstamo al 18% anual
 
-```math
+$$
 I = 2716(0.18)\left(\frac{20}{360}\right) = 27.16
-```
+$$
 
-```math
+$$
 Utilidad = 84 - 27.16 = 56.84
-```
+$$
 
 | Pregunta | Resultado |
 |---|---:|
 | Tasa máxima aceptable | 55.67010309% TSA |
-| Utilidad con préstamo al 18% | US$ 56.84 |
+| Utilidad con préstamo al 18% | US\$ 56.84 |
 
 ---
 
-## Ejemplo 12: tasa implícita en compra al crédito
+### Ejemplo 12: tasa implícita en compra al crédito
 
 **Problema:** Un televisor tiene precio de venta al contado de S/. 1,800.00. Víctor paga S/. 300.00 de cuota inicial y el saldo a 30 días, aceptando un recargo de 8% sobre el precio al contado. ¿Qué tasa de interés simple anual implícita paga por el crédito?
 
@@ -892,23 +892,23 @@ Utilidad = 84 - 27.16 = 56.84
 | Monto a pagar `S` | `1944 - 300` | S/. 1,644.00 |
 | Tiempo | `30/360` | 0.0833333333 años |
 
-```math
+$$
 i = \frac{S/C - 1}{t}
-```
+$$
 
-```math
+$$
 i = \frac{1644/1500 - 1}{30/360} = 1.152
-```
+$$
 
-```math
+$$
 i = 115.2\% \text{ anual}
-```
+$$
 
 ---
 
-# 15. Plantillas rápidas de resolución
+## 15. Plantillas rápidas de resolución
 
-## 15.1 Para calcular interés y monto futuro
+### 15.1 Para calcular interés y monto futuro
 
 ```text
 Datos:
@@ -923,7 +923,7 @@ I = C * i * t
 S = C + I
 ```
 
-## 15.2 Para calcular valor presente
+### 15.2 Para calcular valor presente
 
 ```text
 Datos:
@@ -935,7 +935,7 @@ C = S / (1 + i * t)
 Ahorro o descuento = S - C
 ```
 
-## 15.3 Para calcular tasa de interés
+### 15.3 Para calcular tasa de interés
 
 ```text
 Datos:
@@ -949,7 +949,7 @@ i = (S / C - 1) / t
 Tasa porcentual = i * 100
 ```
 
-## 15.4 Para calcular tiempo
+### 15.4 Para calcular tiempo
 
 ```text
 Datos:
@@ -968,7 +968,7 @@ días = t * 360
 
 ---
 
-# 16. Fórmulas tipo Excel
+## 16. Fórmulas tipo Excel
 
 Supongamos que:
 
@@ -980,43 +980,43 @@ Supongamos que:
 | B5 | Base anual: 360 o 365 |
 | B6 | Valor futuro `S`, si aplica |
 
-## Tiempo en años
+### Tiempo en años
 
 ```excel
 =B4/B5
 ```
 
-## Interés simple
+### Interés simple
 
 ```excel
 =B2*B3*(B4/B5)
 ```
 
-## Valor futuro
+### Valor futuro
 
 ```excel
 =B2*(1+B3*(B4/B5))
 ```
 
-## Valor presente
+### Valor presente
 
 ```excel
 =B6/(1+B3*(B4/B5))
 ```
 
-## Tasa implícita
+### Tasa implícita
 
 ```excel
 =(B6/B2-1)/(B4/B5)
 ```
 
-## Tiempo requerido en años
+### Tiempo requerido en años
 
 ```excel
 =(B6/B2-1)/B3
 ```
 
-## Tiempo requerido en días ordinarios
+### Tiempo requerido en días ordinarios
 
 ```excel
 =((B6/B2-1)/B3)*360
@@ -1030,7 +1030,7 @@ Si se requiere alcanzar un monto mínimo:
 
 ---
 
-# 17. Pseudocódigo para una IA o programa
+## 17. Pseudocódigo para una IA o programa
 
 ```text
 Entrada:
@@ -1064,7 +1064,7 @@ Salida:
 
 ---
 
-# 18. Errores frecuentes
+## 18. Errores frecuentes
 
 | Error | Por qué está mal | Corrección |
 |---|---|---|
@@ -1079,26 +1079,26 @@ Salida:
 
 ---
 
-# 19. Ejercicios propuestos del PDF con respuestas
+## 19. Ejercicios propuestos del PDF con respuestas
 
 | N.° | Enunciado resumido | Respuesta indicada |
 |---:|---|---:|
-| 1 | Interés simple ordinario y exacto de US$ 500.00 en 90 días al 8.5% anual. | US$ 10.63 y US$ 10.48 |
-| 2 | Interés simple ordinario y exacto de US$ 600.00 en 118 días al 16% anual. | US$ 31.47 y US$ 31.04 |
-| 3 | Valor al vencimiento de US$ 2,500 en 18 meses al 12% simple ordinario anual. | US$ 2,950.00 |
-| 4 | Valor al vencimiento de US$ 1,200 en 120 días al 8.5% simple exacto anual. | US$ 1,233.53 |
-| 5 | Préstamo de US$ 100.00 pagadero con US$ 120.00 en un mes. Calcular tasa simple ordinaria anual. | 240% |
+| 1 | Interés simple ordinario y exacto de US\$ 500.00 en 90 días al 8.5% anual. | US\$ 10.63 y US\$ 10.48 |
+| 2 | Interés simple ordinario y exacto de US\$ 600.00 en 118 días al 16% anual. | US\$ 31.47 y US\$ 31.04 |
+| 3 | Valor al vencimiento de US\$ 2,500 en 18 meses al 12% simple ordinario anual. | US\$ 2,950.00 |
+| 4 | Valor al vencimiento de US\$ 1,200 en 120 días al 8.5% simple exacto anual. | US\$ 1,233.53 |
+| 5 | Préstamo de US\$ 100.00 pagadero con US\$ 120.00 en un mes. Calcular tasa simple ordinaria anual. | 240% |
 | 6a | Tiempo para que S/. 1,000.00 gane S/. 100.00 al 15% simple. | 8 meses |
 | 6b | Tiempo para que S/. 1,000.00 aumente al menos a S/. 1,200.00 al 13.5% simple. | 534 días |
-| 7 | Tiempo para que US$ 5,000.00 llegue al menos a US$ 6,000.00 al 10% simple anual. | 2 años o 720 días |
-| 8 | Tiempo para que US$ 12,350.00 llegue al doble al 11.25% simple anual. | 8.889 años o 3,200 días |
-| 9a | Factura de US$ 8,000.00 con términos 3/10, n/40. Tasa máxima para aprovechar descuento. | 37.11340206% |
-| 9b | Ganancia si se accede a préstamo al 21% y se paga anticipadamente. | US$ 104.20 |
-| 10 | Refrigeradora de US$ 576.00, cuota inicial US$ 70.00, saldo a 30 días, recargo 12%. Tasa simple anual. | 163.9209486% |
+| 7 | Tiempo para que US\$ 5,000.00 llegue al menos a US\$ 6,000.00 al 10% simple anual. | 2 años o 720 días |
+| 8 | Tiempo para que US\$ 12,350.00 llegue al doble al 11.25% simple anual. | 8.889 años o 3,200 días |
+| 9a | Factura de US\$ 8,000.00 con términos 3/10, n/40. Tasa máxima para aprovechar descuento. | 37.11340206% |
+| 9b | Ganancia si se accede a préstamo al 21% y se paga anticipadamente. | US\$ 104.20 |
+| 10 | Refrigeradora de US\$ 576.00, cuota inicial US\$ 70.00, saldo a 30 días, recargo 12%. Tasa simple anual. | 163.9209486% |
 
 ---
 
-# 20. Conclusiones operativas
+## 20. Conclusiones operativas
 
 1. El interés simple se calcula sobre el capital inicial. No existe capitalización.
 2. La tasa y el tiempo siempre deben expresarse en la misma unidad.
@@ -1113,7 +1113,7 @@ Salida:
 
 ---
 
-# 21. Mini chuleta de fórmulas
+## 21. Mini chuleta de fórmulas
 
 | Necesito calcular | Uso esta fórmula |
 |---|---|
@@ -1130,7 +1130,7 @@ Salida:
 
 ---
 
-# 22. Esquema mental final
+## 22. Esquema mental final
 
 ```text
 1. Identifica qué se pide: I, S, C, i o t.
