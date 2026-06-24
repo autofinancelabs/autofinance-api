@@ -17,16 +17,16 @@
 
 ## Mapa épica → feature → historia
 
-| Épica | Subdominio | Features (resumen) | Prioridad dominante |
-|---|---|---|---|
-| E1 Autenticación y acceso | generic | Login obligatorio; protección de endpoints | Must |
-| E2 Gestión de clientes | supporting | Alta, edición/reguardado, consulta, baja del deudor | Must |
-| E3 Gestión de ofertas vehiculares | supporting | Alta, edición/reguardado, consulta, baja de la oferta | Must |
-| E4 Configuración del financiamiento | core (config) | Moneda, tipo de tasa + capitalización, gracia, % cuota inicial, % cuotón, plazo, costos | Must |
-| E5 Motor de simulación / plan de pagos | **core** | Cronograma francés + balloon, gracia, costos periódicos, cuadre | Must |
-| E6 Indicadores y transparencia | **core** | VAN/TIR óptica del deudor, TCEA, conversión de tasas, transparencia SBS | Must |
-| E7 Persistencia y trazabilidad | supporting | Guardar/editar/reabrir simulación ligada a cliente y oferta | Must |
-| E8 Ayuda y asistencia | supporting | Ayuda contextual por campo; diagnóstico técnico | Should |
+| Épica                                  | Subdominio    | Features (resumen)                                                                      | Prioridad dominante |
+|----------------------------------------|---------------|-----------------------------------------------------------------------------------------|---------------------|
+| E1 Autenticación y acceso              | generic       | Login obligatorio; protección de endpoints                                              | Must                |
+| E2 Gestión de clientes                 | supporting    | Alta, edición/reguardado, consulta, baja del deudor                                     | Must                |
+| E3 Gestión de ofertas vehiculares      | supporting    | Alta, edición/reguardado, consulta, baja de la oferta                                   | Must                |
+| E4 Configuración del financiamiento    | core (config) | Moneda, tipo de tasa + capitalización, gracia, % cuota inicial, % cuotón, plazo, costos | Must                |
+| E5 Motor de simulación / plan de pagos | **core**      | Cronograma francés + balloon, gracia, costos periódicos, cuadre                         | Must                |
+| E6 Indicadores y transparencia         | **core**      | VAN/TIR óptica del deudor, TCEA, conversión de tasas, transparencia SBS                 | Must                |
+| E7 Persistencia y trazabilidad         | supporting    | Guardar/editar/reabrir simulación ligada a cliente y oferta                             | Must                |
+| E8 Ayuda y asistencia                  | supporting    | Ayuda contextual por campo; diagnóstico técnico                                         | Should              |
 
 ---
 
@@ -270,26 +270,26 @@ el servicio está disponible (asistencia técnica).
 
 ## Trazabilidad con el enunciado
 
-| Requisito del enunciado (`project-statement.md`) | Épica(s) que lo cubren |
-|---|---|
-| Ingreso obligatorio con usuario y clave | E1 |
-| Dar de alta datos del cliente | E2 (H2.1) |
-| Dar de alta características de la oferta vehicular | E3 (H3.1) |
-| Editar/modificar y volver a guardar | E2 (H2.2), E3 (H3.2), E7 (H7.2) |
-| Configurar moneda | E4 (H4.1) |
-| Configurar tipo de tasa (efectiva o nominal + capitalización) | E4 (H4.2) |
-| Configurar plazos de gracia | E4 (H4.3) |
-| Plan de pagos por método francés vencido + Compra Inteligente | E5 |
-| Cálculo de VAN y TIR (óptica del deudor) | E6 (H6.1, H6.2) |
-| Indicadores de transparencia SBS | E6 (H6.3, H6.4) |
-| Registrar todas las operaciones en base de datos | E7 |
-| Ayuda/indicaciones por campo | E8 (H8.1) |
+| Requisito del enunciado (`project-statement.md`)              | Épica(s) que lo cubren          |
+|---------------------------------------------------------------|---------------------------------|
+| Ingreso obligatorio con usuario y clave                       | E1                              |
+| Dar de alta datos del cliente                                 | E2 (H2.1)                       |
+| Dar de alta características de la oferta vehicular            | E3 (H3.1)                       |
+| Editar/modificar y volver a guardar                           | E2 (H2.2), E3 (H3.2), E7 (H7.2) |
+| Configurar moneda                                             | E4 (H4.1)                       |
+| Configurar tipo de tasa (efectiva o nominal + capitalización) | E4 (H4.2)                       |
+| Configurar plazos de gracia                                   | E4 (H4.3)                       |
+| Plan de pagos por método francés vencido + Compra Inteligente | E5                              |
+| Cálculo de VAN y TIR (óptica del deudor)                      | E6 (H6.1, H6.2)                 |
+| Indicadores de transparencia SBS                              | E6 (H6.3, H6.4)                 |
+| Registrar todas las operaciones en base de datos              | E7                              |
+| Ayuda/indicaciones por campo                                  | E8 (H8.1)                       |
 
 ## Resumen de priorización MoSCoW
 
-| Nivel | Qué incluye | Rationale |
-|---|---|---|
-| **Must** | E1; E2/E3 alta + edición/reguardado + consulta; E4 (moneda, tasa+capitalización, gracia, %CI, %cuotón, plazo); E5 completo; E6 (VAN, TIR, TCEA, transparencia); E7 guardar + editar | Es lo que el enunciado vuelve obligatorio y el núcleo sin el cual no hay producto ni demo. |
-| **Should** | Baja en CRUD (H2.4, H3.4); H1.3; H4.5 costos; H5.6 `j = i + TSD`; H6.5 conversión visible; H7.3 historial; E8 ayuda | Aumenta realismo y calidad; no bloquea la demostración. |
-| **Could** | H8.2 diagnóstico/health; exportes | Deseable, valor marginal. |
-| **Won't (esta fase)** | Otros métodos (alemán/americano/peruano); UI; originación/desembolso; pagos reales; scoring; tipo de cambio (FX) | Mantiene el alcance enfocado; ver *Alcance y límites* en [about.md](about.md). |
+| Nivel                 | Qué incluye                                                                                                                                                                         | Rationale                                                                                  |
+|-----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------|
+| **Must**              | E1; E2/E3 alta + edición/reguardado + consulta; E4 (moneda, tasa+capitalización, gracia, %CI, %cuotón, plazo); E5 completo; E6 (VAN, TIR, TCEA, transparencia); E7 guardar + editar | Es lo que el enunciado vuelve obligatorio y el núcleo sin el cual no hay producto ni demo. |
+| **Should**            | Baja en CRUD (H2.4, H3.4); H1.3; H4.5 costos; H5.6 `j = i + TSD`; H6.5 conversión visible; H7.3 historial; E8 ayuda                                                                 | Aumenta realismo y calidad; no bloquea la demostración.                                    |
+| **Could**             | H8.2 diagnóstico/health; exportes                                                                                                                                                   | Deseable, valor marginal.                                                                  |
+| **Won't (esta fase)** | Otros métodos (alemán/americano/peruano); UI; originación/desembolso; pagos reales; scoring; tipo de cambio (FX)                                                                    | Mantiene el alcance enfocado; ver *Alcance y límites* en [about.md](about.md).             |

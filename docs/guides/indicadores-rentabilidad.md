@@ -23,12 +23,12 @@ Los **indicadores de rentabilidad** son herramientas financieras que ayudan a de
 
 En términos simples, permiten responder preguntas como estas:
 
-| Pregunta práctica | Indicador que ayuda a responderla | Lectura rápida |
-|---|---|---|
-| ¿Cuánto valor monetario gano hoy si acepto el proyecto? | VAN | Mide riqueza creada en unidades monetarias. |
-| ¿Qué porcentaje de rentabilidad genera el proyecto? | TIR | Mide rentabilidad implícita del flujo. |
-| ¿Cuánto gano por cada unidad monetaria invertida? | B/C | Mide eficiencia relativa de la inversión. |
-| ¿Cuándo recupero la inversión? | PRD | Mide tiempo de recuperación con flujos descontados. |
+| Pregunta práctica                                       | Indicador que ayuda a responderla | Lectura rápida                                      |
+|---------------------------------------------------------|-----------------------------------|-----------------------------------------------------|
+| ¿Cuánto valor monetario gano hoy si acepto el proyecto? | VAN                               | Mide riqueza creada en unidades monetarias.         |
+| ¿Qué porcentaje de rentabilidad genera el proyecto?     | TIR                               | Mide rentabilidad implícita del flujo.              |
+| ¿Cuánto gano por cada unidad monetaria invertida?       | B/C                               | Mide eficiencia relativa de la inversión.           |
+| ¿Cuándo recupero la inversión?                          | PRD                               | Mide tiempo de recuperación con flujos descontados. |
 
 La decisión correcta no consiste solo en elegir el indicador más alto, sino en interpretar cada resultado según el tipo de problema. En proyectos de inversión con beneficios, el **VAN** suele ser el criterio más fiable porque mide la riqueza absoluta creada. La **TIR**, el **B/C** y el **PRD** sirven como indicadores complementarios.
 
@@ -40,14 +40,14 @@ El valor de una empresa o proyecto no depende únicamente de su precio, de sus a
 
 El PDF distingue varias formas de entender el valor:
 
-| Tipo de valor | Significado práctico | Uso típico |
-|---|---|---|
-| Valor nominal | Valor facial mostrado por un instrumento financiero. | Bonos, acciones, títulos. |
-| Valor contable | Valor neto según el balance. | Contabilidad patrimonial. |
-| Valor de liquidación | Monto neto obtenido al vender activos y pagar acreedores. | Cierre, quiebra, venta forzada. |
-| Valor de mercado | Precio que los inversionistas estarían dispuestos a pagar. | Compra, venta, valorización. |
-| Valor de reposición | Costo de restituir la capacidad operativa actual. | Reemplazo de activos. |
-| Valor por descuento de flujos | Valor actual de los flujos esperados. | Evaluación financiera y económica. |
+| Tipo de valor                 | Significado práctico                                       | Uso típico                         |
+|-------------------------------|------------------------------------------------------------|------------------------------------|
+| Valor nominal                 | Valor facial mostrado por un instrumento financiero.       | Bonos, acciones, títulos.          |
+| Valor contable                | Valor neto según el balance.                               | Contabilidad patrimonial.          |
+| Valor de liquidación          | Monto neto obtenido al vender activos y pagar acreedores.  | Cierre, quiebra, venta forzada.    |
+| Valor de mercado              | Precio que los inversionistas estarían dispuestos a pagar. | Compra, venta, valorización.       |
+| Valor de reposición           | Costo de restituir la capacidad operativa actual.          | Reemplazo de activos.              |
+| Valor por descuento de flujos | Valor actual de los flujos esperados.                      | Evaluación financiera y económica. |
 
 La evaluación económica se basa principalmente en el **descuento de flujos de caja**, porque permite comparar dinero recibido o pagado en diferentes momentos del tiempo.
 
@@ -61,25 +61,25 @@ El **flujo de caja** representa entradas y salidas reales de dinero. Para evalua
 
 Una estructura mínima de flujo de caja es:
 
-| Periodo | Concepto | Signo habitual |
-|---:|---|---:|
-| 0 | Inversión inicial | Negativo |
-| 1 a n | Flujos netos operativos | Positivos o negativos |
-| n | Valor de salvataje, si existe | Positivo |
-| 1 a n | Costos, reposiciones o mantenimientos | Negativos |
+| Periodo | Concepto                              |        Signo habitual |
+|--------:|---------------------------------------|----------------------:|
+|       0 | Inversión inicial                     |              Negativo |
+|   1 a n | Flujos netos operativos               | Positivos o negativos |
+|       n | Valor de salvataje, si existe         |              Positivo |
+|   1 a n | Costos, reposiciones o mantenimientos |             Negativos |
 
 
 ### 3.1.1 Presupuesto de caja y tipos de flujo
 
 El **presupuesto de caja** organiza los movimientos de efectivo del proyecto. Para trabajar ejercicios de rentabilidad, conviene separar los flujos según su origen, porque no todos cumplen la misma función dentro de la evaluación.
 
-| Tipo de flujo | Qué representa | Ejemplos | Uso en evaluación |
-|---|---|---|---|
-| Flujo operativo | Efectivo generado por la actividad principal del negocio. | Cobros por ventas, pagos a proveedores, gastos operativos, impuestos operativos. | Sirve para estimar la capacidad real del proyecto para generar caja. |
-| Flujo de inversión | Salidas o entradas asociadas a activos y capital de trabajo. | CAPEX, compra de maquinaria, inversión inicial, recuperación o aumento de capital de trabajo, valor de salvataje. | Permite calcular cuánto se invierte y qué recuperaciones existen. |
-| Flujo de caja libre | Efectivo disponible después de cubrir operación e inversiones, antes de decidir la forma de financiamiento. | Flujo operativo menos inversiones netas. | Es la base típica para calcular VAN, TIR, B/C y PRD del proyecto. |
-| Flujo financiero | Movimientos asociados al financiamiento con terceros. | Préstamos recibidos, amortización de capital, intereses, cuotas. | Se usa para evaluar el efecto de la deuda. |
-| Flujo de fondos del accionista | Efectivo disponible para los socios o accionistas después del financiamiento. | Aportes, dividendos, flujo después del servicio de deuda. | Se usa cuando se evalúa la rentabilidad del accionista. |
+| Tipo de flujo                  | Qué representa                                                                                              | Ejemplos                                                                                                          | Uso en evaluación                                                    |
+|--------------------------------|-------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------|
+| Flujo operativo                | Efectivo generado por la actividad principal del negocio.                                                   | Cobros por ventas, pagos a proveedores, gastos operativos, impuestos operativos.                                  | Sirve para estimar la capacidad real del proyecto para generar caja. |
+| Flujo de inversión             | Salidas o entradas asociadas a activos y capital de trabajo.                                                | CAPEX, compra de maquinaria, inversión inicial, recuperación o aumento de capital de trabajo, valor de salvataje. | Permite calcular cuánto se invierte y qué recuperaciones existen.    |
+| Flujo de caja libre            | Efectivo disponible después de cubrir operación e inversiones, antes de decidir la forma de financiamiento. | Flujo operativo menos inversiones netas.                                                                          | Es la base típica para calcular VAN, TIR, B/C y PRD del proyecto.    |
+| Flujo financiero               | Movimientos asociados al financiamiento con terceros.                                                       | Préstamos recibidos, amortización de capital, intereses, cuotas.                                                  | Se usa para evaluar el efecto de la deuda.                           |
+| Flujo de fondos del accionista | Efectivo disponible para los socios o accionistas después del financiamiento.                               | Aportes, dividendos, flujo después del servicio de deuda.                                                         | Se usa cuando se evalúa la rentabilidad del accionista.              |
 
 Con una convención sencilla de signos, puede expresarse así:
 
@@ -99,12 +99,12 @@ La idea importante es que el **flujo de caja libre** muestra el efectivo disponi
 
 Para que una persona o una IA pueda resolver correctamente un ejercicio, el flujo debe organizarse por periodos:
 
-| Periodo | Flujo operativo | Flujo de inversión | Flujo de caja libre | Flujo financiero | Flujo del accionista |
-|---:|---:|---:|---:|---:|---:|
-| 0 | 0 | -Inversión inicial | -Inversión inicial | Préstamo recibido o aporte | Aporte neto del accionista |
-| 1 | Ingresos - egresos operativos | CAPEX o capital de trabajo | FCL año 1 | Cuota, intereses, amortización | FCL menos deuda |
-| 2 | Ingresos - egresos operativos | CAPEX o capital de trabajo | FCL año 2 | Cuota, intereses, amortización | FCL menos deuda |
-| n | Operación final | Salvataje o recuperación de capital de trabajo | FCL final | Pago final de deuda, si existe | Flujo final al accionista |
+| Periodo |               Flujo operativo |                             Flujo de inversión | Flujo de caja libre |               Flujo financiero |       Flujo del accionista |
+|--------:|------------------------------:|-----------------------------------------------:|--------------------:|-------------------------------:|---------------------------:|
+|       0 |                             0 |                             -Inversión inicial |  -Inversión inicial |     Préstamo recibido o aporte | Aporte neto del accionista |
+|       1 | Ingresos - egresos operativos |                     CAPEX o capital de trabajo |           FCL año 1 | Cuota, intereses, amortización |            FCL menos deuda |
+|       2 | Ingresos - egresos operativos |                     CAPEX o capital de trabajo |           FCL año 2 | Cuota, intereses, amortización |            FCL menos deuda |
+|       n |               Operación final | Salvataje o recuperación de capital de trabajo |           FCL final | Pago final de deuda, si existe |  Flujo final al accionista |
 
 Esta separación evita mezclar la rentabilidad económica del proyecto con el efecto del financiamiento.
 
@@ -129,11 +129,11 @@ Debe reflejar:
 
 El COK debe ser coherente con el flujo que se está descontando. No es lo mismo evaluar el proyecto como si todo fuera financiado con capital propio que evaluarlo con deuda y aportes de accionistas.
 
-| Caso | Tasa recomendada | Explicación | Flujo asociado |
-|---|---|---|---|
-| Proyecto financiado solo con capital propio | COK del accionista o costo de capital propio | Representa la mejor alternativa de inversión que el accionista deja de realizar por invertir en el proyecto. | Flujo económico del proyecto sin deuda o flujo del accionista si no hay deuda. |
-| Proyecto con financiamiento mixto | WACC o Costo Promedio Ponderado de Capital | Combina el costo de la deuda y el costo del capital propio según su peso en la estructura de financiamiento. | Flujo de caja libre del proyecto antes del financiamiento. |
-| Evaluación del accionista con deuda | Costo de oportunidad del accionista | Mide si el dinero propio invertido por el accionista recibe una rentabilidad suficiente después de pagar la deuda. | Flujo de fondos del accionista. |
+| Caso                                        | Tasa recomendada                             | Explicación                                                                                                        | Flujo asociado                                                                 |
+|---------------------------------------------|----------------------------------------------|--------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------|
+| Proyecto financiado solo con capital propio | COK del accionista o costo de capital propio | Representa la mejor alternativa de inversión que el accionista deja de realizar por invertir en el proyecto.       | Flujo económico del proyecto sin deuda o flujo del accionista si no hay deuda. |
+| Proyecto con financiamiento mixto           | WACC o Costo Promedio Ponderado de Capital   | Combina el costo de la deuda y el costo del capital propio según su peso en la estructura de financiamiento.       | Flujo de caja libre del proyecto antes del financiamiento.                     |
+| Evaluación del accionista con deuda         | Costo de oportunidad del accionista          | Mide si el dinero propio invertido por el accionista recibe una rentabilidad suficiente después de pagar la deuda. | Flujo de fondos del accionista.                                                |
 
 Fórmula general del WACC cuando se considera impuesto a la renta:
 
@@ -143,13 +143,13 @@ $$
 
 Donde:
 
-| Símbolo | Significado |
-|---|---|
-| $E$ | Valor del capital propio o patrimonio. |
-| $D$ | Valor de la deuda. |
-| $K_e$ | Costo del capital propio. |
-| $K_d$ | Costo de la deuda. |
-| $T$ | Tasa de impuesto, si aplica. |
+| Símbolo | Significado                            |
+|---------|----------------------------------------|
+| $E$     | Valor del capital propio o patrimonio. |
+| $D$     | Valor de la deuda.                     |
+| $K_e$   | Costo del capital propio.              |
+| $K_d$   | Costo de la deuda.                     |
+| $T$     | Tasa de impuesto, si aplica.           |
 
 Si el ejercicio no menciona impuestos, puede trabajarse una versión simplificada sin el ajuste tributario:
 
@@ -161,15 +161,15 @@ $$
 
 Al construir el flujo de caja:
 
-| Criterio | Recomendación |
-|---|---|
-| Flujo relevante | Usar flujos de caja, no utilidades contables. |
-| Base incremental | Incluir solo ingresos y egresos que cambian por aceptar el proyecto. |
-| Inflación | No mezclar flujos nominales con tasa real, ni flujos reales con tasa nominal. |
-| Capital de trabajo | Incluir necesidades de fondo de maniobra cuando correspondan. |
-| Costos de oportunidad | Incluir el valor de recursos que podrían usarse en otra alternativa. |
-| Gastos generales | Asignarlos solo si realmente son incrementales. |
-| Costos hundidos | No deben decidir el proyecto si ya ocurrieron y no cambian por aceptar o rechazar la inversión. |
+| Criterio              | Recomendación                                                                                   |
+|-----------------------|-------------------------------------------------------------------------------------------------|
+| Flujo relevante       | Usar flujos de caja, no utilidades contables.                                                   |
+| Base incremental      | Incluir solo ingresos y egresos que cambian por aceptar el proyecto.                            |
+| Inflación             | No mezclar flujos nominales con tasa real, ni flujos reales con tasa nominal.                   |
+| Capital de trabajo    | Incluir necesidades de fondo de maniobra cuando correspondan.                                   |
+| Costos de oportunidad | Incluir el valor de recursos que podrían usarse en otra alternativa.                            |
+| Gastos generales      | Asignarlos solo si realmente son incrementales.                                                 |
+| Costos hundidos       | No deben decidir el proyecto si ya ocurrieron y no cambian por aceptar o rechazar la inversión. |
 
 ---
 
@@ -179,12 +179,12 @@ Al construir el flujo de caja:
 
 ## 4. Resumen general de indicadores
 
-| Indicador | Nombre completo | Qué mide | Criterio de aceptación | Mejor cuando... |
-|---|---|---|---|---|
-| VAN | Valor Actual Neto | Valor monetario creado por el proyecto. Responde: ¿cuánto dinero gano hoy? | VAN > 0 | Se quiere maximizar riqueza. |
-| TIR | Tasa Interna de Retorno | Rentabilidad porcentual implícita. Responde: ¿qué % gano? | TIR > COK | Se necesita expresar rentabilidad como porcentaje. |
-| B/C | Relación Beneficio-Costo | Valor actual generado por cada unidad invertida. Responde: ¿cuánto gano por cada sol? | B/C > 1 | Se quiere comparar eficiencia relativa. |
-| PRD | Periodo de Recuperación Descontado | Tiempo necesario para recuperar la inversión considerando valor del dinero. Responde: ¿cuándo recupero? | Menor PRD es mejor | Se evalúa liquidez o rapidez de recuperación. |
+| Indicador | Nombre completo                    | Qué mide                                                                                                | Criterio de aceptación | Mejor cuando...                                    |
+|-----------|------------------------------------|---------------------------------------------------------------------------------------------------------|------------------------|----------------------------------------------------|
+| VAN       | Valor Actual Neto                  | Valor monetario creado por el proyecto. Responde: ¿cuánto dinero gano hoy?                              | VAN > 0                | Se quiere maximizar riqueza.                       |
+| TIR       | Tasa Interna de Retorno            | Rentabilidad porcentual implícita. Responde: ¿qué % gano?                                               | TIR > COK              | Se necesita expresar rentabilidad como porcentaje. |
+| B/C       | Relación Beneficio-Costo           | Valor actual generado por cada unidad invertida. Responde: ¿cuánto gano por cada sol?                   | B/C > 1                | Se quiere comparar eficiencia relativa.            |
+| PRD       | Periodo de Recuperación Descontado | Tiempo necesario para recuperar la inversión considerando valor del dinero. Responde: ¿cuándo recupero? | Menor PRD es mejor     | Se evalúa liquidez o rapidez de recuperación.      |
 
 ---
 
@@ -204,12 +204,12 @@ $$
 
 Donde:
 
-| Símbolo | Significado |
-|---|---|
-| $I_0$ | Inversión inicial en el periodo 0. |
-| $FC_t$ | Flujo de caja del periodo $t$. |
-| $COK$ | Costo de oportunidad del capital o tasa de descuento. |
-| $n$ | Vida útil u horizonte de evaluación. |
+| Símbolo | Significado                                           |
+|---------|-------------------------------------------------------|
+| $I_0$   | Inversión inicial en el periodo 0.                    |
+| $FC_t$  | Flujo de caja del periodo $t$.                        |
+| $COK$   | Costo de oportunidad del capital o tasa de descuento. |
+| $n$     | Vida útil u horizonte de evaluación.                  |
 
 
 ### 5.2.1 Lectura práctica y fórmula en Excel
@@ -247,22 +247,22 @@ La función `VNA` descuenta solo los flujos futuros. Por eso la inversión del p
 
 ### 5.4 Criterio de decisión
 
-| Resultado | Interpretación | Decisión |
-|---|---|---|
-| VAN > 0 | El proyecto genera valor por encima del COK. | Aceptar. |
-| VAN < 0 | El proyecto no cubre la rentabilidad exigida. | Rechazar. |
-| VAN = 0 | El proyecto iguala exactamente la rentabilidad exigida. | Aceptar, postergar o quedar indiferente según el contexto. |
+| Resultado | Interpretación                                          | Decisión                                                   |
+|-----------|---------------------------------------------------------|------------------------------------------------------------|
+| VAN > 0   | El proyecto genera valor por encima del COK.            | Aceptar.                                                   |
+| VAN < 0   | El proyecto no cubre la rentabilidad exigida.           | Rechazar.                                                  |
+| VAN = 0   | El proyecto iguala exactamente la rentabilidad exigida. | Aceptar, postergar o quedar indiferente según el contexto. |
 
 > **Nota — préstamos desde la perspectiva del deudor:** en este sistema el VAN también se aplica a un préstamo visto por el deudor, donde el préstamo recibido es una **entrada** en el período 0 y las cuotas son **salidas**. En ese caso `VAN = Préstamo − Σ Cuota_t / (1 + COK)^t`, y **VAN > 0 significa que el préstamo es barato** frente al COK (conviene endeudarse), interpretación opuesta a la de un proyecto de inversión. Ver `van-tir.md` (§7) y `metodo-frances.md`.
 
 ### 5.5 Ventajas y desventajas
 
-| Aspecto | Explicación |
-|---|---|
-| Ventaja principal | Considera el valor del dinero en el tiempo. |
-| Ventaja adicional | Ayuda a elegir entre proyectos excluyentes porque mide creación de valor absoluta. |
-| Desventaja | Requiere estimar correctamente el COK. |
-| Riesgo de interpretación | El VAN es un monto monetario, no una tasa porcentual. |
+| Aspecto                  | Explicación                                                                        |
+|--------------------------|------------------------------------------------------------------------------------|
+| Ventaja principal        | Considera el valor del dinero en el tiempo.                                        |
+| Ventaja adicional        | Ayuda a elegir entre proyectos excluyentes porque mide creación de valor absoluta. |
+| Desventaja               | Requiere estimar correctamente el COK.                                             |
+| Riesgo de interpretación | El VAN es un monto monetario, no una tasa porcentual.                              |
 
 ---
 
@@ -307,35 +307,35 @@ La TIR es útil, pero no debe reemplazar automáticamente al VAN cuando se compa
 
 ### 6.3 Criterio de decisión
 
-| Resultado | Interpretación | Decisión |
-|---|---|---|
-| TIR > COK | La rentabilidad del proyecto supera la exigida. | Aceptar. |
-| TIR < COK | La rentabilidad del proyecto no alcanza la exigida. | Rechazar. |
-| TIR = COK | El proyecto iguala la rentabilidad mínima. | Aceptar, postergar o quedar indiferente según el contexto. |
+| Resultado | Interpretación                                      | Decisión                                                   |
+|-----------|-----------------------------------------------------|------------------------------------------------------------|
+| TIR > COK | La rentabilidad del proyecto supera la exigida.     | Aceptar.                                                   |
+| TIR < COK | La rentabilidad del proyecto no alcanza la exigida. | Rechazar.                                                  |
+| TIR = COK | El proyecto iguala la rentabilidad mínima.          | Aceptar, postergar o quedar indiferente según el contexto. |
 
 ### 6.4 Tipos de TIR
 
-| Tipo | Significado |
-|---|---|
-| TIR económica | Rentabilidad promedio de todo el capital invertido, suponiendo que todo se financia con capital propio. |
-| TIR financiera | Rentabilidad considerando financiamiento, servicio de deuda y distribución de dividendos. |
+| Tipo           | Significado                                                                                             |
+|----------------|---------------------------------------------------------------------------------------------------------|
+| TIR económica  | Rentabilidad promedio de todo el capital invertido, suponiendo que todo se financia con capital propio. |
+| TIR financiera | Rentabilidad considerando financiamiento, servicio de deuda y distribución de dividendos.               |
 
 ### 6.5 Ventajas y desventajas
 
-| Aspecto | Explicación |
-|---|---|
-| Ventaja | Expresa la rentabilidad como porcentaje, por lo que suele ser fácil de comunicar. |
-| Ventaja | Complementa al VAN. |
-| Desventaja | Puede contradecir al VAN en proyectos excluyentes. |
-| Desventaja | Puede generar múltiples resultados si los flujos no son convencionales. |
-| Desventaja | No siempre refleja creación absoluta de valor. |
+| Aspecto    | Explicación                                                                       |
+|------------|-----------------------------------------------------------------------------------|
+| Ventaja    | Expresa la rentabilidad como porcentaje, por lo que suele ser fácil de comunicar. |
+| Ventaja    | Complementa al VAN.                                                               |
+| Desventaja | Puede contradecir al VAN en proyectos excluyentes.                                |
+| Desventaja | Puede generar múltiples resultados si los flujos no son convencionales.           |
+| Desventaja | No siempre refleja creación absoluta de valor.                                    |
 
 ### 6.6 Flujo convencional y no convencional
 
-| Tipo de flujo | Patrón típico | Riesgo al usar TIR |
-|---|---|---|
-| Convencional | Primero negativo, luego positivos. | Normalmente produce una sola TIR. |
-| No convencional | Cambios de signo múltiples. | Puede producir más de una TIR o resultados ambiguos. |
+| Tipo de flujo   | Patrón típico                      | Riesgo al usar TIR                                   |
+|-----------------|------------------------------------|------------------------------------------------------|
+| Convencional    | Primero negativo, luego positivos. | Normalmente produce una sola TIR.                    |
+| No convencional | Cambios de signo múltiples.        | Puede producir más de una TIR o resultados ambiguos. |
 
 Ejemplo de flujo convencional:
 
@@ -398,11 +398,11 @@ B/C = 1.20 significa que por cada S/ 1.00 invertido se generan S/ 1.20 a valor p
 
 ### 7.3 Criterio de decisión
 
-| Resultado | Interpretación | Decisión |
-|---|---|---|
-| B/C > 1 | Los beneficios actualizados superan a la inversión. | Aceptar. |
-| B/C < 1 | Los beneficios actualizados son menores que la inversión. | Rechazar. |
-| B/C = 1 | Beneficios e inversión son equivalentes. | Aceptar, postergar o quedar indiferente según el contexto. |
+| Resultado | Interpretación                                            | Decisión                                                   |
+|-----------|-----------------------------------------------------------|------------------------------------------------------------|
+| B/C > 1   | Los beneficios actualizados superan a la inversión.       | Aceptar.                                                   |
+| B/C < 1   | Los beneficios actualizados son menores que la inversión. | Rechazar.                                                  |
+| B/C = 1   | Beneficios e inversión son equivalentes.                  | Aceptar, postergar o quedar indiferente según el contexto. |
 
 ### 7.4 Desventaja principal
 
@@ -433,11 +433,11 @@ $$
 
 Donde:
 
-| Símbolo | Significado |
-|---|---|
-| $a$ | Último periodo antes de recuperar la inversión. |
-| $FAcum_a$ | Flujo acumulado descontado hasta el periodo $a$. |
-| $FDesc_{a+1}$ | Flujo descontado del periodo siguiente. |
+| Símbolo       | Significado                                      |
+|---------------|--------------------------------------------------|
+| $a$           | Último periodo antes de recuperar la inversión.  |
+| $FAcum_a$     | Flujo acumulado descontado hasta el periodo $a$. |
+| $FDesc_{a+1}$ | Flujo descontado del periodo siguiente.          |
 
 
 Otra forma práctica de escribirlo, cuando se trabaja con acumulados negativos, es:
@@ -454,22 +454,22 @@ Mientras menor sea el PRD, mejor será el proyecto desde una perspectiva de recu
 
 ### 8.5 Desventajas
 
-| Desventaja | Explicación |
-|---|---|
-| Ignora beneficios posteriores | No considera lo que ocurre después del periodo de recuperación. |
-| Puede ser inmediatista | Favorece recuperar rápido, aunque el proyecto no sea el más rentable. |
-| No mide rentabilidad total | Indica cuándo se recupera el capital, no cuánto valor se crea. |
+| Desventaja                    | Explicación                                                           |
+|-------------------------------|-----------------------------------------------------------------------|
+| Ignora beneficios posteriores | No considera lo que ocurre después del periodo de recuperación.       |
+| Puede ser inmediatista        | Favorece recuperar rápido, aunque el proyecto no sea el más rentable. |
+| No mide rentabilidad total    | Indica cuándo se recupera el capital, no cuánto valor se crea.        |
 
 
 ### 8.6 Lectura conjunta de VAN, TIR y B/C
 
 En proyectos simples con flujos convencionales, los tres criterios principales suelen apuntar hacia la misma decisión:
 
-| Situación | VAN | TIR | B/C | Decisión general |
-|---|---:|---:|---:|---|
-| El proyecto crea valor | VAN > 0 | TIR > COK | B/C > 1 | Aceptar. |
+| Situación                                   |     VAN |       TIR |     B/C | Decisión general                                           |
+|---------------------------------------------|--------:|----------:|--------:|------------------------------------------------------------|
+| El proyecto crea valor                      | VAN > 0 | TIR > COK | B/C > 1 | Aceptar.                                                   |
 | El proyecto solo iguala la exigencia mínima | VAN = 0 | TIR = COK | B/C = 1 | Aceptar, postergar o quedar indiferente según el contexto. |
-| El proyecto destruye valor | VAN < 0 | TIR < COK | B/C < 1 | Rechazar. |
+| El proyecto destruye valor                  | VAN < 0 | TIR < COK | B/C < 1 | Rechazar.                                                  |
 
 La jerarquía recomendada es usar el **VAN como criterio principal**, porque expresa valor absoluto creado. La TIR y el B/C ayudan a interpretar rentabilidad porcentual y eficiencia relativa, pero pueden inducir a error si se comparan proyectos excluyentes con distinta escala o temporalidad.
 
@@ -485,27 +485,27 @@ La jerarquía recomendada es usar el **VAN como criterio principal**, porque exp
 
 Una empresa evalúa un proyecto con los siguientes datos:
 
-| Dato | Valor |
-|---|---:|
-| Inversión inicial | S/ 100,000 |
-| COK | 12% anual |
-| Vida útil | 4 años |
-| Flujo año 1 | S/ 30,000 |
-| Flujo año 2 | S/ 35,000 |
-| Flujo año 3 | S/ 40,000 |
-| Flujo año 4 | S/ 45,000 |
-| Valor de salvataje año 4 | S/ 10,000 |
-| Flujo total año 4 | S/ 55,000 |
+| Dato                     |      Valor |
+|--------------------------|-----------:|
+| Inversión inicial        | S/ 100,000 |
+| COK                      |  12% anual |
+| Vida útil                |     4 años |
+| Flujo año 1              |  S/ 30,000 |
+| Flujo año 2              |  S/ 35,000 |
+| Flujo año 3              |  S/ 40,000 |
+| Flujo año 4              |  S/ 45,000 |
+| Valor de salvataje año 4 |  S/ 10,000 |
+| Flujo total año 4        |  S/ 55,000 |
 
 ### 9.2 Flujo de caja
 
 | Periodo | Flujo de caja | Factor de descuento 12% | Flujo descontado |
-|---:|---:|---:|---:|
-| 0 | -100,000.00 | 1.0000 | -100,000.00 |
-| 1 | 30,000.00 | 0.8929 | 26,785.71 |
-| 2 | 35,000.00 | 0.7972 | 27,901.79 |
-| 3 | 40,000.00 | 0.7118 | 28,471.21 |
-| 4 | 55,000.00 | 0.6355 | 34,953.49 |
+|--------:|--------------:|------------------------:|-----------------:|
+|       0 |   -100,000.00 |                  1.0000 |      -100,000.00 |
+|       1 |     30,000.00 |                  0.8929 |        26,785.71 |
+|       2 |     35,000.00 |                  0.7972 |        27,901.79 |
+|       3 |     40,000.00 |                  0.7118 |        28,471.21 |
+|       4 |     55,000.00 |                  0.6355 |        34,953.49 |
 
 ### 9.3 VAN
 
@@ -548,11 +548,11 @@ $$
 ### 9.6 Periodo de Recuperación Descontado
 
 | Periodo | Flujo descontado | Acumulado descontado |
-|---:|---:|---:|
-| 1 | 26,785.71 | 26,785.71 |
-| 2 | 27,901.79 | 54,687.50 |
-| 3 | 28,471.21 | 83,158.71 |
-| 4 | 34,953.49 | 118,112.20 |
+|--------:|-----------------:|---------------------:|
+|       1 |        26,785.71 |            26,785.71 |
+|       2 |        27,901.79 |            54,687.50 |
+|       3 |        28,471.21 |            83,158.71 |
+|       4 |        34,953.49 |           118,112.20 |
 
 La inversión se recupera entre los años 3 y 4.
 
@@ -568,12 +568,12 @@ $$
 
 ### 9.7 Decisión integral
 
-| Indicador | Resultado | Criterio | Decisión |
-|---|---:|---|---|
-| VAN | S/ 18,112.20 | VAN > 0 | Aceptar |
-| TIR | 19.51% | TIR > 12% | Aceptar |
-| B/C | 1.1811 | B/C > 1 | Aceptar |
-| PRD | 3.48 años | Menor es mejor | Recuperación dentro de la vida útil |
+| Indicador |    Resultado | Criterio       | Decisión                            |
+|-----------|-------------:|----------------|-------------------------------------|
+| VAN       | S/ 18,112.20 | VAN > 0        | Aceptar                             |
+| TIR       |       19.51% | TIR > 12%      | Aceptar                             |
+| B/C       |       1.1811 | B/C > 1        | Aceptar                             |
+| PRD       |    3.48 años | Menor es mejor | Recuperación dentro de la vida útil |
 
 **Conclusión:** el proyecto es rentable y puede aceptarse.
 
@@ -592,12 +592,12 @@ En un gráfico VAN vs. COK, la Tasa de Fisher es el punto donde se cruzan las cu
 
 La Tasa de Fisher es útil cuando dos proyectos tienen:
 
-| Condición | Efecto |
-|---|---|
-| Diferente escala de inversión | Un proyecto exige mayor inversión inicial que el otro. |
+| Condición                                 | Efecto                                                              |
+|-------------------------------------------|---------------------------------------------------------------------|
+| Diferente escala de inversión             | Un proyecto exige mayor inversión inicial que el otro.              |
 | Diferente distribución temporal de flujos | Un proyecto genera más flujos al inicio y otro más flujos al final. |
-| Decisión mutuamente excluyente | Solo puede elegirse una alternativa. |
-| Sensibilidad al COK | La decisión puede cambiar si cambia la tasa de descuento. |
+| Decisión mutuamente excluyente            | Solo puede elegirse una alternativa.                                |
+| Sensibilidad al COK                       | La decisión puede cambiar si cambia la tasa de descuento.           |
 
 Su objetivo es evitar una elección frágil. Si el COK está muy cerca de la Tasa de Fisher, un pequeño cambio en la tasa de mercado puede modificar la alternativa preferida.
 
@@ -635,11 +635,11 @@ Proyecto de mayor inversión - Proyecto de menor inversión
 
 la regla práctica es:
 
-| Comparación | Decisión típica | Justificación |
-|---|---|---|
-| COK < Tasa de Fisher | Elegir el proyecto de mayor inversión. | A tasas bajas, el VAN premia más la magnitud de los flujos futuros. |
+| Comparación          | Decisión típica                        | Justificación                                                        |
+|----------------------|----------------------------------------|----------------------------------------------------------------------|
+| COK < Tasa de Fisher | Elegir el proyecto de mayor inversión. | A tasas bajas, el VAN premia más la magnitud de los flujos futuros.  |
 | COK > Tasa de Fisher | Elegir el proyecto de menor inversión. | A tasas altas, pesan más la inversión inicial y los flujos cercanos. |
-| COK = Tasa de Fisher | Indiferente entre ambos. | Ambos tienen el mismo VAN. |
+| COK = Tasa de Fisher | Indiferente entre ambos.               | Ambos tienen el mismo VAN.                                           |
 
 Esta regla debe aplicarse verificando siempre los VAN de ambos proyectos, porque la Tasa de Fisher solo indica el punto de cruce, no reemplaza el análisis de creación de valor.
 
@@ -648,14 +648,14 @@ Esta regla debe aplicarse verificando siempre los VAN de ambos proyectos, porque
 Se comparan dos proyectos mutuamente excluyentes:
 
 | Periodo | Flujo Aranis | Flujo Casero | Flujo diferencial Aranis - Casero |
-|---:|---:|---:|---:|
-| 0 | -6,000 | -5,000 | -1,000 |
-| 1 | 1,200 | 1,200 | 0 |
-| 2 | 1,300 | 1,200 | 100 |
-| 3 | 1,400 | 1,200 | 200 |
-| 4 | 1,500 | 1,200 | 300 |
-| 5 | 1,600 | 1,200 | 400 |
-| 6 | 1,600 | 1,200 | 400 |
+|--------:|-------------:|-------------:|----------------------------------:|
+|       0 |       -6,000 |       -5,000 |                            -1,000 |
+|       1 |        1,200 |        1,200 |                                 0 |
+|       2 |        1,300 |        1,200 |                               100 |
+|       3 |        1,400 |        1,200 |                               200 |
+|       4 |        1,500 |        1,200 |                               300 |
+|       5 |        1,600 |        1,200 |                               400 |
+|       6 |        1,600 |        1,200 |                               400 |
 
 La TIR del flujo diferencial es:
 
@@ -667,24 +667,24 @@ Esto significa que a una tasa de descuento de 7.74%, el VAN de Aranis y el VAN d
 
 ### 9A.6 Análisis de sensibilidad del COK
 
-| COK | VAN Aranis | VAN Casero | Diferencia Aranis - Casero | Decisión por VAN |
-|---:|---:|---:|---:|---|
-| 0.00% | 2,600.00 | 2,200.00 | 400.00 | Aranis |
-| 1.00% | 2,292.42 | 1,954.57 | 337.85 | Aranis |
-| 2.00% | 2,000.93 | 1,721.72 | 279.22 | Aranis |
-| 3.00% | 1,724.50 | 1,500.63 | 223.87 | Aranis |
-| 4.00% | 1,462.16 | 1,290.56 | 171.59 | Aranis |
-| 5.00% | 1,213.01 | 1,090.83 | 122.18 | Aranis |
-| 6.00% | 976.23 | 900.79 | 75.44 | Aranis |
-| 7.00% | 751.05 | 719.85 | 31.20 | Aranis |
-| 8.00% | 536.77 | 547.46 | -10.69 | Casero |
-| 9.00% | 332.71 | 383.10 | -50.39 | Casero |
-| 10.00% | 138.28 | 226.31 | -88.03 | Casero |
-| 11.00% | -47.10 | 76.65 | -123.74 | Casero |
-| 12.00% | -223.96 | -66.31 | -157.65 | Ninguno, si se exige VAN > 0 |
-| 13.00% | -392.79 | -202.94 | -189.85 | Ninguno, si se exige VAN > 0 |
-| 14.00% | -554.05 | -333.60 | -220.45 | Ninguno, si se exige VAN > 0 |
-| 15.00% | -708.18 | -458.62 | -249.55 | Ninguno, si se exige VAN > 0 |
+|    COK | VAN Aranis | VAN Casero | Diferencia Aranis - Casero | Decisión por VAN             |
+|-------:|-----------:|-----------:|---------------------------:|------------------------------|
+|  0.00% |   2,600.00 |   2,200.00 |                     400.00 | Aranis                       |
+|  1.00% |   2,292.42 |   1,954.57 |                     337.85 | Aranis                       |
+|  2.00% |   2,000.93 |   1,721.72 |                     279.22 | Aranis                       |
+|  3.00% |   1,724.50 |   1,500.63 |                     223.87 | Aranis                       |
+|  4.00% |   1,462.16 |   1,290.56 |                     171.59 | Aranis                       |
+|  5.00% |   1,213.01 |   1,090.83 |                     122.18 | Aranis                       |
+|  6.00% |     976.23 |     900.79 |                      75.44 | Aranis                       |
+|  7.00% |     751.05 |     719.85 |                      31.20 | Aranis                       |
+|  8.00% |     536.77 |     547.46 |                     -10.69 | Casero                       |
+|  9.00% |     332.71 |     383.10 |                     -50.39 | Casero                       |
+| 10.00% |     138.28 |     226.31 |                     -88.03 | Casero                       |
+| 11.00% |     -47.10 |      76.65 |                    -123.74 | Casero                       |
+| 12.00% |    -223.96 |     -66.31 |                    -157.65 | Ninguno, si se exige VAN > 0 |
+| 13.00% |    -392.79 |    -202.94 |                    -189.85 | Ninguno, si se exige VAN > 0 |
+| 14.00% |    -554.05 |    -333.60 |                    -220.45 | Ninguno, si se exige VAN > 0 |
+| 15.00% |    -708.18 |    -458.62 |                    -249.55 | Ninguno, si se exige VAN > 0 |
 
 ### 9A.7 Interpretación del ejemplo
 
@@ -736,12 +736,12 @@ Si se comparan costos, se elige la alternativa de menor costo equivalente.
 
 El PDF trabaja cuatro criterios principales:
 
-| Criterio | Nombre completo | Uso principal |
-|---|---|---|
-| VAC | Valor Actual de Costos | Comparar alternativas con igual vida útil. |
-| CAUE | Costo Anual Uniforme Equivalente | Comparar alternativas con vidas útiles diferentes. |
-| MCM | Mínimo Común Múltiplo de vidas útiles | Homogeneizar horizontes mediante repetición de ciclos. |
-| CC | Costo Capitalizado | Evaluar alternativas de duración indefinida o perpetua. |
+| Criterio | Nombre completo                       | Uso principal                                           |
+|----------|---------------------------------------|---------------------------------------------------------|
+| VAC      | Valor Actual de Costos                | Comparar alternativas con igual vida útil.              |
+| CAUE     | Costo Anual Uniforme Equivalente      | Comparar alternativas con vidas útiles diferentes.      |
+| MCM      | Mínimo Común Múltiplo de vidas útiles | Homogeneizar horizontes mediante repetición de ciclos.  |
+| CC       | Costo Capitalizado                    | Evaluar alternativas de duración indefinida o perpetua. |
 
 ---
 
@@ -759,18 +759,18 @@ $$
 
 Donde:
 
-| Símbolo | Significado |
-|---|---|
-| $I_0$ | Costo inicial. |
-| $C_t$ | Costo de operación, mantenimiento u otros costos del periodo $t$. |
-| $S_n$ | Valor de salvataje al final de la vida útil. |
-| $i$ | Tasa de descuento. |
-| $n$ | Vida útil. |
+| Símbolo | Significado                                                       |
+|---------|-------------------------------------------------------------------|
+| $I_0$   | Costo inicial.                                                    |
+| $C_t$   | Costo de operación, mantenimiento u otros costos del periodo $t$. |
+| $S_n$   | Valor de salvataje al final de la vida útil.                      |
+| $i$     | Tasa de descuento.                                                |
+| $n$     | Vida útil.                                                        |
 
 ### 11.3 Criterio
 
-| Comparación | Decisión |
-|---|---|
+| Comparación   | Decisión              |
+|---------------|-----------------------|
 | VAC A < VAC B | Elegir alternativa A. |
 | VAC B < VAC A | Elegir alternativa B. |
 
@@ -782,13 +782,13 @@ Donde:
 
 Una empresa evalúa dos máquinas con vida útil de 10 años y TEA de 11%.
 
-| Dato | Máquina 1 | Máquina 2 |
-|---|---:|---:|
-| Costo inicial | US\$ 50,000 | US\$ 65,000 |
-| Costo anual de operación | US\$ 3,000 | US\$ 500 |
-| Valor de salvataje | US\$ 5,000 | US\$ 10,000 |
-| Vida útil | 10 años | 10 años |
-| Tasa | 11% | 11% |
+| Dato                     |   Máquina 1 |   Máquina 2 |
+|--------------------------|------------:|------------:|
+| Costo inicial            | US\$ 50,000 | US\$ 65,000 |
+| Costo anual de operación |  US\$ 3,000 |    US\$ 500 |
+| Valor de salvataje       |  US\$ 5,000 | US\$ 10,000 |
+| Vida útil                |     10 años |     10 años |
+| Tasa                     |         11% |         11% |
 
 ### 12.2 Cálculo
 
@@ -797,9 +797,9 @@ VAC = I_0 + C \left(\frac{1-(1+i)^{-n}}{i}\right) - \frac{S}{(1+i)^n}
 $$
 
 | Alternativa | VAC aproximado |
-|---|---:|
-| Máquina 1 | US\$ 65,906.77 |
-| Máquina 2 | US\$ 64,422.77 |
+|-------------|---------------:|
+| Máquina 1   | US\$ 65,906.77 |
+| Máquina 2   | US\$ 64,422.77 |
 
 ### 12.3 Decisión
 
@@ -823,17 +823,17 @@ $$
 
 Donde:
 
-| Símbolo | Significado |
-|---|---|
-| $VAC$ | Valor actual de costos. |
-| $i$ | Tasa de descuento. |
-| $n$ | Vida útil. |
+| Símbolo | Significado             |
+|---------|-------------------------|
+| $VAC$   | Valor actual de costos. |
+| $i$     | Tasa de descuento.      |
+| $n$     | Vida útil.              |
 
 ### 13.3 Criterio
 
-| Situación | Decisión |
-|---|---|
-| Si son costos | Elegir menor CAUE. |
+| Situación                    | Decisión           |
+|------------------------------|--------------------|
+| Si son costos                | Elegir menor CAUE. |
 | Si son ingresos o beneficios | Elegir mayor CAUE. |
 
 ---
@@ -844,22 +844,22 @@ Donde:
 
 Se comparan dos equipos con TEA de 14%.
 
-| Dato | Equipo 1 | Equipo 2 |
-|---|---:|---:|
-| Costo inicial | US\$ 80,000 | US\$ 90,000 |
-| Mantenimiento anual | US\$ 5,000 | US\$ 3,000 |
-| Mano de obra anual | US\$ 25,000 | US\$ 15,000 |
-| Otros costos anuales | US\$ 0 | US\$ 5,000 |
-| Costo anual total | US\$ 30,000 | US\$ 23,000 |
-| Salvataje | US\$ 10,000 | US\$ 20,000 |
-| Vida útil | 4 años | 7 años |
+| Dato                 |    Equipo 1 |    Equipo 2 |
+|----------------------|------------:|------------:|
+| Costo inicial        | US\$ 80,000 | US\$ 90,000 |
+| Mantenimiento anual  |  US\$ 5,000 |  US\$ 3,000 |
+| Mano de obra anual   | US\$ 25,000 | US\$ 15,000 |
+| Otros costos anuales |      US\$ 0 |  US\$ 5,000 |
+| Costo anual total    | US\$ 30,000 | US\$ 23,000 |
+| Salvataje            | US\$ 10,000 | US\$ 20,000 |
+| Vida útil            |      4 años |      7 años |
 
 ### 14.2 Resultados
 
-| Alternativa | VAC aproximado | CAUE aproximado |
-|---|---:|---:|
-| Equipo 1 | US\$ 161,490.57 | US\$ 55,424.33 |
-| Equipo 2 | US\$ 180,638.26 | US\$ 42,123.47 |
+| Alternativa |  VAC aproximado | CAUE aproximado |
+|-------------|----------------:|----------------:|
+| Equipo 1    | US\$ 161,490.57 |  US\$ 55,424.33 |
+| Equipo 2    | US\$ 180,638.26 |  US\$ 42,123.47 |
 
 ### 14.3 Decisión
 
@@ -894,21 +894,21 @@ MCM(3, 4) = 12 años
 Entonces:
 
 | Alternativa | Vida útil | Repeticiones en 12 años |
-|---|---:|---:|
-| A | 3 años | 4 ciclos |
-| B | 4 años | 3 ciclos |
+|-------------|----------:|------------------------:|
+| A           |    3 años |                4 ciclos |
+| B           |    4 años |                3 ciclos |
 
 ### 15.4 Ejemplo de MCM: máquinas con vida de 2 y 3 años
 
 Datos:
 
-| Dato | Máquina 1 | Máquina 2 |
-|---|---:|---:|
+| Dato          |  Máquina 1 |  Máquina 2 |
+|---------------|-----------:|-----------:|
 | Costo inicial | US\$ 5,000 | US\$ 7,500 |
-| Costo anual | US\$ 200 | US\$ 100 |
-| Salvataje | US\$ 100 | US\$ 1,000 |
-| Vida útil | 2 años | 3 años |
-| Tasa | 18% | 18% |
+| Costo anual   |   US\$ 200 |   US\$ 100 |
+| Salvataje     |   US\$ 100 | US\$ 1,000 |
+| Vida útil     |     2 años |     3 años |
+| Tasa          |        18% |        18% |
 
 Horizonte común:
 
@@ -919,9 +919,9 @@ $$
 Resultados aproximados al traer todos los ciclos a valor actual:
 
 | Alternativa | Costo actualizado en 6 años |
-|---|---:|
-| Máquina 1 | US\$ 11,708.95 |
-| Máquina 2 | US\$ 11,435.43 |
+|-------------|----------------------------:|
+| Máquina 1   |              US\$ 11,708.95 |
+| Máquina 2   |              US\$ 11,435.43 |
 
 **Decisión:** elegir la **Máquina 2**, porque tiene menor costo actualizado en el horizonte común.
 
@@ -945,14 +945,14 @@ Si el costo empieza en un periodo futuro, debe descontarse al presente.
 
 ### 16.3 Componentes frecuentes
 
-| Componente | Tratamiento |
-|---|---|
-| Inversión inicial | Se coloca directamente en t = 0. |
-| Costos anuales temporales | Se descuentan como anualidad finita. |
-| Costos anuales perpetuos | Se tratan como perpetuidad. |
-| Mantenimiento periódico | Se trata como serie periódica indefinida. |
-| Capital de trabajo futuro | Se descuenta al presente. |
-| Salvataje | Se trabaja por separado cuando corresponda. |
+| Componente                | Tratamiento                                 |
+|---------------------------|---------------------------------------------|
+| Inversión inicial         | Se coloca directamente en t = 0.            |
+| Costos anuales temporales | Se descuentan como anualidad finita.        |
+| Costos anuales perpetuos  | Se tratan como perpetuidad.                 |
+| Mantenimiento periódico   | Se trata como serie periódica indefinida.   |
+| Capital de trabajo futuro | Se descuenta al presente.                   |
+| Salvataje                 | Se trabaja por separado cuando corresponda. |
 
 ### 16.4 Mantenimiento periódico indefinido
 
@@ -970,14 +970,14 @@ $$
 
 Un proyecto requiere:
 
-| Concepto | Valor |
-|---|---:|
-| Inversión inicial | S/ 500,000 |
-| Costos anuales años 1 a 7 | S/ 10,000 |
-| Costos anuales desde año 8 en adelante | S/ 25,000 |
-| Capital de trabajo al final del año 5 | S/ 100,000 |
-| Mantenimiento cada 15 años | S/ 50,000 |
-| Tasa de descuento | 25% TEA |
+| Concepto                               |      Valor |
+|----------------------------------------|-----------:|
+| Inversión inicial                      | S/ 500,000 |
+| Costos anuales años 1 a 7              |  S/ 10,000 |
+| Costos anuales desde año 8 en adelante |  S/ 25,000 |
+| Capital de trabajo al final del año 5  | S/ 100,000 |
+| Mantenimiento cada 15 años             |  S/ 50,000 |
+| Tasa de descuento                      |    25% TEA |
 
 ### 17.2 Modelo de cálculo
 
@@ -1036,17 +1036,17 @@ Usar VAC, CAUE, MCM o CC según el caso.
 
 ## 19. Selección rápida del método
 
-| Situación del problema | Método recomendado | Regla de decisión |
-|---|---|---|
-| Proyecto con inversión y flujos netos | VAN | Aceptar si VAN > 0. |
-| Se pide rentabilidad porcentual | TIR | Aceptar si TIR > COK. |
-| Se pide rendimiento por unidad invertida | B/C | Aceptar si B/C > 1. |
-| Se pide tiempo de recuperación | PRD | Menor PRD es mejor. |
-| Alternativas con igual vida útil y solo costos | VAC | Elegir menor VAC. |
-| Alternativas con distinta vida útil | CAUE | Elegir menor CAUE. |
-| Alternativas renovables con vidas distintas | MCM | Elegir menor valor actual en horizonte común. |
-| Alternativa indefinida o perpetua | CC | Elegir menor costo capitalizado. |
-| Dos proyectos excluyentes con posible cruce de VAN | Tasa de Fisher | Identificar desde qué COK cambia la decisión. |
+| Situación del problema                             | Método recomendado | Regla de decisión                             |
+|----------------------------------------------------|--------------------|-----------------------------------------------|
+| Proyecto con inversión y flujos netos              | VAN                | Aceptar si VAN > 0.                           |
+| Se pide rentabilidad porcentual                    | TIR                | Aceptar si TIR > COK.                         |
+| Se pide rendimiento por unidad invertida           | B/C                | Aceptar si B/C > 1.                           |
+| Se pide tiempo de recuperación                     | PRD                | Menor PRD es mejor.                           |
+| Alternativas con igual vida útil y solo costos     | VAC                | Elegir menor VAC.                             |
+| Alternativas con distinta vida útil                | CAUE               | Elegir menor CAUE.                            |
+| Alternativas renovables con vidas distintas        | MCM                | Elegir menor valor actual en horizonte común. |
+| Alternativa indefinida o perpetua                  | CC                 | Elegir menor costo capitalizado.              |
+| Dos proyectos excluyentes con posible cruce de VAN | Tasa de Fisher     | Identificar desde qué COK cambia la decisión. |
 
 ---
 
@@ -1167,16 +1167,16 @@ Supóngase:
 - La inversión inicial está en `B2`.
 - Los flujos de los años 1 a n están en `B3:B6`.
 
-| Indicador | Fórmula en Excel/Sheets |
-|---|---|
-| VAN | `=VNA(B1,B3:B6)-B2` |
-| VAN en Excel inglés | `=NPV(B1,B3:B6)-B2` |
-| TIR | `=TIR(B2:B6)` si B2 contiene la inversión inicial negativa y B3:B6 los flujos futuros |
-| TIR en Excel inglés | `=IRR(B2:B6)` |
-| B/C | `=VNA(B1,B3:B6)/B2` |
-| Flujo descontado año t | `=Flujo/(1+$B$1)^t` |
-| CAUE | `=VAC*(i*(1+i)^n)/((1+i)^n-1)` |
-| Tasa de Fisher | `=TIR(rango_flujos_diferenciales)` |
+| Indicador              | Fórmula en Excel/Sheets                                                               |
+|------------------------|---------------------------------------------------------------------------------------|
+| VAN                    | `=VNA(B1,B3:B6)-B2`                                                                   |
+| VAN en Excel inglés    | `=NPV(B1,B3:B6)-B2`                                                                   |
+| TIR                    | `=TIR(B2:B6)` si B2 contiene la inversión inicial negativa y B3:B6 los flujos futuros |
+| TIR en Excel inglés    | `=IRR(B2:B6)`                                                                         |
+| B/C                    | `=VNA(B1,B3:B6)/B2`                                                                   |
+| Flujo descontado año t | `=Flujo/(1+$B$1)^t`                                                                   |
+| CAUE                   | `=VAC*(i*(1+i)^n)/((1+i)^n-1)`                                                        |
+| Tasa de Fisher         | `=TIR(rango_flujos_diferenciales)`                                                    |
 
 Nota: en Excel en español, algunas configuraciones usan `VNA` para valor actual neto y otras pueden variar según idioma/región. En Google Sheets, también pueden aparecer funciones en inglés según la configuración.
 
@@ -1188,17 +1188,17 @@ Nota: en Excel en español, algunas configuraciones usan `VNA` para valor actual
 
 ## 23. Errores frecuentes y cómo evitarlos
 
-| Error | Consecuencia | Recomendación |
-|---|---|---|
-| Usar utilidad contable en vez de flujo de caja | Distorsiona el valor económico. | Usar entradas y salidas reales de efectivo. |
-| No incluir valor de salvataje | Subestima el proyecto o activo. | Agregar salvataje en el último periodo. |
-| Mezclar tasas nominales y flujos reales | Genera resultados inconsistentes. | Mantener coherencia entre tasa y flujo. |
-| Comparar TIR sin mirar VAN | Puede elegir proyectos que no maximizan valor. | Priorizar VAN en proyectos excluyentes. |
-| Usar B/C como único criterio | Ignora tamaño de inversión. | Complementar con VAN. |
-| Usar PRD como rentabilidad | Confunde recuperación con generación de valor. | Tratar PRD como indicador auxiliar. |
-| Comparar activos con vidas distintas usando solo VAC | Puede favorecer indebidamente una alternativa. | Usar CAUE o MCM. |
-| Ignorar mantenimiento periódico | Subestima costos de largo plazo. | Incluirlo como flujo recurrente o periódico. |
-| Usar COK arbitrario | Cambia artificialmente la decisión. | Justificar tasa según riesgo y oportunidad. |
+| Error                                                | Consecuencia                                   | Recomendación                                |
+|------------------------------------------------------|------------------------------------------------|----------------------------------------------|
+| Usar utilidad contable en vez de flujo de caja       | Distorsiona el valor económico.                | Usar entradas y salidas reales de efectivo.  |
+| No incluir valor de salvataje                        | Subestima el proyecto o activo.                | Agregar salvataje en el último periodo.      |
+| Mezclar tasas nominales y flujos reales              | Genera resultados inconsistentes.              | Mantener coherencia entre tasa y flujo.      |
+| Comparar TIR sin mirar VAN                           | Puede elegir proyectos que no maximizan valor. | Priorizar VAN en proyectos excluyentes.      |
+| Usar B/C como único criterio                         | Ignora tamaño de inversión.                    | Complementar con VAN.                        |
+| Usar PRD como rentabilidad                           | Confunde recuperación con generación de valor. | Tratar PRD como indicador auxiliar.          |
+| Comparar activos con vidas distintas usando solo VAC | Puede favorecer indebidamente una alternativa. | Usar CAUE o MCM.                             |
+| Ignorar mantenimiento periódico                      | Subestima costos de largo plazo.               | Incluirlo como flujo recurrente o periódico. |
+| Usar COK arbitrario                                  | Cambia artificialmente la decisión.            | Justificar tasa según riesgo y oportunidad.  |
 
 ---
 
@@ -1224,13 +1224,13 @@ En proyectos mutuamente excluyentes, el VAN suele ser más confiable que la TIR 
 
 **Datos:**
 
-| Periodo | Flujo |
-|---:|---:|
-| 0 | -80,000 |
-| 1 | 25,000 |
-| 2 | 30,000 |
-| 3 | 35,000 |
-| 4 | 40,000 |
+| Periodo |   Flujo |
+|--------:|--------:|
+|       0 | -80,000 |
+|       1 |  25,000 |
+|       2 |  30,000 |
+|       3 |  35,000 |
+|       4 |  40,000 |
 
 COK: 10%.
 
@@ -1249,12 +1249,12 @@ COK: 10%.
 
 **Datos:**
 
-| Dato | Máquina A | Máquina B |
-|---|---:|---:|
-| Costo inicial | 60,000 | 75,000 |
-| Costo anual | 4,000 | 1,500 |
-| Salvataje | 5,000 | 12,000 |
-| Vida útil | 8 años | 8 años |
+| Dato          | Máquina A | Máquina B |
+|---------------|----------:|----------:|
+| Costo inicial |    60,000 |    75,000 |
+| Costo anual   |     4,000 |     1,500 |
+| Salvataje     |     5,000 |    12,000 |
+| Vida útil     |    8 años |    8 años |
 
 Tasa: 13%.
 
@@ -1268,12 +1268,12 @@ Tasa: 13%.
 
 **Datos:**
 
-| Dato | Equipo A | Equipo B |
-|---|---:|---:|
-| Costo inicial | 100,000 | 130,000 |
-| Costo anual | 20,000 | 12,000 |
-| Salvataje | 10,000 | 25,000 |
-| Vida útil | 5 años | 8 años |
+| Dato          | Equipo A | Equipo B |
+|---------------|---------:|---------:|
+| Costo inicial |  100,000 |  130,000 |
+| Costo anual   |   20,000 |   12,000 |
+| Salvataje     |   10,000 |   25,000 |
+| Vida útil     |   5 años |   8 años |
 
 Tasa: 15%.
 
@@ -1287,12 +1287,12 @@ Tasa: 15%.
 
 **Datos:**
 
-| Concepto | Valor |
-|---|---:|
-| Inversión inicial | 300,000 |
-| Costo anual perpetuo | 18,000 |
-| Reparación cada 10 años | 40,000 |
-| Tasa | 20% |
+| Concepto                |   Valor |
+|-------------------------|--------:|
+| Inversión inicial       | 300,000 |
+| Costo anual perpetuo    |  18,000 |
+| Reparación cada 10 años |  40,000 |
+| Tasa                    |     20% |
 
 **Método sugerido:** Costo Capitalizado.
 

@@ -37,40 +37,40 @@ barra registro→simulación.
 
 ## Eventos de dominio
 
-| Evento | Contexto | Disparado por (comando) |
-|---|---|---|
-| `AdvisorAuthenticated` | Identity & Access | `Authenticate` |
-| `ClientRegistered` | Clients | `RegisterClient` |
-| `ClientUpdated` | Clients | `UpdateClient` |
-| `VehicleOfferRegistered` | Vehicle Offers | `RegisterVehicleOffer` |
-| `VehicleOfferUpdated` | Vehicle Offers | `UpdateVehicleOffer` |
-| `FinancingConfigured` | Credit Simulation | `ConfigureFinancing` |
-| `SimulationGenerated` | Credit Simulation | `GenerateSimulation` |
-| `ScheduleGenerated` | Credit Simulation | `GenerateSimulation` (interno) |
-| `BalloonSettled` | Credit Simulation | `GenerateSimulation` (interno) |
-| `IndicatorsCalculated` | Credit Simulation | `GenerateSimulation` (interno) |
-| `SimulationSaved` | Credit Simulation | `SaveSimulation` |
-| `SimulationReopened` | Credit Simulation | `ReopenSimulation` |
-| `SimulationReconfigured` | Credit Simulation | `ReconfigureSimulation` |
+| Evento                   | Contexto          | Disparado por (comando)        |
+|--------------------------|-------------------|--------------------------------|
+| `AdvisorAuthenticated`   | Identity & Access | `Authenticate`                 |
+| `ClientRegistered`       | Clients           | `RegisterClient`               |
+| `ClientUpdated`          | Clients           | `UpdateClient`                 |
+| `VehicleOfferRegistered` | Vehicle Offers    | `RegisterVehicleOffer`         |
+| `VehicleOfferUpdated`    | Vehicle Offers    | `UpdateVehicleOffer`           |
+| `FinancingConfigured`    | Credit Simulation | `ConfigureFinancing`           |
+| `SimulationGenerated`    | Credit Simulation | `GenerateSimulation`           |
+| `ScheduleGenerated`      | Credit Simulation | `GenerateSimulation` (interno) |
+| `BalloonSettled`         | Credit Simulation | `GenerateSimulation` (interno) |
+| `IndicatorsCalculated`   | Credit Simulation | `GenerateSimulation` (interno) |
+| `SimulationSaved`        | Credit Simulation | `SaveSimulation`               |
+| `SimulationReopened`     | Credit Simulation | `ReopenSimulation`             |
+| `SimulationReconfigured` | Credit Simulation | `ReconfigureSimulation`        |
 
 ## Comandos
 
-| Comando | Actor | Agregado destino | Evento(s) producido(s) |
-|---|---|---|---|
-| `Authenticate` | Asesor | `User` | `AdvisorAuthenticated` |
-| `RegisterClient` / `UpdateClient` | Asesor | `Client` | `ClientRegistered` / `ClientUpdated` |
-| `RegisterVehicleOffer` / `UpdateVehicleOffer` | Asesor | `VehicleOffer` | `VehicleOfferRegistered` / `VehicleOfferUpdated` |
-| `ConfigureFinancing` | Asesor | `CreditSimulation` | `FinancingConfigured` |
-| `GenerateSimulation` | Asesor | `CreditSimulation` | `SimulationGenerated`, `ScheduleGenerated`, `BalloonSettled`, `IndicatorsCalculated` |
-| `SaveSimulation` | Asesor | `CreditSimulation` | `SimulationSaved` |
-| `ReopenSimulation` / `ReconfigureSimulation` | Asesor | `CreditSimulation` | `SimulationReopened` / `SimulationReconfigured` |
+| Comando                                       | Actor  | Agregado destino   | Evento(s) producido(s)                                                               |
+|-----------------------------------------------|--------|--------------------|--------------------------------------------------------------------------------------|
+| `Authenticate`                                | Asesor | `User`             | `AdvisorAuthenticated`                                                               |
+| `RegisterClient` / `UpdateClient`             | Asesor | `Client`           | `ClientRegistered` / `ClientUpdated`                                                 |
+| `RegisterVehicleOffer` / `UpdateVehicleOffer` | Asesor | `VehicleOffer`     | `VehicleOfferRegistered` / `VehicleOfferUpdated`                                     |
+| `ConfigureFinancing`                          | Asesor | `CreditSimulation` | `FinancingConfigured`                                                                |
+| `GenerateSimulation`                          | Asesor | `CreditSimulation` | `SimulationGenerated`, `ScheduleGenerated`, `BalloonSettled`, `IndicatorsCalculated` |
+| `SaveSimulation`                              | Asesor | `CreditSimulation` | `SimulationSaved`                                                                    |
+| `ReopenSimulation` / `ReconfigureSimulation`  | Asesor | `CreditSimulation` | `SimulationReopened` / `SimulationReconfigured`                                      |
 
 ## Políticas (event → command)
 
-| Política | Naturaleza |
-|---|---|
-| Cuando `ScheduleGenerated` ⇒ calcular indicadores | **Interna al agregado**, síncrona (parte de `GenerateSimulation`). |
-| Cuando `BalloonSettled` ⇒ incluir la fila de liquidación en los flujos | **Interna**, síncrona. |
+| Política                                                               | Naturaleza                                                         |
+|------------------------------------------------------------------------|--------------------------------------------------------------------|
+| Cuando `ScheduleGenerated` ⇒ calcular indicadores                      | **Interna al agregado**, síncrona (parte de `GenerateSimulation`). |
+| Cuando `BalloonSettled` ⇒ incluir la fila de liquidación en los flujos | **Interna**, síncrona.                                             |
 
 > **Honestidad de modelado:** el motor de cálculo es **síncrono dentro de un único agregado**. No hay
 > políticas que crucen fronteras de contexto ni eventual consistency entre agregados. Documentarlo así
@@ -79,20 +79,20 @@ barra registro→simulación.
 
 ## Read models
 
-| Read model | Quién lo consulta | Para decidir |
-|---|---|---|
-| Lista de clientes | Asesor | A qué cliente asociar la operación. |
-| Lista de ofertas vehiculares | Asesor | Qué oferta financiar. |
-| Cronograma + panel de indicadores/transparencia | Asesor | Evaluar la conveniencia y mostrarla al deudor. |
-| Historial de simulaciones por cliente | Asesor | Revisar operaciones anteriores. |
+| Read model                                      | Quién lo consulta | Para decidir                                   |
+|-------------------------------------------------|-------------------|------------------------------------------------|
+| Lista de clientes                               | Asesor            | A qué cliente asociar la operación.            |
+| Lista de ofertas vehiculares                    | Asesor            | Qué oferta financiar.                          |
+| Cronograma + panel de indicadores/transparencia | Asesor            | Evaluar la conveniencia y mostrarla al deudor. |
+| Historial de simulaciones por cliente           | Asesor            | Revisar operaciones anteriores.                |
 
 ## Sistemas externos
 
-| Sistema externo | Estado en v1 |
-|---|---|
-| Tipo de cambio (FX) | **Ausente** (mono-divisa, sin conversión). |
-| Pasarela de pagos | **Ausente** (sin originación/pagos reales). |
-| Scoring crediticio | **Ausente**. |
+| Sistema externo     | Estado en v1                                |
+|---------------------|---------------------------------------------|
+| Tipo de cambio (FX) | **Ausente** (mono-divisa, sin conversión).  |
+| Pasarela de pagos   | **Ausente** (sin originación/pagos reales). |
+| Scoring crediticio  | **Ausente**.                                |
 
 > El **vacío deliberado** de sistemas externos es un hallazgo: confirma que el límite de alcance de
 > Fase 1 (sin FX, sin pagos, sin scoring) se sostiene en el modelo. IAM es interno.
@@ -101,11 +101,11 @@ barra registro→simulación.
 
 Agrupando comandos+eventos (un agregado recibe comandos y produce eventos):
 
-| Agregado | Recibe | Produce |
-|---|---|---|
-| `User` (IAM) | `Authenticate` | `AdvisorAuthenticated` |
-| `Client` | `RegisterClient`, `UpdateClient` | `ClientRegistered`, `ClientUpdated` |
-| `VehicleOffer` | `RegisterVehicleOffer`, `UpdateVehicleOffer` | `VehicleOfferRegistered`, `VehicleOfferUpdated` |
+| Agregado           | Recibe                                                                                                    | Produce                                                                                                    |
+|--------------------|-----------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------|
+| `User` (IAM)       | `Authenticate`                                                                                            | `AdvisorAuthenticated`                                                                                     |
+| `Client`           | `RegisterClient`, `UpdateClient`                                                                          | `ClientRegistered`, `ClientUpdated`                                                                        |
+| `VehicleOffer`     | `RegisterVehicleOffer`, `UpdateVehicleOffer`                                                              | `VehicleOfferRegistered`, `VehicleOfferUpdated`                                                            |
 | `CreditSimulation` | `ConfigureFinancing`, `GenerateSimulation`, `SaveSimulation`, `ReopenSimulation`, `ReconfigureSimulation` | `SimulationGenerated`, `ScheduleGenerated`, `BalloonSettled`, `IndicatorsCalculated`, `SimulationSaved`, … |
 
 `CreditSimulation` concentra configuración + cronograma + indicadores en **un solo agregado** porque el
@@ -114,12 +114,12 @@ invariante que abarca todas las filas y debe valer dentro de **una transacción*
 
 ## Contextos candidatos
 
-| Agregados | Contexto candidato | Subdominio |
-|---|---|---|
-| `User` | Identity & Access | generic |
-| `Client` | Clients | supporting |
-| `VehicleOffer` | Vehicle Offers | supporting |
-| `CreditSimulation` | Credit Simulation | **core** |
+| Agregados          | Contexto candidato | Subdominio |
+|--------------------|--------------------|------------|
+| `User`             | Identity & Access  | generic    |
+| `Client`           | Clients            | supporting |
+| `VehicleOffer`     | Vehicle Offers     | supporting |
+| `CreditSimulation` | Credit Simulation  | **core**   |
 
 El detalle (canvases, context map) está en [bounded-contexts.md](bounded-contexts.md).
 

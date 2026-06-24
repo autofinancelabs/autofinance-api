@@ -7,12 +7,12 @@
 
 ## Clasificación de subdominios
 
-| Contexto | Subdominio | Epics | Justificación (diferenciación × complejidad de modelo) |
-|---|---|---|---|
-| Identity & Access (IAM) | **generic** | E1 | Problema resuelto (login/sesión); se reusa, no se modela en profundidad. |
-| Clients | **supporting** | E2 | Necesario pero no diferencia el negocio; CRUD simple. |
-| Vehicle Offers | **supporting** | E3 | Necesario pero no diferencia; CRUD simple. |
-| **Credit Simulation** | **core** | E4, E5, E6, E7 | **La ventaja del producto**: el motor de cronograma francés+balloon, gracia, costos e indicadores SBS. Aquí va el mejor esfuerzo de modelado. |
+| Contexto                | Subdominio     | Epics          | Justificación (diferenciación × complejidad de modelo)                                                                                        |
+|-------------------------|----------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
+| Identity & Access (IAM) | **generic**    | E1             | Problema resuelto (login/sesión); se reusa, no se modela en profundidad.                                                                      |
+| Clients                 | **supporting** | E2             | Necesario pero no diferencia el negocio; CRUD simple.                                                                                         |
+| Vehicle Offers          | **supporting** | E3             | Necesario pero no diferencia; CRUD simple.                                                                                                    |
+| **Credit Simulation**   | **core**       | E4, E5, E6, E7 | **La ventaja del producto**: el motor de cronograma francés+balloon, gracia, costos e indicadores SBS. Aquí va el mejor esfuerzo de modelado. |
 
 ## Decisiones de frontera
 
@@ -35,40 +35,40 @@ Guardar/reabrir/editar y el historial por cliente es el `CreditSimulationReposit
 
 ## Bounded Context Canvas — Credit Simulation `core`
 
-| Sección | Contenido |
-|---|---|
-| **Name** | Credit Simulation (alias de negocio: Simulación de Crédito / Plan de Pagos). |
-| **Description** | Configura un financiamiento vehicular y genera su plan de pagos (método francés vencido + Compra Inteligente), con gracia y costos, calculando los indicadores de transparencia (VAN/TIR/TCEA) desde la óptica del deudor. |
-| **Strategic Classification** | Domain: **core**. Business model: **compliance enforcer** (transparencia SBS) + generador de valor operativo. Evolution: **custom build**. |
-| **Domain Roles** | Motor de cálculo ("analysis/engine"): transforma una configuración en un cronograma e indicadores. |
-| **Inbound Communication** | `ConfigureFinancing`, `GenerateSimulation`, `SaveSimulation`, `ReopenSimulation`, `ReconfigureSimulation` (del asesor). |
-| **Outbound Communication** | Queries **by-id** a Clients (validez del cliente) y a Vehicle Offers (precio de venta, moneda). |
-| **Ubiquitous Language** | Préstamo, cuota regular, cuotón, gracia T/P/S, TEA/TEP, VAN/TIR/TCEA, flujo del periodo… (ver glosario, sección Credit Simulation). |
-| **Business Decisions** | Invariantes: `initialPercentage + balloonPercentage < 1`; capitalización obligatoria si la tasa es nominal; `(totalGrace + partialGrace) < n`; moneda única; `loanAmount > 0`; el cronograma cuadra (último saldo ≈ 0). |
+| Sección                      | Contenido                                                                                                                                                                                                                  |
+|------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Name**                     | Credit Simulation (alias de negocio: Simulación de Crédito / Plan de Pagos).                                                                                                                                               |
+| **Description**              | Configura un financiamiento vehicular y genera su plan de pagos (método francés vencido + Compra Inteligente), con gracia y costos, calculando los indicadores de transparencia (VAN/TIR/TCEA) desde la óptica del deudor. |
+| **Strategic Classification** | Domain: **core**. Business model: **compliance enforcer** (transparencia SBS) + generador de valor operativo. Evolution: **custom build**.                                                                                 |
+| **Domain Roles**             | Motor de cálculo ("analysis/engine"): transforma una configuración en un cronograma e indicadores.                                                                                                                         |
+| **Inbound Communication**    | `ConfigureFinancing`, `GenerateSimulation`, `SaveSimulation`, `ReopenSimulation`, `ReconfigureSimulation` (del asesor).                                                                                                    |
+| **Outbound Communication**   | Queries **by-id** a Clients (validez del cliente) y a Vehicle Offers (precio de venta, moneda).                                                                                                                            |
+| **Ubiquitous Language**      | Préstamo, cuota regular, cuotón, gracia T/P/S, TEA/TEP, VAN/TIR/TCEA, flujo del periodo… (ver glosario, sección Credit Simulation).                                                                                        |
+| **Business Decisions**       | Invariantes: `initialPercentage + balloonPercentage < 1`; capitalización obligatoria si la tasa es nominal; `(totalGrace + partialGrace) < n`; moneda única; `loanAmount > 0`; el cronograma cuadra (último saldo ≈ 0).    |
 
 ## Bounded Context Canvas — Clients `supporting`
 
-| Sección | Contenido |
-|---|---|
-| **Name** | Clients. |
-| **Description** | Registra y mantiene los datos del cliente (deudor) que la entidad usa en sus operaciones. |
-| **Strategic Classification** | Domain: supporting. Evolution: custom/product. |
-| **Inbound** | `RegisterClient`, `UpdateClient`; queries del core (validez por ID). |
-| **Outbound** | — (no inicia colaboraciones). |
-| **Ubiquitous Language** | Cliente/Deudor, documento de identidad, datos de contacto. |
-| **Business Decisions** | Unicidad del documento de identidad; datos obligatorios mínimos. |
+| Sección                      | Contenido                                                                                 |
+|------------------------------|-------------------------------------------------------------------------------------------|
+| **Name**                     | Clients.                                                                                  |
+| **Description**              | Registra y mantiene los datos del cliente (deudor) que la entidad usa en sus operaciones. |
+| **Strategic Classification** | Domain: supporting. Evolution: custom/product.                                            |
+| **Inbound**                  | `RegisterClient`, `UpdateClient`; queries del core (validez por ID).                      |
+| **Outbound**                 | — (no inicia colaboraciones).                                                             |
+| **Ubiquitous Language**      | Cliente/Deudor, documento de identidad, datos de contacto.                                |
+| **Business Decisions**       | Unicidad del documento de identidad; datos obligatorios mínimos.                          |
 
 ## Bounded Context Canvas — Vehicle Offers `supporting`
 
-| Sección | Contenido |
-|---|---|
-| **Name** | Vehicle Offers. |
-| **Description** | Registra y mantiene la oferta vehicular (vehículo, precio de venta, condiciones) base del financiamiento. |
-| **Strategic Classification** | Domain: supporting. Evolution: custom/product. |
-| **Inbound** | `RegisterVehicleOffer`, `UpdateVehicleOffer`; queries del core (precio/moneda por ID). |
-| **Outbound** | — |
-| **Ubiquitous Language** | Oferta vehicular, vehículo, precio de venta (PV), plan. |
-| **Business Decisions** | Precio de venta `> 0`; moneda de la oferta. |
+| Sección                      | Contenido                                                                                                 |
+|------------------------------|-----------------------------------------------------------------------------------------------------------|
+| **Name**                     | Vehicle Offers.                                                                                           |
+| **Description**              | Registra y mantiene la oferta vehicular (vehículo, precio de venta, condiciones) base del financiamiento. |
+| **Strategic Classification** | Domain: supporting. Evolution: custom/product.                                                            |
+| **Inbound**                  | `RegisterVehicleOffer`, `UpdateVehicleOffer`; queries del core (precio/moneda por ID).                    |
+| **Outbound**                 | —                                                                                                         |
+| **Ubiquitous Language**      | Oferta vehicular, vehículo, precio de venta (PV), plan.                                                   |
+| **Business Decisions**       | Precio de venta `> 0`; moneda de la oferta.                                                               |
 
 ## Identity & Access (IAM) `generic`
 
@@ -95,11 +95,11 @@ flowchart LR
     VO -->|Customer/Supplier · ACL · by-id| CS
 ```
 
-| Upstream | Downstream | Patrón | Relación |
-|---|---|---|---|
-| Clients | Credit Simulation | **Customer/Supplier** + **ACL** en el core, referencia **by-id** | U/D (Clients upstream) |
-| Vehicle Offers | Credit Simulation | **Customer/Supplier** + **ACL**, referencia **by-id** | U/D (Vehicle Offers upstream) |
-| Identity & Access | Clients, Vehicle Offers, Credit Simulation | **Conformist** (sesión consumida tal cual) | U/D (IAM upstream) |
+| Upstream          | Downstream                                 | Patrón                                                           | Relación                      |
+|-------------------|--------------------------------------------|------------------------------------------------------------------|-------------------------------|
+| Clients           | Credit Simulation                          | **Customer/Supplier** + **ACL** en el core, referencia **by-id** | U/D (Clients upstream)        |
+| Vehicle Offers    | Credit Simulation                          | **Customer/Supplier** + **ACL**, referencia **by-id**            | U/D (Vehicle Offers upstream) |
+| Identity & Access | Clients, Vehicle Offers, Credit Simulation | **Conformist** (sesión consumida tal cual)                       | U/D (IAM upstream)            |
 
 Notas:
 - El core es **downstream** de Clients y Vehicle Offers, pero como **Customer** con peso: sus

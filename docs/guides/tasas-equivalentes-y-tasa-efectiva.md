@@ -23,11 +23,11 @@ $$
 
 Donde:
 
-| Símbolo | Significado |
-|---|---|
-| $TEP$ | Tasa efectiva del período |
-| $S$ | Monto o valor futuro |
-| $C$ | Capital inicial, valor actual o valor presente |
+| Símbolo | Significado                                    |
+|---------|------------------------------------------------|
+| $TEP$   | Tasa efectiva del período                      |
+| $S$     | Monto o valor futuro                           |
+| $C$     | Capital inicial, valor actual o valor presente |
 
 Si el resultado se desea expresar como porcentaje, se multiplica por 100.
 
@@ -47,11 +47,11 @@ $$
 
 Donde:
 
-| Símbolo | Significado |
-|---|---|
-| $i$ | Tasa por período de capitalización |
-| $j$ | Tasa nominal |
-| $m$ | Número de capitalizaciones dentro del período nominal |
+| Símbolo | Significado                                           |
+|---------|-------------------------------------------------------|
+| $i$     | Tasa por período de capitalización                    |
+| $j$     | Tasa nominal                                          |
+| $m$     | Número de capitalizaciones dentro del período nominal |
 
 Ejemplo:
 
@@ -81,16 +81,16 @@ La equivalencia no depende de que las tasas tengan el mismo porcentaje, sino de 
 
 En los ejemplos financieros del curso se usa normalmente el año comercial de **360 días**.
 
-| Período | Días |
-|---|---:|
-| Diario | 1 |
-| Quincenal | 15 |
-| Mensual | 30 |
-| Bimestral | 60 |
-| Trimestral | 90 |
-| Cuatrimestral | 120 |
-| Semestral | 180 |
-| Anual | 360 |
+| Período       | Días |
+|---------------|-----:|
+| Diario        |    1 |
+| Quincenal     |   15 |
+| Mensual       |   30 |
+| Bimestral     |   60 |
+| Trimestral    |   90 |
+| Cuatrimestral |  120 |
+| Semestral     |  180 |
+| Anual         |  360 |
 
 ---
 
@@ -106,12 +106,12 @@ $$
 
 Donde:
 
-| Símbolo | Significado |
-|---|---|
-| $TEP$ | Tasa efectiva del período buscado |
-| $TN$ | Tasa nominal conocida |
-| $m$ | Número de capitalizaciones dentro del período de la tasa nominal |
-| $n$ | Número de capitalizaciones dentro del período efectivo buscado |
+| Símbolo | Significado                                                      |
+|---------|------------------------------------------------------------------|
+| $TEP$   | Tasa efectiva del período buscado                                |
+| $TN$    | Tasa nominal conocida                                            |
+| $m$     | Número de capitalizaciones dentro del período de la tasa nominal |
+| $n$     | Número de capitalizaciones dentro del período efectivo buscado   |
 
 Para calcular $m$ y $n$:
 
@@ -135,12 +135,12 @@ $$
 
 Donde:
 
-| Símbolo | Significado |
-|---|---|
-| $TN$ | Tasa nominal buscada |
-| $TEP$ | Tasa efectiva conocida |
-| $m$ | Número de capitalizaciones dentro del período nominal buscado |
-| $n$ | Número de capitalizaciones dentro del período efectivo conocido |
+| Símbolo | Significado                                                     |
+|---------|-----------------------------------------------------------------|
+| $TN$    | Tasa nominal buscada                                            |
+| $TEP$   | Tasa efectiva conocida                                          |
+| $m$     | Número de capitalizaciones dentro del período nominal buscado   |
+| $n$     | Número de capitalizaciones dentro del período efectivo conocido |
 
 Para calcular $m$ y $n$:
 
@@ -164,12 +164,12 @@ $$
 
 Donde:
 
-| Símbolo | Significado |
-|---|---|
-| $TEP_1$ | Tasa efectiva conocida |
-| $TEP_2$ | Tasa efectiva buscada |
-| $n_1$ | Días o unidades de tiempo de la tasa efectiva conocida |
-| $n_2$ | Días o unidades de tiempo de la tasa efectiva buscada |
+| Símbolo | Significado                                            |
+|---------|--------------------------------------------------------|
+| $TEP_1$ | Tasa efectiva conocida                                 |
+| $TEP_2$ | Tasa efectiva buscada                                  |
+| $n_1$   | Días o unidades de tiempo de la tasa efectiva conocida |
+| $n_2$   | Días o unidades de tiempo de la tasa efectiva buscada  |
 
 Importante: $n_1$ y $n_2$ deben estar expresados en la misma unidad de tiempo. Por ejemplo, ambos en días o ambos en meses.
 
@@ -191,13 +191,13 @@ $$
 
 Donde:
 
-| Símbolo | Significado |
-|---|---|
-| $S$ | Valor futuro o monto |
-| $C$ | Capital inicial o valor actual |
-| $TEP$ | Tasa efectiva conocida |
-| N.° días trasladar | Plazo de la operación |
-| N.° días TEP | Días correspondientes a la tasa efectiva conocida |
+| Símbolo            | Significado                                       |
+|--------------------|---------------------------------------------------|
+| $S$                | Valor futuro o monto                              |
+| $C$                | Capital inicial o valor actual                    |
+| $TEP$              | Tasa efectiva conocida                            |
+| N.° días trasladar | Plazo de la operación                             |
+| N.° días TEP       | Días correspondientes a la tasa efectiva conocida |
 
 ---
 
@@ -243,11 +243,11 @@ $$
 
 Donde:
 
-| Símbolo | Significado |
-|---|---|
-| $k$ | Número de períodos de la tasa efectiva |
-| $n$ | Tiempo expresado en días |
-| $TEP$ | Tasa efectiva conocida |
+| Símbolo      | Significado                              |
+|--------------|------------------------------------------|
+| $k$          | Número de períodos de la tasa efectiva   |
+| $n$          | Tiempo expresado en días                 |
+| $TEP$        | Tasa efectiva conocida                   |
 | N.° días TEP | Días correspondientes a la tasa conocida |
 
 ---
@@ -284,16 +284,16 @@ $$
 
 ## 6. Resumen de fórmulas
 
-| Caso | Fórmula | Uso |
-|---|---|---|
-| Tasa efectiva del período | $TEP = \frac{S}{C} - 1$ | Hallar el crecimiento porcentual del capital |
-| De TN a TE | $TEP = \left(1 + \frac{TN}{m}\right)^n - 1$ | Convertir tasa nominal con capitalización en tasa efectiva |
-| De TE a TN | $TN = m[(1 + TEP)^{1/n} - 1]$ | Convertir tasa efectiva en tasa nominal con capitalización |
-| De TE a TE | $TEP_2 = (1 + TEP_1)^{n_2/n_1} - 1$ | Convertir una tasa efectiva en otra efectiva equivalente |
-| Valor futuro | $S = C(1 + TEP)^{d/D}$ | Hallar el monto final |
-| Valor presente | $C = \frac{S}{(1 + TEP)^{d/D}}$ | Hallar el valor actual de un monto futuro |
-| Tiempo | $n = \frac{\ln(S/C)}{\ln(1 + TEP)} \times D$ | Hallar el plazo en días |
-| Capital con interés deseado | $C = \frac{I}{(1 + TEP)^{d/D} - 1}$ | Hallar cuánto depositar para ganar cierto interés |
+| Caso                        | Fórmula                                      | Uso                                                        |
+|-----------------------------|----------------------------------------------|------------------------------------------------------------|
+| Tasa efectiva del período   | $TEP = \frac{S}{C} - 1$                      | Hallar el crecimiento porcentual del capital               |
+| De TN a TE                  | $TEP = \left(1 + \frac{TN}{m}\right)^n - 1$  | Convertir tasa nominal con capitalización en tasa efectiva |
+| De TE a TN                  | $TN = m[(1 + TEP)^{1/n} - 1]$                | Convertir tasa efectiva en tasa nominal con capitalización |
+| De TE a TE                  | $TEP_2 = (1 + TEP_1)^{n_2/n_1} - 1$          | Convertir una tasa efectiva en otra efectiva equivalente   |
+| Valor futuro                | $S = C(1 + TEP)^{d/D}$                       | Hallar el monto final                                      |
+| Valor presente              | $C = \frac{S}{(1 + TEP)^{d/D}}$              | Hallar el valor actual de un monto futuro                  |
+| Tiempo                      | $n = \frac{\ln(S/C)}{\ln(1 + TEP)} \times D$ | Hallar el plazo en días                                    |
+| Capital con interés deseado | $C = \frac{I}{(1 + TEP)^{d/D} - 1}$          | Hallar cuánto depositar para ganar cierto interés          |
 
 Donde $d$ es el plazo de la operación y $D$ es el número de días de la tasa efectiva conocida.
 
@@ -303,12 +303,12 @@ Donde $d$ es el plazo de la operación y $D$ es el número de días de la tasa e
 
 ### Datos
 
-| Dato | Valor |
-|---|---:|
-| Capital inicial | S/ 1,000 |
-| Tasa nominal anual | 120% |
-| Capitalización | Mensual |
-| Plazo | 3 meses |
+| Dato               |    Valor |
+|--------------------|---------:|
+| Capital inicial    | S/ 1,000 |
+| Tasa nominal anual |     120% |
+| Capitalización     |  Mensual |
+| Plazo              |  3 meses |
 
 La tasa mensual de capitalización es:
 
@@ -319,11 +319,11 @@ $$
 ### Evolución mes a mes
 
 | Mes | Capital inicial del mes | Interés del mes | Capital acumulado |
-|---:|---:|---:|---:|
-| 0 | S/ 1,000.00 | — | S/ 1,000.00 |
-| 1 | S/ 1,000.00 | S/ 100.00 | S/ 1,100.00 |
-| 2 | S/ 1,100.00 | S/ 110.00 | S/ 1,210.00 |
-| 3 | S/ 1,210.00 | S/ 121.00 | S/ 1,331.00 |
+|----:|------------------------:|----------------:|------------------:|
+|   0 |             S/ 1,000.00 |               — |       S/ 1,000.00 |
+|   1 |             S/ 1,000.00 |       S/ 100.00 |       S/ 1,100.00 |
+|   2 |             S/ 1,100.00 |       S/ 110.00 |       S/ 1,210.00 |
+|   3 |             S/ 1,210.00 |       S/ 121.00 |       S/ 1,331.00 |
 
 ### Cálculo con fórmula de tasa nominal capitalizable
 
@@ -387,13 +387,13 @@ Se deposita S/ 1,000 a una **TNA de 8% capitalizable trimestralmente**.
 
 ### Datos
 
-| Dato | Valor |
-|---|---:|
-| Capital | S/ 1,000 |
-| Tasa nominal anual | 8% |
-| Capitalización | Trimestral |
-| Plazo para TEA | 1 año |
-| Plazo para TES | 1 semestre |
+| Dato               |      Valor |
+|--------------------|-----------:|
+| Capital            |   S/ 1,000 |
+| Tasa nominal anual |         8% |
+| Capitalización     | Trimestral |
+| Plazo para TEA     |      1 año |
+| Plazo para TES     | 1 semestre |
 
 Como la capitalización es trimestral:
 
@@ -440,9 +440,9 @@ $$
 ### Resultado
 
 | Tasa buscada | Resultado |
-|---|---:|
-| TEA | 8.243216% |
-| TES | 4.04% |
+|--------------|----------:|
+| TEA          | 8.243216% |
+| TES          |     4.04% |
 
 ---
 
@@ -452,11 +452,11 @@ $$
 
 ### Datos
 
-| Dato | Valor |
-|---|---:|
-| Tasa nominal cuatrimestral | 6% |
-| Capitalización | Mensual |
-| Tasa buscada | TEA |
+| Dato                       |   Valor |
+|----------------------------|--------:|
+| Tasa nominal cuatrimestral |      6% |
+| Capitalización             | Mensual |
+| Tasa buscada               |     TEA |
 
 La tasa nominal está expresada en un cuatrimestre, es decir, 120 días. La capitalización mensual equivale a 30 días.
 
@@ -496,11 +496,11 @@ $$
 
 ### Datos
 
-| Dato | Valor |
-|---|---:|
-| Tasa nominal anual | 18% |
-| Capitalización | Quincenal |
-| Tasa buscada | TET |
+| Dato               |     Valor |
+|--------------------|----------:|
+| Tasa nominal anual |       18% |
+| Capitalización     | Quincenal |
+| Tasa buscada       |       TET |
 
 Como la capitalización es quincenal:
 
@@ -536,11 +536,11 @@ La operación rinde aproximadamente **4.59 por cada 100 invertidos en un trimest
 
 ### Datos
 
-| Dato | Valor |
-|---|---:|
-| Tasa efectiva mensual | 4% |
+| Dato                   |  Valor |
+|------------------------|-------:|
+| Tasa efectiva mensual  |     4% |
 | Capitalización buscada | Diaria |
-| Tasa nominal buscada | TNA |
+| Tasa nominal buscada   |    TNA |
 
 Para la tasa nominal anual con capitalización diaria:
 
@@ -580,11 +580,11 @@ $$
 
 ### Datos
 
-| Dato | Valor |
-|---|---:|
-| Tasa efectiva anual | 36% |
-| Tasa nominal buscada | TNS |
-| Capitalización | Bimestral |
+| Dato                 |     Valor |
+|----------------------|----------:|
+| Tasa efectiva anual  |       36% |
+| Tasa nominal buscada |       TNS |
+| Capitalización       | Bimestral |
 
 Para la tasa nominal semestral:
 
@@ -624,10 +624,10 @@ $$
 
 ### Datos
 
-| Dato | Valor |
-|---|---:|
+| Dato                   |    Valor |
+|------------------------|---------:|
 | Tasa efectiva conocida | TEM = 4% |
-| Tasa efectiva buscada | TEA |
+| Tasa efectiva buscada  |      TEA |
 
 Usamos:
 
@@ -661,10 +661,10 @@ Una **TEM de 4%** equivale a una **TEA de 60.10322186%**.
 
 ### Datos
 
-| Dato | Valor |
-|---|---:|
-| Tasa efectiva anual | 35% |
-| Tasa buscada | TE45d |
+| Dato                | Valor |
+|---------------------|------:|
+| Tasa efectiva anual |   35% |
+| Tasa buscada        | TE45d |
 
 Aplicamos:
 
@@ -692,11 +692,11 @@ Por cada S/ 100 de deuda, en 45 días se pagarían aproximadamente S/ 3.82 adici
 
 ### Datos
 
-| Dato | Valor |
-|---|---:|
-| Capital | S/ 5,000 |
-| Tasa efectiva anual | 6% |
-| Plazo | 180 días |
+| Dato                |    Valor |
+|---------------------|---------:|
+| Capital             | S/ 5,000 |
+| Tasa efectiva anual |       6% |
+| Plazo               | 180 días |
 
 Aplicamos:
 
@@ -728,9 +728,9 @@ $$
 
 ### Resultado
 
-| Concepto | Resultado |
-|---|---:|
-| Monto final | S/ 5,147.82 |
+| Concepto        |    Resultado |
+|-----------------|-------------:|
+| Monto final     |  S/ 5,147.82 |
 | TES equivalente | 2.956301409% |
 
 ---
@@ -741,11 +741,11 @@ $$
 
 ### Datos
 
-| Dato | Valor |
-|---|---:|
-| Capital | € 20,000 |
-| Tasa efectiva mensual | 0.2% |
-| Plazo | 100 días |
+| Dato                  |    Valor |
+|-----------------------|---------:|
+| Capital               | € 20,000 |
+| Tasa efectiva mensual |     0.2% |
+| Plazo                 | 100 días |
 
 Aplicamos:
 
@@ -773,11 +773,11 @@ Pedro debe pagar US$ 12,000 dentro de 45 días. La deuda fue contratada a una **
 
 ### Datos
 
-| Dato | Valor |
-|---|---:|
-| Valor futuro | US$ 12,000 |
-| Tasa efectiva anual | 15% |
-| Plazo | 45 días |
+| Dato                |      Valor |
+|---------------------|-----------:|
+| Valor futuro        | US$ 12,000 |
+| Tasa efectiva anual |        15% |
+| Plazo               |    45 días |
 
 Aplicamos:
 
@@ -815,12 +815,12 @@ $$
 
 ### Datos
 
-| Dato | Valor |
-|---|---:|
-| Capital | US$ 1,350 |
-| Monto deseado | US$ 1,475 |
-| Tasa efectiva semestral | 4% |
-| Días de la tasa | 180 días |
+| Dato                    |     Valor |
+|-------------------------|----------:|
+| Capital                 | US$ 1,350 |
+| Monto deseado           | US$ 1,475 |
+| Tasa efectiva semestral |        4% |
+| Días de la tasa         |  180 días |
 
 Aplicamos:
 
@@ -850,12 +850,12 @@ Juan presta S/ 5,000 a Pedro durante 180 días. Pedro devuelve el dinero y, como
 
 ### Datos
 
-| Dato | Valor |
-|---|---:|
-| Capital | S/ 5,000 |
-| Interés implícito | S/ 450 |
+| Dato              |    Valor |
+|-------------------|---------:|
+| Capital           | S/ 5,000 |
+| Interés implícito |   S/ 450 |
 | Monto equivalente | S/ 5,450 |
-| Plazo | 180 días |
+| Plazo             | 180 días |
 
 Aplicamos:
 
@@ -887,12 +887,12 @@ $$
 
 ### Datos
 
-| Dato | Valor |
-|---|---:|
-| Interés deseado | US$ 150 |
-| Tasa efectiva trimestral | 2% |
-| Plazo | 60 días |
-| Días de la tasa | 90 días |
+| Dato                     |   Valor |
+|--------------------------|--------:|
+| Interés deseado          | US$ 150 |
+| Tasa efectiva trimestral |      2% |
+| Plazo                    | 60 días |
+| Días de la tasa          | 90 días |
 
 Aplicamos:
 
@@ -922,34 +922,34 @@ $$
 
 ### Paso 1: Identificar qué tipo de tasa se tiene
 
-| Tasa dada | Qué significa |
-|---|---|
-| TNA, TNS, TNC, TNB, TNM | Tasa nominal |
-| TEA, TES, TET, TEM | Tasa efectiva |
+| Tasa dada                    | Qué significa                |
+|------------------------------|------------------------------|
+| TNA, TNS, TNC, TNB, TNM      | Tasa nominal                 |
+| TEA, TES, TET, TEM           | Tasa efectiva                |
 | c.d., c.q., c.m., c.b., c.t. | Frecuencia de capitalización |
 
 ### Paso 2: Identificar qué se pide
 
-| Si se pide | Usar |
-|---|---|
-| TE a partir de TN | $TEP = (1 + TN/m)^n - 1$ |
-| TN a partir de TE | $TN = m[(1 + TEP)^{1/n} - 1]$ |
-| TE de otro período | $TEP_2 = (1 + TEP_1)^{n_2/n_1} - 1$ |
-| Monto final | $S = C(1 + TEP)^{d/D}$ |
-| Valor presente | $C = S/(1 + TEP)^{d/D}$ |
-| Tiempo | $n = [\ln(S/C)/\ln(1+TEP)]D$ |
-| Capital para ganar un interés | $C = I/[(1+TEP)^{d/D}-1]$ |
+| Si se pide                    | Usar                                |
+|-------------------------------|-------------------------------------|
+| TE a partir de TN             | $TEP = (1 + TN/m)^n - 1$            |
+| TN a partir de TE             | $TN = m[(1 + TEP)^{1/n} - 1]$       |
+| TE de otro período            | $TEP_2 = (1 + TEP_1)^{n_2/n_1} - 1$ |
+| Monto final                   | $S = C(1 + TEP)^{d/D}$              |
+| Valor presente                | $C = S/(1 + TEP)^{d/D}$             |
+| Tiempo                        | $n = [\ln(S/C)/\ln(1+TEP)]D$        |
+| Capital para ganar un interés | $C = I/[(1+TEP)^{d/D}-1]$           |
 
 ### Paso 3: Convertir porcentajes a decimales
 
 En las fórmulas, las tasas deben ingresar como decimales.
 
 | Porcentaje | Decimal |
-|---|---:|
-| 6% | 0.06 |
-| 18% | 0.18 |
-| 120% | 1.20 |
-| 0.2% | 0.002 |
+|------------|--------:|
+| 6%         |    0.06 |
+| 18%        |    0.18 |
+| 120%       |    1.20 |
+| 0.2%       |   0.002 |
 
 ### Paso 4: Interpretar el resultado
 
@@ -967,14 +967,14 @@ Cada una produce un crecimiento distinto del capital.
 
 ## 22. Errores frecuentes
 
-| Error | Corrección |
-|---|---|
-| Sumar tasas efectivas de distintos períodos | Convertir usando equivalencia de tasas |
-| Confundir tasa nominal con tasa efectiva | La tasa nominal requiere conocer la capitalización |
-| Usar porcentajes sin convertir a decimales | 18% debe ingresarse como 0.18 |
-| Pensar que 10% mensual por 3 meses es 30% efectivo | Con capitalización mensual es 33.10% |
-| Comparar tasas en períodos distintos | Llevar ambas tasas al mismo período |
-| Redondear demasiado pronto | Mantener decimales hasta el resultado final |
+| Error                                              | Corrección                                         |
+|----------------------------------------------------|----------------------------------------------------|
+| Sumar tasas efectivas de distintos períodos        | Convertir usando equivalencia de tasas             |
+| Confundir tasa nominal con tasa efectiva           | La tasa nominal requiere conocer la capitalización |
+| Usar porcentajes sin convertir a decimales         | 18% debe ingresarse como 0.18                      |
+| Pensar que 10% mensual por 3 meses es 30% efectivo | Con capitalización mensual es 33.10%               |
+| Comparar tasas en períodos distintos               | Llevar ambas tasas al mismo período                |
+| Redondear demasiado pronto                         | Mantener decimales hasta el resultado final        |
 
 ---
 

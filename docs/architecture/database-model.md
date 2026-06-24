@@ -7,37 +7,37 @@
 
 ## Reglas de mapeo (DDD → JPA → PostgreSQL)
 
-| Concepto DDD | Mapeo |
-|---|---|
-| Raíz de agregado | `@Entity` → tabla; identidad `@EmbeddedId` (VO tipado) → PK `uuid`. |
-| Value object escalar | `@Embeddable` record → **columnas embebidas** en la tabla del dueño (Money = `*_amount` + `*_currency`). |
-| Referencia a otro agregado | id tipado `@Embedded` → **columna** (`client_id`) **sin FK** (frontera ACL). |
-| Colección propia del agregado | `@ElementCollection` → **tabla hija** con FK real a la raíz (`ON DELETE CASCADE`). |
-| Enum | `varchar` + `CHECK IN (...)` (`@Enumerated(STRING)`). |
+| Concepto DDD                  | Mapeo                                                                                                    |
+|-------------------------------|----------------------------------------------------------------------------------------------------------|
+| Raíz de agregado              | `@Entity` → tabla; identidad `@EmbeddedId` (VO tipado) → PK `uuid`.                                      |
+| Value object escalar          | `@Embeddable` record → **columnas embebidas** en la tabla del dueño (Money = `*_amount` + `*_currency`). |
+| Referencia a otro agregado    | id tipado `@Embedded` → **columna** (`client_id`) **sin FK** (frontera ACL).                             |
+| Colección propia del agregado | `@ElementCollection` → **tabla hija** con FK real a la raíz (`ON DELETE CASCADE`).                       |
+| Enum                          | `varchar` + `CHECK IN (...)` (`@Enumerated(STRING)`).                                                    |
 
 ## Mapeo tabla ↔ dominio
 
-| Tabla | Origen DDD | Notas |
-|---|---|---|
-| `users` | `User` (IAM, generic) | Credenciales mínimas. |
-| `clients` | `Client` (supporting) | VOs `DocumentId`, `ContactInfo` embebidos. |
-| `vehicle_offers` | `VehicleOffer` (supporting) | `Vehicle`, `SalePrice` (Money), `Plan` embebidos. |
-| `credit_simulations` | `CreditSimulation` (core, raíz) | VOs escalares embebidos; `client_id`/`vehicle_offer_id` by-id sin FK. |
-| `grace_period` | `GraceConfiguration.periods: List<GraceType>` | Tabla hija **ordenada** (`period_index`). |
-| `schedule_row` | `schedule: List<ScheduleRow>` | Tabla hija; PK `(credit_simulation_id, period)`. |
+| Tabla                | Origen DDD                                    | Notas                                                                 |
+|----------------------|-----------------------------------------------|-----------------------------------------------------------------------|
+| `users`              | `User` (IAM, generic)                         | Credenciales mínimas.                                                 |
+| `clients`            | `Client` (supporting)                         | VOs `DocumentId`, `ContactInfo` embebidos.                            |
+| `vehicle_offers`     | `VehicleOffer` (supporting)                   | `Vehicle`, `SalePrice` (Money), `Plan` embebidos.                     |
+| `credit_simulations` | `CreditSimulation` (core, raíz)               | VOs escalares embebidos; `client_id`/`vehicle_offer_id` by-id sin FK. |
+| `grace_period`       | `GraceConfiguration.periods: List<GraceType>` | Tabla hija **ordenada** (`period_index`).                             |
+| `schedule_row`       | `schedule: List<ScheduleRow>`                 | Tabla hija; PK `(credit_simulation_id, period)`.                      |
 
 ## Precisión (alineada con el diccionario de datos)
 
-| Tipo de dato | PostgreSQL |
-|---|---|
-| Money (montos de salida) | `numeric(18,2)` |
+| Tipo de dato                                     | PostgreSQL       |
+|--------------------------------------------------|------------------|
+| Money (montos de salida)                         | `numeric(18,2)`  |
 | Montos de precisión interna (`financed_balance`) | `numeric(18,12)` |
-| Tasas / `tsd` / `cok` | `numeric(18,10)` |
-| Porcentajes | `numeric(18,6)` |
-| `tcea` | `numeric(18,6)` |
-| `tir` (periodic_irr) y ecos de tasa | `numeric(18,8)` |
-| Conteos / periodos | `integer` |
-| Identidad | `uuid` |
+| Tasas / `tsd` / `cok`                            | `numeric(18,10)` |
+| Porcentajes                                      | `numeric(18,6)`  |
+| `tcea`                                           | `numeric(18,6)`  |
+| `tir` (periodic_irr) y ecos de tasa              | `numeric(18,8)`  |
+| Conteos / periodos                               | `integer`        |
+| Identidad                                        | `uuid`           |
 
 ## DDL (PostgreSQL)
 
@@ -188,12 +188,12 @@ CREATE TABLE schedule_row (
 
 ## Invariantes: base de datos vs dominio
 
-| Invariante | Dónde |
-|---|---|
-| `%CI∈[0,1)`, `%balloon∈[0,1)`, `%CI+%balloon<1`, `loan>0`, `sale>0`, `n≥1`, `frequency_days>0`, enums | **CHECK** en la base. |
-| Capitalización obligatoria si `rate_type = NOMINAL` | **Dominio** (multi-columna condicional). |
-| Moneda única en toda la operación | **Dominio** (cruza varias columnas/tablas). |
-| Cuadre del cronograma (último saldo ≈ 0; `installment = interest + amortization`) | **Dominio** (lo garantiza el motor). |
+| Invariante                                                                                            | Dónde                                       |
+|-------------------------------------------------------------------------------------------------------|---------------------------------------------|
+| `%CI∈[0,1)`, `%balloon∈[0,1)`, `%CI+%balloon<1`, `loan>0`, `sale>0`, `n≥1`, `frequency_days>0`, enums | **CHECK** en la base.                       |
+| Capitalización obligatoria si `rate_type = NOMINAL`                                                   | **Dominio** (multi-columna condicional).    |
+| Moneda única en toda la operación                                                                     | **Dominio** (cruza varias columnas/tablas). |
+| Cuadre del cronograma (último saldo ≈ 0; `installment = interest + amortization`)                     | **Dominio** (lo garantiza el motor).        |
 
 ## Diagrama ER
 

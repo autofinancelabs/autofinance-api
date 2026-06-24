@@ -19,29 +19,29 @@
 
 ## 2. Notación y convención de tiempo
 
-| Símbolo | Significado | Unidad |
-|---|---|---|
-| `PV` | Precio de venta del vehículo | dinero |
-| `%CI` | Porcentaje de cuota inicial sobre `PV` | fracción [0,1) |
-| `CI` | Cuota inicial | dinero |
-| `%cuotón` | Porcentaje de cuota final (cuotón) sobre `PV` | fracción [0,1) |
-| `cuotón` | Valor de la cuota final diferida | dinero |
-| `C` / `VA` | Préstamo o capital financiado | dinero |
-| `TNA` | Tasa nominal anual | fracción |
-| `TEA` | Tasa efectiva anual | fracción |
-| `TEP` / `TEM` | Tasa efectiva del periodo (i) | fracción |
-| `i` | Tasa efectiva del periodo usada en la cuota | fracción |
-| `j` | Tasa ajustada con desgravamen embebido (`i + TSD`) | fracción |
-| `n` | Número total de cuotas ordinarias | entero |
-| `t` | Índice de periodo (1..n) | entero |
-| `m` | Capitalizaciones por año (`360/días_capitalización`) | entero |
-| `SI_t` / `SF_t` | Saldo inicial / final del periodo `t` | dinero |
-| `I_t` / `A_t` | Interés / amortización del periodo `t` | dinero |
-| `R` | Cuota regular (constante en el tramo ordinario) | dinero |
-| `CT` | Cuota total (cuota + costos periódicos) | dinero |
-| `TSD` / `TSR` | Tasa seguro desgravamen / seguro todo riesgo | fracción |
-| `COK` | Costo de oportunidad del capital del deudor | fracción |
-| `TIR` / `TCEA` | Tasa interna de retorno / costo efectivo anual | fracción |
+| Símbolo         | Significado                                          | Unidad         |
+|-----------------|------------------------------------------------------|----------------|
+| `PV`            | Precio de venta del vehículo                         | dinero         |
+| `%CI`           | Porcentaje de cuota inicial sobre `PV`               | fracción [0,1) |
+| `CI`            | Cuota inicial                                        | dinero         |
+| `%cuotón`       | Porcentaje de cuota final (cuotón) sobre `PV`        | fracción [0,1) |
+| `cuotón`        | Valor de la cuota final diferida                     | dinero         |
+| `C` / `VA`      | Préstamo o capital financiado                        | dinero         |
+| `TNA`           | Tasa nominal anual                                   | fracción       |
+| `TEA`           | Tasa efectiva anual                                  | fracción       |
+| `TEP` / `TEM`   | Tasa efectiva del periodo (i)                        | fracción       |
+| `i`             | Tasa efectiva del periodo usada en la cuota          | fracción       |
+| `j`             | Tasa ajustada con desgravamen embebido (`i + TSD`)   | fracción       |
+| `n`             | Número total de cuotas ordinarias                    | entero         |
+| `t`             | Índice de periodo (1..n)                             | entero         |
+| `m`             | Capitalizaciones por año (`360/días_capitalización`) | entero         |
+| `SI_t` / `SF_t` | Saldo inicial / final del periodo `t`                | dinero         |
+| `I_t` / `A_t`   | Interés / amortización del periodo `t`               | dinero         |
+| `R`             | Cuota regular (constante en el tramo ordinario)      | dinero         |
+| `CT`            | Cuota total (cuota + costos periódicos)              | dinero         |
+| `TSD` / `TSR`   | Tasa seguro desgravamen / seguro todo riesgo         | fracción       |
+| `COK`           | Costo de oportunidad del capital del deudor          | fracción       |
+| `TIR` / `TCEA`  | Tasa interna de retorno / costo efectivo anual       | fracción       |
 
 Convención de días: `m = 360/días_capitalización`; al pasar de anual a periodo se usa el exponente
 `días_periodo/días_año` (p. ej. `30/360`).
@@ -57,10 +57,10 @@ TEP2 = (1 + TEP1)^(n2/n1) − 1                   (tasas equivalentes)
 
 Reglas de aplicación:
 
-| Entrada | Camino | Resultado |
-|---|---|---|
-| Tasa **nominal** (TNA + capitalización) | `TEA = (1 + TNA/m)^m − 1`, luego a TEP | requiere capitalización |
-| Tasa **efectiva** (TEA) | `TEP = (1 + TEA)^(días_periodo/días_año) − 1` | directo |
+| Entrada                                 | Camino                                        | Resultado               |
+|-----------------------------------------|-----------------------------------------------|-------------------------|
+| Tasa **nominal** (TNA + capitalización) | `TEA = (1 + TNA/m)^m − 1`, luego a TEP        | requiere capitalización |
+| Tasa **efectiva** (TEA)                 | `TEP = (1 + TEA)^(días_periodo/días_año) − 1` | directo                 |
 
 Donde `m = 360/días_capitalización` y, para el camino directo nominal,
 `n = días_periodo/días_capitalización`. El **interés simple no se usa** (fuera de alcance).
@@ -107,10 +107,10 @@ Con cuotón = 0, `VP = 0` y la fórmula se reduce al francés puro de §5.
 
 El cronograma corre **dos bloques en paralelo**:
 
-| Bloque | Comportamiento |
-|---|---|
-| Cuotón | Crece cada periodo por capitalización: `SF = SI × (1 + i)`. Se cancela en la liquidación final. |
-| Cuota regular | Aplica el método francés de §5 sobre el saldo no diferido (`C − VP`). |
+| Bloque        | Comportamiento                                                                                  |
+|---------------|-------------------------------------------------------------------------------------------------|
+| Cuotón        | Crece cada periodo por capitalización: `SF = SI × (1 + i)`. Se cancela en la liquidación final. |
+| Cuota regular | Aplica el método francés de §5 sobre el saldo no diferido (`C − VP`).                           |
 
 Tras la última cuota ordinaria se añade una **fila de liquidación del cuotón** que paga el saldo
 acumulado del bloque del cuotón.
@@ -183,14 +183,14 @@ a la tasa compensatoria porque incluye seguros y costos; es el indicador de tran
 
 ## 12. Reglas de cuadre (validación del modelo)
 
-| Regla | Criterio |
-|---|---|
-| Saldo final último | ≈ 0 (cuota regular) |
-| Composición de la cuota | `R = I_t + A_t` en periodos `S` |
-| Gracia total | el saldo sube por intereses capitalizados |
-| Gracia parcial | el saldo se mantiene |
-| Cuotón | crece a `SI × (1 + i)` y se liquida en la fila final |
-| Reproducibilidad | replicable contra el dataset D1 (Plan 36) de [datos-de-prueba.md](datos-de-prueba.md) |
+| Regla                   | Criterio                                                                              |
+|-------------------------|---------------------------------------------------------------------------------------|
+| Saldo final último      | ≈ 0 (cuota regular)                                                                   |
+| Composición de la cuota | `R = I_t + A_t` en periodos `S`                                                       |
+| Gracia total            | el saldo sube por intereses capitalizados                                             |
+| Gracia parcial          | el saldo se mantiene                                                                  |
+| Cuotón                  | crece a `SI × (1 + i)` y se liquida en la fila final                                  |
+| Reproducibilidad        | replicable contra el dataset D1 (Plan 36) de [datos-de-prueba.md](datos-de-prueba.md) |
 
 ## 13. Política de redondeo y precisión
 
@@ -203,14 +203,14 @@ a la tasa compensatoria porque incluye seguros y costos; es el indicador de tran
 
 ## 14. Mapa fórmula → historia → guía fuente
 
-| Fórmula / regla | Historia (backlog) | Guía fuente (`docs/guides/`) |
-|---|---|---|
-| Conversión de tasas (§3) | H4.2, H6.5 | tasas-equivalentes-y-tasa-efectiva, tasa-interes-compuesta-nominal |
-| Préstamo (§4) | H4.4 | planes-de-pago, metodo-frances |
-| Cuota francesa (§5) | H5.1 | metodo-frances |
-| Compra Inteligente (§6) | H5.2 | metodo-frances-compra-inteligente-balloon |
-| `j = i + TSD` (§7) | H5.6 | metodo-frances-compra-inteligente-balloon |
-| Gracia (§9) | H5.3 | planes-de-pago, metodo-frances-compra-inteligente-balloon |
-| Costos / flujo (§10) | H5.4 | planes-de-pago, metodo-frances |
-| VAN/TIR/TCEA (§11) | H6.1, H6.2, H6.3 | van-tir, indicadores-rentabilidad |
-| Reglas de cuadre (§12) | H5.5 | planes-de-pago (§16) |
+| Fórmula / regla          | Historia (backlog) | Guía fuente (`docs/guides/`)                                       |
+|--------------------------|--------------------|--------------------------------------------------------------------|
+| Conversión de tasas (§3) | H4.2, H6.5         | tasas-equivalentes-y-tasa-efectiva, tasa-interes-compuesta-nominal |
+| Préstamo (§4)            | H4.4               | planes-de-pago, metodo-frances                                     |
+| Cuota francesa (§5)      | H5.1               | metodo-frances                                                     |
+| Compra Inteligente (§6)  | H5.2               | metodo-frances-compra-inteligente-balloon                          |
+| `j = i + TSD` (§7)       | H5.6               | metodo-frances-compra-inteligente-balloon                          |
+| Gracia (§9)              | H5.3               | planes-de-pago, metodo-frances-compra-inteligente-balloon          |
+| Costos / flujo (§10)     | H5.4               | planes-de-pago, metodo-frances                                     |
+| VAN/TIR/TCEA (§11)       | H6.1, H6.2, H6.3   | van-tir, indicadores-rentabilidad                                  |
+| Reglas de cuadre (§12)   | H5.5               | planes-de-pago (§16)                                               |
