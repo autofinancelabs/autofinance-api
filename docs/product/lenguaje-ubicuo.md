@@ -3,7 +3,7 @@
 > Glosario **consolidado** del lenguaje común de AutoFinance, **organizado por bounded context** tras
 > el descubrimiento de dominio de la Fase 3. Sustituye a la semilla v1 (que agrupaba por temas A–G).
 > El detalle financiero (fórmulas) vive en `docs/design/`; el modelo táctico en
-> [domain_model.md](../ddd/domain_model.md) y [bounded_contexts.md](../ddd/bounded_contexts.md).
+> [domain-model.md](../ddd/domain-model.md) y [bounded-contexts.md](../ddd/bounded-contexts.md).
 
 ## Cómo leer este glosario
 
@@ -129,7 +129,7 @@ Contexto núcleo. Incluye configuración del financiamiento, motor de cronograma
 
 > **Indicadores como servicio de dominio:** VAN/TIR/TCEA no forman un contexto aparte; se calculan en
 > el core mediante el servicio de dominio `IndicatorsCalculator`. Ver
-> [bounded_contexts.md](../ddd/bounded_contexts.md).
+> [bounded-contexts.md](../ddd/bounded-contexts.md).
 
 ---
 
@@ -144,6 +144,6 @@ Contexto núcleo. Incluye configuración del financiamiento, motor de cronograma
 ## Relación con la semilla (v1)
 
 Este documento **consolida y reemplaza** la semilla v1 (agrupada por temas A–G). Mantiene la misma
-ruta para no romper los enlaces de [about.md](about.md), [segmentos_objetivo.md](segmentos_objetivo.md)
-y [product_backlog.md](product_backlog.md). Es la fuente vigente del lenguaje ubicuo para la Fase 3 en
+ruta para no romper los enlaces de [about.md](about.md), [segmentos-objetivo.md](segmentos-objetivo.md)
+y [product-backlog.md](product-backlog.md). Es la fuente vigente del lenguaje ubicuo para la Fase 3 en
 adelante.

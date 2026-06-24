@@ -3,9 +3,9 @@
 > Modelo de dominio **táctico** del contexto core **Credit Simulation**: agregado, entidades, value
 > objects, servicios de dominio, repositorio, factory y eventos, cada uno justificado con el árbol de
 > decisión del skill `ddd-playbook`. Las fórmulas viven en
-> [marco_conceptual_formulas.md](../design/marco_conceptual_formulas.md) y los tipos/restricciones en
-> [analisis_de_datos.md](../design/analisis_de_datos.md); aquí se modela el **dominio**. Diagrama de
-> clases: [credit_simulation_class_diagram.puml](../diagrams/credit_simulation_class_diagram.puml).
+> [marco-conceptual-formulas.md](../design/marco-conceptual-formulas.md) y los tipos/restricciones en
+> [analisis-de-datos.md](../design/analisis-de-datos.md); aquí se modela el **dominio**. Diagrama de
+> clases: [credit-simulation-class-diagram.puml](../diagrams/credit-simulation-class-diagram.puml).
 
 ## Alcance
 
@@ -127,7 +127,7 @@ dominio.
 ## Nota IAM `generic`
 
 Sin modelado táctico: `User` (email/username, password) + sesión, vía proveedor (p. ej. Spring
-Security). Conformist. Ver [bounded_contexts.md](bounded_contexts.md).
+Security). Conformist. Ver [bounded-contexts.md](bounded-contexts.md).
 
 ## Mapa a las 4 capas (sin código)
 

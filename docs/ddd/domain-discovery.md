@@ -3,8 +3,8 @@
 > Descubrimiento del dominio con **EventStorming ligero** (eventos, comandos, políticas, read models,
 > sistemas externos), agrupación en agregados, y un **Domain Message Flow** del escenario "generate
 > simulation". Eventos en pasado, comandos en imperativo; identificadores del modelo en inglés.
-> Insumo de [bounded_contexts.md](bounded_contexts.md) y [domain_model.md](domain_model.md).
-> Vocabulario: [lenguaje_ubicuo.md](../product/lenguaje_ubicuo.md).
+> Insumo de [bounded-contexts.md](bounded-contexts.md) y [domain-model.md](domain-model.md).
+> Vocabulario: [lenguaje-ubicuo.md](../product/lenguaje-ubicuo.md).
 
 ## Método
 
@@ -75,7 +75,7 @@ barra registro→simulación.
 > **Honestidad de modelado:** el motor de cálculo es **síncrono dentro de un único agregado**. No hay
 > políticas que crucen fronteras de contexto ni eventual consistency entre agregados. Documentarlo así
 > evita introducir domain events innecesarios (anti-patrón). Ver
-> [domain_model.md](domain_model.md#domain-events).
+> [domain-model.md](domain-model.md#domain-events).
 
 ## Read models
 
@@ -121,7 +121,7 @@ invariante que abarca todas las filas y debe valer dentro de **una transacción*
 | `VehicleOffer` | Vehicle Offers | supporting |
 | `CreditSimulation` | Credit Simulation | **core** |
 
-El detalle (canvases, context map) está en [bounded_contexts.md](bounded_contexts.md).
+El detalle (canvases, context map) está en [bounded-contexts.md](bounded-contexts.md).
 
 ## Domain Message Flow — escenario "generate simulation"
 

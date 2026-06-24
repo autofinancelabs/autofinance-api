@@ -253,7 +253,7 @@ La función `VNA` descuenta solo los flujos futuros. Por eso la inversión del p
 | VAN < 0 | El proyecto no cubre la rentabilidad exigida. | Rechazar. |
 | VAN = 0 | El proyecto iguala exactamente la rentabilidad exigida. | Aceptar, postergar o quedar indiferente según el contexto. |
 
-> **Nota — préstamos desde la perspectiva del deudor:** en este sistema el VAN también se aplica a un préstamo visto por el deudor, donde el préstamo recibido es una **entrada** en el período 0 y las cuotas son **salidas**. En ese caso `VAN = Préstamo − Σ Cuota_t / (1 + COK)^t`, y **VAN > 0 significa que el préstamo es barato** frente al COK (conviene endeudarse), interpretación opuesta a la de un proyecto de inversión. Ver `van_tir.md` (§7) y `metodo_frances.md`.
+> **Nota — préstamos desde la perspectiva del deudor:** en este sistema el VAN también se aplica a un préstamo visto por el deudor, donde el préstamo recibido es una **entrada** en el período 0 y las cuotas son **salidas**. En ese caso `VAN = Préstamo − Σ Cuota_t / (1 + COK)^t`, y **VAN > 0 significa que el préstamo es barato** frente al COK (conviene endeudarse), interpretación opuesta a la de un proyecto de inversión. Ver `van-tir.md` (§7) y `metodo-frances.md`.
 
 ### 5.5 Ventajas y desventajas
 

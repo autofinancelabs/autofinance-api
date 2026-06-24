@@ -2,8 +2,8 @@
 
 > Modelo matemático que implementa el motor de cálculo de AutoFinance. Es el **contrato** entre el
 > material de referencia (`docs/guides/`) y el código: selecciona y congela las fórmulas exactas del
-> producto v1. El vocabulario es el de [lenguaje_ubicuo.md](../product/lenguaje_ubicuo.md); el
-> diccionario de variables está en [analisis_de_datos.md](analisis_de_datos.md) y la secuencia de
+> producto v1. El vocabulario es el de [lenguaje-ubicuo.md](../product/lenguaje-ubicuo.md); el
+> diccionario de variables está en [analisis-de-datos.md](analisis-de-datos.md) y la secuencia de
 > cálculo en [algoritmo.md](algoritmo.md).
 
 ## 1. Alcance y supuestos del modelo
@@ -190,7 +190,7 @@ a la tasa compensatoria porque incluye seguros y costos; es el indicador de tran
 | Gracia total | el saldo sube por intereses capitalizados |
 | Gracia parcial | el saldo se mantiene |
 | Cuotón | crece a `SI × (1 + i)` y se liquida en la fila final |
-| Reproducibilidad | replicable contra el dataset D1 (Plan 36) de [datos_de_prueba.md](datos_de_prueba.md) |
+| Reproducibilidad | replicable contra el dataset D1 (Plan 36) de [datos-de-prueba.md](datos-de-prueba.md) |
 
 ## 13. Política de redondeo y precisión
 
@@ -205,12 +205,12 @@ a la tasa compensatoria porque incluye seguros y costos; es el indicador de tran
 
 | Fórmula / regla | Historia (backlog) | Guía fuente (`docs/guides/`) |
 |---|---|---|
-| Conversión de tasas (§3) | H4.2, H6.5 | tasas_equivalentes_y_tasa_efectiva, tasa_interes_compuesta_nominal |
-| Préstamo (§4) | H4.4 | planes_de_pago, metodo_frances |
-| Cuota francesa (§5) | H5.1 | metodo_frances |
-| Compra Inteligente (§6) | H5.2 | metodo_frances_compra_inteligente_balloon |
-| `j = i + TSD` (§7) | H5.6 | metodo_frances_compra_inteligente_balloon |
-| Gracia (§9) | H5.3 | planes_de_pago, metodo_frances_compra_inteligente_balloon |
-| Costos / flujo (§10) | H5.4 | planes_de_pago, metodo_frances |
-| VAN/TIR/TCEA (§11) | H6.1, H6.2, H6.3 | van_tir, indicadores_rentabilidad |
-| Reglas de cuadre (§12) | H5.5 | planes_de_pago (§16) |
+| Conversión de tasas (§3) | H4.2, H6.5 | tasas-equivalentes-y-tasa-efectiva, tasa-interes-compuesta-nominal |
+| Préstamo (§4) | H4.4 | planes-de-pago, metodo-frances |
+| Cuota francesa (§5) | H5.1 | metodo-frances |
+| Compra Inteligente (§6) | H5.2 | metodo-frances-compra-inteligente-balloon |
+| `j = i + TSD` (§7) | H5.6 | metodo-frances-compra-inteligente-balloon |
+| Gracia (§9) | H5.3 | planes-de-pago, metodo-frances-compra-inteligente-balloon |
+| Costos / flujo (§10) | H5.4 | planes-de-pago, metodo-frances |
+| VAN/TIR/TCEA (§11) | H6.1, H6.2, H6.3 | van-tir, indicadores-rentabilidad |
+| Reglas de cuadre (§12) | H5.5 | planes-de-pago (§16) |

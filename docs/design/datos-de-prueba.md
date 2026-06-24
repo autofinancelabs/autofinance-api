@@ -1,8 +1,8 @@
 # Diseño de datos de prueba (golden datasets)
 
 > Conjuntos de datos dorados (entrada → salida esperada) para **comprobar la veracidad** del motor.
-> Los nombres de campo son los de [analisis_de_datos.md](analisis_de_datos.md); las fórmulas, las de
-> [marco_conceptual_formulas.md](marco_conceptual_formulas.md). Valores tomados de los ejemplos
+> Los nombres de campo son los de [analisis-de-datos.md](analisis-de-datos.md); las fórmulas, las de
+> [marco-conceptual-formulas.md](marco-conceptual-formulas.md). Valores tomados de los ejemplos
 > resueltos de `docs/guides/`.
 
 ## 1. Propósito y criterio de aceptación
@@ -29,7 +29,7 @@ Tres bloques: (a) **entradas**, (b) **valores intermedios esperados**, (c) **cro
 | Tasas | ±1×10⁻⁶ |
 | Cuota / indicadores derivados de tasas redondeadas | hasta ±1.00 si la fuente usó una tasa redondeada (ver nota de D2) |
 
-La política de redondeo del motor es la de [analisis_de_datos.md](analisis_de_datos.md) §3 (decimales
+La política de redondeo del motor es la de [analisis-de-datos.md](analisis-de-datos.md) §3 (decimales
 internos altos, redondeo solo al mostrar). Diferencias mayores a la tolerancia señalan un error del
 motor o un artefacto conocido de la fuente.
 
@@ -37,7 +37,7 @@ motor o un artefacto conocido de la fuente.
 
 ## 4. Dataset D1 — Plan 36 Compra Inteligente (PEN, CORE)
 
-Fuente: `docs/guides/metodo_frances_compra_inteligente_balloon.md`.
+Fuente: `docs/guides/metodo-frances-compra-inteligente-balloon.md`.
 
 > **Notas de fidelidad (importante):**
 > 1. Este ejemplo usa la **variante de desgravamen embebido** (`j = i + TSD`, marco §7): la cuota
@@ -156,7 +156,7 @@ Fuente: `docs/guides/metodo_frances_compra_inteligente_balloon.md`.
 
 ## 5. Dataset D2 — Francés vehicular simple (PEN, indicadores limpios)
 
-Fuente: `docs/guides/metodo_frances.md` (vehículo a 3 meses). Sin balloon, sin gracia, sin costos:
+Fuente: `docs/guides/metodo-frances.md` (vehículo a 3 meses). Sin balloon, sin gracia, sin costos:
 aísla la cuota francesa y los indicadores. Verificable a mano.
 
 > Nota de redondeo: la fuente reporta la cuota con la TEM redondeada (0.72%), por lo que el motor a
@@ -206,7 +206,7 @@ aísla la cuota francesa y los indicadores. Verificable a mano.
 
 ## 6. Dataset D3 — 60 meses con gracia y costos, VAN negativo (PEN)
 
-Fuente: `docs/guides/metodo_frances.md` (operación integral). Sin balloon, con **3 periodos de gracia
+Fuente: `docs/guides/metodo-frances.md` (operación integral). Sin balloon, con **3 periodos de gracia
 total**, costos completos y desgravamen **separado** (no embebido): valida el camino general del
 algoritmo con un **VAN < 0**.
 

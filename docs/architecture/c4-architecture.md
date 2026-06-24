@@ -2,9 +2,9 @@
 
 > Vista de arquitectura del sistema en el modelo **C4** (contexto → contenedores → componentes). La
 > fuente renderizable es [workspace.dsl](workspace.dsl) (Structurizr DSL); este documento la explica.
-> Se apoya en [bounded_contexts.md](../ddd/bounded_contexts.md) y
-> [domain_model.md](../ddd/domain_model.md). El nivel de código (clases) ya está en
-> [credit_simulation_class_diagram.puml](../diagrams/credit_simulation_class_diagram.puml).
+> Se apoya en [bounded-contexts.md](../ddd/bounded-contexts.md) y
+> [domain-model.md](../ddd/domain-model.md). El nivel de código (clases) ya está en
+> [credit-simulation-class-diagram.puml](../diagrams/credit-simulation-class-diagram.puml).
 
 ## Cómo renderizar
 
@@ -64,7 +64,7 @@ dominio no depende de nada externo.
 
 - **`IndicatorsCalculator` es un componente del core, no un contenedor/contexto aparte:** VAN/TIR/TCEA
   se calculan sobre los flujos del mismo agregado, en la misma transacción. Coincide con la decisión de
-  [bounded_contexts.md](../ddd/bounded_contexts.md) (Indicators = servicio de dominio).
+  [bounded-contexts.md](../ddd/bounded-contexts.md) (Indicators = servicio de dominio).
 - **Las flechas del core a Clients y Vehicle Offers son ACL by-id** (tag `acl`, punteadas): el core solo
   pasa `ClientId`/`VehicleOfferId` y recibe datos mínimos (precio, moneda, validez); no importa sus
   modelos. Refleja el patrón Customer/Supplier + ACL del context map.
@@ -72,7 +72,7 @@ dominio no depende de nada externo.
   `Identity & Access` solo media con el proveedor.
 - **Persistencia en infraestructura:** el `CreditSimulationRepository` es un *port* del dominio; su
   implementación JPA vive en infrastructure y habla con la base PostgreSQL. El esquema está en
-  [database_model.md](database_model.md).
+  [database-model.md](database-model.md).
 
 ## Tags y estilos
 

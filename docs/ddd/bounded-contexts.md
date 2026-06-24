@@ -2,8 +2,8 @@
 
 > Decomposición estratégica: clasificación de subdominios, un **Bounded Context Canvas** por contexto
 > y el **context map** con sus patrones de integración y relaciones de equipo (U/D). Basado en
-> [domain_discovery.md](domain_discovery.md). Vocabulario en
-> [lenguaje_ubicuo.md](../product/lenguaje_ubicuo.md).
+> [domain-discovery.md](domain-discovery.md). Vocabulario en
+> [lenguaje-ubicuo.md](../product/lenguaje-ubicuo.md).
 
 ## Clasificación de subdominios
 

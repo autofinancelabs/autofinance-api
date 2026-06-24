@@ -3,8 +3,8 @@
 > Diccionario de datos del motor de cálculo: **datos de entrada, intermedios y de salida**, con tipo,
 > precisión, formato, valor por defecto y restricciones, orientado a Java 25 / Spring / PostgreSQL.
 > Las fórmulas que relacionan estos datos están en
-> [marco_conceptual_formulas.md](marco_conceptual_formulas.md); el vocabulario en
-> [lenguaje_ubicuo.md](../product/lenguaje_ubicuo.md).
+> [marco-conceptual-formulas.md](marco-conceptual-formulas.md); el vocabulario en
+> [lenguaje-ubicuo.md](../product/lenguaje-ubicuo.md).
 
 ## 1. Cómo leer el diccionario
 
@@ -178,5 +178,5 @@ Restricción de cruce: `porcentajeCuotaInicial + porcentajeCuotaFinal < 1`.
 | `van` / `tirPeriodo` / `tcea` | §11 | VAN / TIR / TCEA |
 
 > **Nota:** `VP del cuotón` y `factor de descuento` aún no figuran en
-> [lenguaje_ubicuo.md](../product/lenguaje_ubicuo.md); el glosario es "semilla" y conviene añadirlos
+> [lenguaje-ubicuo.md](../product/lenguaje-ubicuo.md); el glosario es "semilla" y conviene añadirlos
 > en su próxima iteración.
