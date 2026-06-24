@@ -1,0 +1,200 @@
+@startuml credit_simulation_class_diagram
+title Credit Simulation - Domain Model (core)
+
+' DDD stereotypes: «aggregate root», «value object», «domain service»,
+' «repository», «factory», enumerations as `enum`.
+' Business glossary <-> model mapping: docs/product/lenguaje_ubicuo.md
+
+skinparam classAttributeIconSize 0
+
+class CreditSimulation <<aggregate root>> {
+  - id : SimulationId
+  - clientId : ClientId
+  - vehicleOfferId : VehicleOfferId
+  - salePrice : Money
+  - rate : Rate
+  - initialPercentage : Percentage
+  - balloonPercentage : Percentage
+  - term : Term
+  - grace : GraceConfiguration
+  - initialCosts : InitialCosts
+  - periodicCosts : PeriodicCosts
+  - costOfCapital : Rate
+  - loanAmount : Money
+  - financedBalance : Money
+  - schedule : List<ScheduleRow>
+  - indicators : Indicators
+  - state : SimulationState
+  + configureFinancing(...) : void
+  + generate() : void
+  + reconfigure(...) : void
+}
+
+class ScheduleRow <<value object>> {
+  - period : int
+  - graceType : GraceType
+  - openingBalance : Money
+  - interest : Money
+  - installment : Money
+  - amortization : Money
+  - closingBalance : Money
+  - cashFlow : Money
+}
+
+class Money <<value object>> {
+  - amount : BigDecimal
+  - currency : Currency
+  + add(Money) : Money
+  + multiply(BigDecimal) : Money
+}
+
+class Rate <<value object>> {
+  - value : BigDecimal
+  - type : RateType
+  - capitalization : Capitalization
+  + toEffectiveAnnual() : Rate
+  + toPeriodicRate(frequencyDays, daysPerYear) : Rate
+}
+
+class Percentage <<value object>> {
+  - value : BigDecimal
+}
+
+class Term <<value object>> {
+  - numberOfInstallments : int
+  - frequencyDays : int
+  - installmentsPerYear : int
+}
+
+class GraceConfiguration <<value object>> {
+  - periods : List<GraceType>
+  + totalCount() : int
+  + partialCount() : int
+}
+
+class InitialCosts <<value object>> {
+  - notary : Money
+  - registry : Money
+  - appraisal : Money
+  - fees : Money
+  + total() : Money
+}
+
+class PeriodicCosts <<value object>> {
+  - creditLifeInsuranceRate : BigDecimal
+  - allRiskInsurance : Money
+  - gps : Money
+  - shippingFees : Money
+  - adminFees : Money
+}
+
+class Indicators <<value object>> {
+  - npv : Money
+  - periodicIrr : BigDecimal
+  - tcea : BigDecimal
+  - effectiveAnnualRate : BigDecimal
+  - periodicRate : BigDecimal
+  - periodicCostOfCapital : BigDecimal
+}
+
+class DiscountFactor <<value object>> {
+  - period : int
+  - value : BigDecimal
+}
+
+class BalloonPresentValue <<value object>> {
+  - value : Money
+}
+
+class ClientId <<value object>> {
+  - value : UUID
+}
+
+class VehicleOfferId <<value object>> {
+  - value : UUID
+}
+
+enum Currency {
+  PEN
+  USD
+}
+
+enum RateType {
+  NOMINAL
+  EFFECTIVE
+}
+
+enum GraceType {
+  NONE
+  TOTAL
+  PARTIAL
+}
+
+enum Capitalization {
+  DAILY
+  MONTHLY
+  QUARTERLY
+  SEMIANNUAL
+  ANNUAL
+}
+
+enum SimulationState {
+  DRAFT
+  CONFIGURED
+  GENERATED
+  SAVED
+  REOPENED
+}
+
+interface CreditSimulationRepository <<repository>> {
+  + save(CreditSimulation) : void
+  + findById(SimulationId) : CreditSimulation
+  + findByClientId(ClientId) : List<CreditSimulation>
+}
+
+class CreditSimulationFactory <<factory>> {
+  + create(configuration) : CreditSimulation
+}
+
+class ScheduleCalculator <<domain service>> {
+  + build(simulation) : List<ScheduleRow>
+}
+
+class IndicatorsCalculator <<domain service>> {
+  + evaluate(loanAmount, cashFlows, periodicCostOfCapital, installmentsPerYear) : Indicators
+}
+
+' Composition: the aggregate owns its rows
+CreditSimulation "1" *-- "1..*" ScheduleRow
+
+' Aggregate uses these value objects
+CreditSimulation --> Money
+CreditSimulation --> Rate
+CreditSimulation --> Percentage
+CreditSimulation --> Term
+CreditSimulation --> GraceConfiguration
+CreditSimulation --> InitialCosts
+CreditSimulation --> PeriodicCosts
+CreditSimulation --> Indicators
+CreditSimulation --> BalloonPresentValue
+CreditSimulation --> SimulationState
+
+' Cross-aggregate references: BY ID ONLY (Anti-Corruption Layer)
+CreditSimulation ..> ClientId
+CreditSimulation ..> VehicleOfferId
+
+' Value object internals
+Money --> Currency
+Rate --> RateType
+Rate --> Capitalization
+GraceConfiguration --> GraceType
+ScheduleRow --> GraceType
+Indicators ..> DiscountFactor
+
+' Services / repository / factory operate on the aggregate
+ScheduleCalculator ..> CreditSimulation
+IndicatorsCalculator ..> Indicators
+CreditSimulationFactory ..> CreditSimulation
+CreditSimulationRepository ..> CreditSimulation
+
+@enduml

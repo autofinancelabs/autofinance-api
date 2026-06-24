@@ -1,118 +1,149 @@
-# Lenguaje ubicuo (v1)
+# Lenguaje ubicuo (v2 — consolidado por contexto)
 
-> Glosario **semilla** del lenguaje común de AutoFinance. Es la fuente de la grafía y el
-> significado de los términos usados en [about.md](about.md),
-> [segmentos_objetivo.md](segmentos_objetivo.md) y [product_backlog.md](product_backlog.md).
-> Evolucionará en las fases de DDD estratégico/táctico.
+> Glosario **consolidado** del lenguaje común de AutoFinance, **organizado por bounded context** tras
+> el descubrimiento de dominio de la Fase 3. Sustituye a la semilla v1 (que agrupaba por temas A–G).
+> El detalle financiero (fórmulas) vive en `docs/design/`; el modelo táctico en
+> [domain_model.md](../ddd/domain_model.md) y [bounded_contexts.md](../ddd/bounded_contexts.md).
 
 ## Cómo leer este glosario
 
-- Cada término trae una **definición breve** y, cuando aplica, el **contexto/agregado** donde
-  probablemente vivirá. Esa asignación es tentativa (semilla), no definitiva.
-- **Detalle financiero completo** (fórmulas, ejemplos, derivaciones) vive en `docs/guides/`; aquí
-  solo se fija el significado de negocio.
-- **Nota de naming:** el término `Usuario` pertenece al futuro contexto de **IAM**
-  (autenticación/autorización), **no** se usa como persona en el resto de documentos. La persona
-  operativa es el **asesor de crédito**.
+- **El lenguaje ubicuo de negocio es español** (términos peruanos del crédito vehicular). **Los
+  identificadores del modelo y del código son inglés** (clases, value objects, servicios). Este
+  glosario es el **puente**: columna *Término* (negocio) ↔ columna *Modelo* (identificador en inglés).
+- Cada término se lista bajo el **contexto** al que pertenece. Donde un término no corresponde a una
+  clase, la columna *Modelo* va con `—`.
+- **Nota de naming (IAM):** el término `User` pertenece al contexto genérico de **Identity & Access**.
+  **No** se usa "usuario" como la persona del negocio; la persona operativa es el **asesor de crédito**.
 
-## Grupo A — Acceso / Identidad `generic (IAM)`
+## Mapa de cambios v1 → v2
 
-| Término | Definición |
+| Cambio | Detalle |
 |---|---|
-| Usuario | Identidad de acceso al sistema (concepto de IAM). Reservado para el contexto de autenticación; no se usa como sinónimo de asesor. |
-| Credenciales | Usuario y contraseña con los que se autentica el acceso. |
-| Login | Acción de autenticarse para obtener una sesión. |
-| Sesión | Estado autenticado que habilita operar los endpoints de negocio. |
-| Asesor de crédito | Rol operativo de la entidad financiera que opera el sistema (registra, configura, simula). |
+| Reorganización | De grupos temáticos A–G a **secciones por bounded context**. |
+| Términos nuevos (Fase 2) | `BalloonPresentValue` (VP del cuotón), `DiscountFactor` (factor de descuento), liquidación del cuotón, saldo a financiar (`financedBalance`), COK del periodo (`periodicCostOfCapital`), eco de tasas. |
+| Puente de idioma | Se añade la columna *Modelo* (identificador en inglés) a cada término modelable. |
+| Sin cambios | Guarda de naming IAM; términos retirados (B/C, PRD…) siguen fuera del producto. |
 
-## Grupo B — Cliente y oferta vehicular `supporting`
+---
 
-| Término | Definición |
-|---|---|
-| Entidad financiera | Organización (banco, financiera, concesionaria) que ofrece el crédito; perspectiva del sistema. |
-| Cliente / Deudor | Persona que adquiere el vehículo y asume el crédito; **beneficiario final**, no opera el sistema. |
-| Oferta vehicular | Conjunto de características del vehículo y su precio que sirven de base al financiamiento. |
-| Vehículo | Bien financiado. |
-| Precio de venta (PV) | Valor del vehículo; base para la cuota inicial y el cuotón. |
-| Plan | Configuración estándar de plazo/condiciones (p. ej. Plan 36 = 36 cuotas). |
+## Identity & Access (IAM) `generic`
 
-## Grupo C — Configuración del crédito `core (config)`
-
-| Término | Definición |
-|---|---|
-| Moneda | Divisa única de la operación: Soles (PEN) o Dólares (USD). Sin conversión (mono-divisa). |
-| Tasa nominal anual (TNA) | Tasa nominal que requiere indicar su capitalización para volverse efectiva. |
-| Capitalización | Frecuencia con que la tasa nominal capitaliza (p. ej. diaria, mensual). Obligatoria si la tasa es nominal. |
-| Tasa efectiva anual (TEA) | Tasa efectiva en base anual. |
-| Tasa efectiva del periodo (TEP) | Tasa efectiva ajustada a la frecuencia de pago: `TEP = (1 + TEA)^(días periodo/días año) − 1`. |
-| Tasa efectiva mensual (TEM) | Caso de TEP cuando el periodo es mensual. |
-| Tasas equivalentes | Tasas que, en distintas frecuencias, producen el mismo rendimiento efectivo. |
-| Cuota inicial (CI) | Pago adelantado del comprador; `CI = PV × % cuota inicial`. |
-| % cuota inicial | Porcentaje del precio de venta aportado como cuota inicial. |
-| Cuota final / Cuotón / Valor residual (balloon) | Parte del valor diferida al final de la operación; `cuotón = PV × % cuota final`. |
-| % cuota final | Porcentaje del precio de venta diferido como cuotón. |
-| Plazo (n) | Número total de cuotas/periodos del cronograma. |
-| Frecuencia de pago | Cada cuántos días se paga (p. ej. cada 30 días). |
-| Convención 30/360 | Meses de 30 días y año de 360 días, propios del método francés vencido ordinario. |
-
-## Grupo D — Gracia `core`
-
-| Término | Definición |
-|---|---|
-| Periodo de gracia | Periodo en que se difiere total o parcialmente el pago, definido al inicio. |
-| Gracia total (`T`) | No se paga cuota ni se amortiza; el interés se capitaliza y el saldo sube. |
-| Gracia parcial (`P`) | Se pagan solo intereses; no se amortiza; el saldo se mantiene. |
-| Sin gracia (`S`) | Periodo normal: se paga la cuota según el método. |
-
-## Grupo E — Cronograma / motor francés-balloon `core (agregado Plan de Pagos)`
-
-| Término | Definición |
-|---|---|
-| Plan de pagos / Cronograma | Tabla que muestra, por periodo, cómo se cancela la deuda (interés, amortización, saldo). |
-| Método francés vencido ordinario | Sistema de amortización de **cuota constante** en el tramo ordinario, con pago al vencimiento del periodo. |
-| Compra Inteligente | Modalidad de financiamiento francés que difiere parte del capital como cuotón (balloon), reduciendo la cuota periódica. |
-| Préstamo / Capital financiado (C / VA) | Monto financiado: `PV − cuota inicial + costos iniciales financiados`. |
-| Saldo inicial | Saldo de la deuda al comenzar el periodo; base del interés. |
-| Saldo final | Saldo tras el pago o la capitalización del periodo. |
-| Interés | Costo financiero del periodo: `saldo inicial × TEP`. |
-| Amortización | Parte de la cuota que reduce el capital: `cuota − interés`. |
-| Cuota / Cuota regular | Pago periódico constante del tramo ordinario (método francés). |
-| Cuota del préstamo | Componente financiero del pago: `interés + amortización`. |
-| Cuota total | Pago completo del periodo: cuota del préstamo + costos periódicos. |
-| Liquidación del cuotón | Pago final que cancela la cuota balloon diferida. |
-
-## Grupo F — Costos y seguros `core (parte del flujo)`
-
-| Término | Definición |
-|---|---|
-| Costos iniciales | Gastos de formalización (notariales, registrales, tasación, comisiones); pueden financiarse en el préstamo. |
-| Costos periódicos | Pagos que acompañan la cuota y no amortizan capital; se pagan también en gracia. |
-| Seguro de desgravamen (TSD) | Seguro que cubre la deuda ante fallecimiento/invalidez; se calcula sobre el saldo. |
-| Seguro contra todo riesgo (TSR) | Seguro del bien; suele calcularse sobre el precio del vehículo. |
-| GPS | Costo periódico del dispositivo de rastreo. |
-| Portes | Costo periódico administrativo de envío/gestión. |
-| Gastos administrativos | Otros cobros administrativos del periodo. |
-| Flujo total / Flujo de caja del periodo | Lo que realmente paga el deudor: `cuota + desgravamen + riesgo + GPS + portes + gastos administrativos`. |
-
-## Grupo G — Indicadores y transparencia `core (servicio de dominio)`
-
-| Término | Definición |
-|---|---|
-| VAN | Valor Actual Neto desde la óptica del deudor: `Préstamo + Σ Flujo_t/(1+COK)^t`. |
-| TIR | Tasa Interna de Retorno: tasa que hace el VAN = 0 (periódica; se anualiza). |
-| COK | Costo de Oportunidad del Capital del deudor; tasa de descuento. |
-| TCEA | Tasa de Costo Efectivo Anual: `(1 + TIR periódica)^(periodos por año) − 1`. |
-| Norma de transparencia SBS | Marco peruano que exige informar el costo real del crédito (TCEA y desglose de seguros/costos). |
-| B/C, PRD, VAC, CAUE | **Referencia teórica** del material de indicadores; **no** forman parte del producto v1. |
-
-## Bounded contexts candidatos
-
-Mapa tentativo que liga los grupos a contextos (se refinará en la fase de DDD estratégico):
-
-| Contexto candidato | Subdominio | Grupos / términos principales |
+| Término | Modelo | Definición |
 |---|---|---|
-| Acceso / IAM | generic | A (Usuario, credenciales, login, sesión) |
-| Clientes | supporting | B (cliente/deudor) |
-| Ofertas Vehiculares | supporting | B (oferta, vehículo, precio de venta) |
-| Financiamiento & Simulación | **core** | C, D, E, F (configuración, gracia, cronograma, costos) — agregado **Plan de Pagos** |
-| Indicadores / Transparencia | **core** | G (VAN, TIR, TCEA, transparencia SBS) — posible **servicio de dominio** dentro del contexto de simulación |
+| Usuario | `User` | Identidad de acceso (email/username + password). Concepto de IAM; reservado, **no** es la persona del negocio. |
+| Credenciales | — | Email/username y contraseña con los que se autentica el acceso. |
+| Login / Sesión | `Session` | Acción de autenticarse y estado autenticado que habilita operar. |
+| Asesor de crédito | — (rol) | Rol operativo de la entidad financiera que opera el sistema. No es una clase de IAM. |
+
+## Clients `supporting`
+
+| Término | Modelo | Definición |
+|---|---|---|
+| Cliente / Deudor | `Client` | Persona que adquiere el vehículo y asume el crédito; **beneficiario final**, no opera el sistema. |
+| Documento de identidad | `DocumentId` (VO) | Identificación del cliente (DNI/CE u otro). |
+| Datos de contacto | `ContactInfo` (VO) | Teléfono, email, dirección. |
+
+## Vehicle Offers `supporting`
+
+| Término | Modelo | Definición |
+|---|---|---|
+| Oferta vehicular | `VehicleOffer` | Vehículo + precio + características que sirven de base al financiamiento. |
+| Vehículo | `Vehicle` (VO) | Bien financiado (marca, modelo, año…). |
+| Precio de venta (PV) | `SalePrice` (`Money`) | Valor del vehículo; base de la cuota inicial y el cuotón. |
+| Plan | `Plan` | Configuración estándar de plazo/condiciones (p. ej. Plan 36 = 36 cuotas). |
+
+## Credit Simulation `core`
+
+Contexto núcleo. Incluye configuración del financiamiento, motor de cronograma e indicadores.
+
+### Configuration
+
+| Término | Modelo | Definición |
+|---|---|---|
+| Moneda | `Currency` (PEN/USD) | Divisa única de la operación (sin tipo de cambio). |
+| Tasa nominal anual (TNA) | `Rate` (`RateType.NOMINAL`) | Tasa nominal; requiere capitalización para volverse efectiva. |
+| Tasa efectiva anual (TEA) | `Rate` (`RateType.EFFECTIVE`) | Tasa efectiva en base anual. |
+| Capitalización | `Capitalization` | Días de capitalización (diaria, mensual…); obligatoria si la tasa es nominal. |
+| Tasa efectiva del periodo (TEP/TEM) | `Rate.toPeriodicRate()` | Tasa ajustada a la frecuencia de pago. |
+| Tasas equivalentes | `Rate` (comportamiento) | Tasas que rinden igual en distintas frecuencias. |
+| Cuota inicial (CI) / % cuota inicial | `downPayment: Money` / `initialPercentage: Percentage` | Aporte adelantado; `CI = PV × %CI`. |
+| Cuotón / cuota balloon / valor residual | `balloonAmount: Money` / `balloonPercentage: Percentage` | Parte diferida al final; `cuotón = PV × %cuotón`. |
+| Plazo (n) | `Term.numberOfInstallments` | Número total de cuotas. |
+| Frecuencia de pago | `Term.frequencyDays` | Días entre pagos (30 en v1). |
+| Convención 30/360 | — | Mes de 30 días, año de 360 días. |
+
+### Grace
+
+| Término | Modelo | Definición |
+|---|---|---|
+| Periodo de gracia | `GraceConfiguration` | Diferimiento total/parcial definido al inicio. |
+| Gracia total (T) | `GraceType.TOTAL` | No se paga ni amortiza; el interés se capitaliza (el saldo sube). |
+| Gracia parcial (P) | `GraceType.PARTIAL` | Se pagan solo intereses; el saldo se mantiene. |
+| Sin gracia (S) | `GraceType.NONE` | Periodo normal según el método. |
+| Recálculo de cuota tras gracia | `ScheduleCalculator` | La cuota ordinaria se recalcula sobre el saldo post-gracia y las cuotas restantes. |
+
+### Schedule / engine
+
+| Término | Modelo | Definición |
+|---|---|---|
+| Plan de pagos / Cronograma | `CreditSimulation` (schedule) | Tabla de cómo se cancela la deuda por periodo. |
+| Método francés vencido ordinario | `ScheduleCalculator` | Amortización de cuota constante, pago al vencimiento. |
+| Compra Inteligente | — (modalidad) | Financiamiento francés que difiere parte del capital como cuotón. |
+| Préstamo / capital financiado (C/VA) | `loanAmount: Money` | `PV − CI + costos iniciales`. |
+| Saldo inicial / final | `ScheduleRow.openingBalance` / `closingBalance` | Saldo antes/después del periodo. |
+| Interés | `ScheduleRow.interest` | `saldo inicial × i`. |
+| Amortización | `ScheduleRow.amortization` | `cuota − interés`. |
+| Cuota regular | `ScheduleRow.installment` | Pago periódico constante del tramo ordinario. |
+| Cuota total | `ScheduleRow.totalInstallment` | Cuota del préstamo + costos periódicos. |
+| VP del cuotón | `BalloonPresentValue` (VO) | Valor presente del cuotón: `cuotón/(1+i)^n`. |
+| Saldo a financiar | `financedBalance: Money` | Parte no diferida del préstamo (`C − VP del cuotón`). |
+| Liquidación del cuotón | — (fila final) | Pago final que cancela el cuotón diferido. |
+| Fila del cronograma | `ScheduleRow` (VO) | Una fila del plan de pagos. |
+
+### Costs & flow
+
+| Término | Modelo | Definición |
+|---|---|---|
+| Costos iniciales | `InitialCosts` (VO) | Notariales, registrales, tasación, comisiones; pueden financiarse. |
+| Costos periódicos | `PeriodicCosts` (VO) | Pagos que acompañan la cuota; no amortizan; se pagan también en gracia. |
+| Seguro de desgravamen (TSD) | `creditLifeInsuranceRate` | Cubre la deuda ante fallecimiento/invalidez; sobre el saldo. |
+| Seguro contra todo riesgo (TSR) | `allRiskInsurance` | Seguro del bien; fijo por periodo o `PV × TSR`. |
+| GPS | `gps` | Costo periódico del rastreo. |
+| Portes | `shippingFees` | Costo periódico de envío/gestión. |
+| Gastos administrativos | `adminFees` | Otros cobros administrativos del periodo. |
+| Flujo del periodo | `ScheduleRow.cashFlow` | `cuota + desgravamen + riesgo + GPS + portes + gastos adm`. |
+| Desgravamen embebido (j = i + TSD) | `Rate` (variante) | Cuota calculada con el desgravamen incorporado en la tasa. |
+
+### Indicators & transparency
+
+| Término | Modelo | Definición |
+|---|---|---|
+| VAN | `Indicators.npv` | Valor Actual Neto desde la óptica del deudor. |
+| TIR | `Indicators.periodicIrr` | Tasa que hace VAN = 0 (periódica; se anualiza). |
+| COK | `costOfCapital` | Costo de oportunidad del capital del deudor; tasa de descuento. |
+| COK del periodo | `periodicCostOfCapital` | COK anual ajustado a la frecuencia. |
+| TCEA | `Indicators.tcea` | Tasa de Costo Efectivo Anual: `(1 + TIR_periodo)^(cuotas/año) − 1`. |
+| Factor de descuento | `DiscountFactor` (VO) | `1/(1 + COK_periodo)^t`. |
+| Norma de transparencia SBS | — | Marco peruano que exige informar el costo real (TCEA + desglose). |
+| Eco de tasas | `Indicators` (campos) | TEA/TEM/COK del periodo expuestos para transparencia. |
+
+> **Indicadores como servicio de dominio:** VAN/TIR/TCEA no forman un contexto aparte; se calculan en
+> el core mediante el servicio de dominio `IndicatorsCalculator`. Ver
+> [bounded_contexts.md](../ddd/bounded_contexts.md).
+
+---
+
+## Términos retirados / fuera del producto
+
+| Término | Razón |
+|---|---|
+| B/C, PRD, VAC, CAUE | Referencia teórica del material de indicadores; no son parte del producto v1. |
+| Interés simple | Fuera de alcance: el crédito vehicular usa interés compuesto. |
+| Otros métodos (alemán/americano/peruano) | Fuera del producto: solo francés + Compra Inteligente. |
+
+## Relación con la semilla (v1)
+
+Este documento **consolida y reemplaza** la semilla v1 (agrupada por temas A–G). Mantiene la misma
+ruta para no romper los enlaces de [about.md](about.md), [segmentos_objetivo.md](segmentos_objetivo.md)
+y [product_backlog.md](product_backlog.md). Es la fuente vigente del lenguaje ubicuo para la Fase 3 en
+adelante.
