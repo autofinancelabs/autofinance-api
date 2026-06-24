@@ -490,20 +490,20 @@ TEP = 0.9488793%
 ```text
 R = 10,000 × [0.009488793 × (1 + 0.009488793)^12] / [(1 + 0.009488793)^12 - 1]
 
-R = 887.49
+R = 885.62
 ```
 
 ### Primeros períodos
 
 | Nº | Saldo inicial | Interés | Cuota préstamo | Amortización | Seguro desgravamen | Comisión | Cuota total | Saldo final |
 |---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| 1 | 10,000.00 | 94.89 | 887.49 | 792.60 | 5.00 | 10.00 | 902.49 | 9,207.40 |
-| 2 | 9,207.40 | 87.37 | 887.49 | 800.12 | 4.60 | 10.00 | 902.09 | 8,407.28 |
-| 3 | 8,407.28 | 79.77 | 887.49 | 807.72 | 4.20 | 10.00 | 901.69 | 7,599.56 |
+| 1 | 10,000.00 | 94.89 | 885.62 | 790.73 | 5.00 | 10.00 | 900.62 | 9,209.27 |
+| 2 | 9,209.27 | 87.38 | 885.62 | 798.24 | 4.60 | 10.00 | 900.23 | 8,411.03 |
+| 3 | 8,411.03 | 79.81 | 885.62 | 805.81 | 4.21 | 10.00 | 899.83 | 7,605.22 |
 
 ### Lectura del resultado
 
-La cuota financiera del préstamo es constante: US$ 887.49. Sin embargo, la cuota total cambia ligeramente porque el seguro de desgravamen disminuye junto con el saldo del préstamo.
+La cuota financiera del préstamo es constante: US$ 885.62. Sin embargo, la cuota total cambia ligeramente porque el seguro de desgravamen disminuye junto con el saldo del préstamo.
 
 ---
 
