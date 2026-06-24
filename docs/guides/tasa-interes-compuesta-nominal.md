@@ -8,17 +8,17 @@
 
 El **interés** es el costo o beneficio asociado al uso del dinero en el tiempo. Puede verse desde dos posiciones:
 
-| Perspectiva | Interpretación | Ejemplo |
-|---|---|---|
-| Solicitante de financiamiento | El interés es el **costo del dinero prestado**. | Una persona pide un préstamo y paga intereses por usar capital ajeno. |
-| Inversionista o ahorrista | El interés es la **rentabilidad** obtenida por colocar dinero. | Una persona deposita dinero en una cuenta o inversión y recibe intereses. |
+| Perspectiva                   | Interpretación                                                 | Ejemplo                                                                   |
+|-------------------------------|----------------------------------------------------------------|---------------------------------------------------------------------------|
+| Solicitante de financiamiento | El interés es el **costo del dinero prestado**.                | Una persona pide un préstamo y paga intereses por usar capital ajeno.     |
+| Inversionista o ahorrista     | El interés es la **rentabilidad** obtenida por colocar dinero. | Una persona deposita dinero en una cuenta o inversión y recibe intereses. |
 
 En finanzas, las tasas de interés se clasifican, según exista o no capitalización, en:
 
-| Tipo de interés | ¿Capitaliza intereses? | Idea central |
-|---|---:|---|
-| Interés simple | No | El interés se calcula siempre sobre el capital inicial. |
-| Interés compuesto | Sí | Los intereses se suman al capital y generan nuevos intereses. |
+| Tipo de interés   | ¿Capitaliza intereses? | Idea central                                                  |
+|-------------------|-----------------------:|---------------------------------------------------------------|
+| Interés simple    |                     No | El interés se calcula siempre sobre el capital inicial.       |
+| Interés compuesto |                     Sí | Los intereses se suman al capital y generan nuevos intereses. |
 
 ---
 
@@ -36,14 +36,14 @@ A diferencia del **interés simple**, donde el capital base permanece constante 
 
 ## 3. Diferencia entre interés simple e interés compuesto
 
-| Criterio | Interés simple | Interés compuesto |
-|---|---|---|
-| Capital usado para calcular intereses | Siempre el capital inicial | Capital inicial más intereses acumulados |
-| Capitalización | No existe | Sí existe |
-| Tratamiento de los intereses | Se retiran o no se suman al capital | Se reinvierten o se suman al capital |
-| Crecimiento | Lineal | Exponencial |
-| Fórmula típica | $I = C \cdot i \cdot t$ | $S = C(1+i)^n$ |
-| Uso típico | Operaciones simples, corto plazo, liquidez | Ahorros, inversiones, préstamos bancarios, tarjetas y deudas con capitalización |
+| Criterio                              | Interés simple                             | Interés compuesto                                                               |
+|---------------------------------------|--------------------------------------------|---------------------------------------------------------------------------------|
+| Capital usado para calcular intereses | Siempre el capital inicial                 | Capital inicial más intereses acumulados                                        |
+| Capitalización                        | No existe                                  | Sí existe                                                                       |
+| Tratamiento de los intereses          | Se retiran o no se suman al capital        | Se reinvierten o se suman al capital                                            |
+| Crecimiento                           | Lineal                                     | Exponencial                                                                     |
+| Fórmula típica                        | $I = C \cdot i \cdot t$                    | $S = C(1+i)^n$                                                                  |
+| Uso típico                            | Operaciones simples, corto plazo, liquidez | Ahorros, inversiones, préstamos bancarios, tarjetas y deudas con capitalización |
 
 ### 3.1. Mundo del interés simple
 
@@ -85,10 +85,10 @@ La diferencia entre interés simple e interés compuesto se entiende mejor compa
 
 Supongamos una inversión inicial de **S/ 1,000** durante **30 años** a una tasa anual de **10%**.
 
-| Escenario | ¿Se reinvierten los intereses? | Fórmula conceptual | Resultado aproximado | Crecimiento efectivo sobre el capital inicial |
-|---|---:|---|---:|---:|
-| Interés simple | No | $S = C + C \cdot i \cdot t$ | S/ 4,000.00 si se acumulan los retiros | 300.00% |
-| Interés compuesto | Sí | $S = C(1+i)^n$ | S/ 17,449.40 | 1,644.94% |
+| Escenario         | ¿Se reinvierten los intereses? | Fórmula conceptual          |                   Resultado aproximado | Crecimiento efectivo sobre el capital inicial |
+|-------------------|-------------------------------:|-----------------------------|---------------------------------------:|----------------------------------------------:|
+| Interés simple    |                             No | $S = C + C \cdot i \cdot t$ | S/ 4,000.00 si se acumulan los retiros |                                       300.00% |
+| Interés compuesto |                             Sí | $S = C(1+i)^n$              |                           S/ 17,449.40 |                                     1,644.94% |
 
 ### Interpretación
 
@@ -104,16 +104,16 @@ El **período de capitalización** es la unidad de tiempo fija en la que los int
 
 Puede expresarse en distintas unidades de tiempo:
 
-| Capitalización | Abreviatura frecuente | Interpretación |
-|---|---:|---|
-| Anual | c.a. | Capitaliza una vez al año. |
-| Semestral | c.s. | Capitaliza cada 6 meses. |
-| Cuatrimestral | c.cuat. | Capitaliza cada 4 meses. |
-| Trimestral | c.t. | Capitaliza cada 3 meses. |
-| Bimestral | c.b. | Capitaliza cada 2 meses. |
-| Mensual | c.m. | Capitaliza cada mes. |
-| Quincenal | c.q. | Capitaliza cada 15 días. |
-| Diaria | c.d. | Capitaliza cada día. |
+| Capitalización | Abreviatura frecuente | Interpretación             |
+|----------------|----------------------:|----------------------------|
+| Anual          |                  c.a. | Capitaliza una vez al año. |
+| Semestral      |                  c.s. | Capitaliza cada 6 meses.   |
+| Cuatrimestral  |               c.cuat. | Capitaliza cada 4 meses.   |
+| Trimestral     |                  c.t. | Capitaliza cada 3 meses.   |
+| Bimestral      |                  c.b. | Capitaliza cada 2 meses.   |
+| Mensual        |                  c.m. | Capitaliza cada mes.       |
+| Quincenal      |                  c.q. | Capitaliza cada 15 días.   |
+| Diaria         |                  c.d. | Capitaliza cada día.       |
 
 Regla clave:
 
@@ -129,15 +129,15 @@ Si la capitalización no se indica, en el curso se asume que capitaliza **diaria
 
 En los ejercicios se trabaja con año comercial de 360 días y mes comercial de 30 días.
 
-| Período | Equivalencias |
-|---|---|
-| 1 año | 2 semestres, 3 cuatrimestres, 4 trimestres, 6 bimestres, 12 meses, 360 días |
-| 1 semestre | 2 trimestres, 3 bimestres, 6 meses, 12 quincenas, 180 días |
-| 1 cuatrimestre | 4 meses, 8 quincenas, 120 días |
-| 1 trimestre | 3 meses, 6 quincenas, 90 días |
-| 1 bimestre | 2 meses, 4 quincenas, 60 días |
-| 1 mes | 2 quincenas, 30 días |
-| 1 quincena | 15 días |
+| Período        | Equivalencias                                                               |
+|----------------|-----------------------------------------------------------------------------|
+| 1 año          | 2 semestres, 3 cuatrimestres, 4 trimestres, 6 bimestres, 12 meses, 360 días |
+| 1 semestre     | 2 trimestres, 3 bimestres, 6 meses, 12 quincenas, 180 días                  |
+| 1 cuatrimestre | 4 meses, 8 quincenas, 120 días                                              |
+| 1 trimestre    | 3 meses, 6 quincenas, 90 días                                               |
+| 1 bimestre     | 2 meses, 4 quincenas, 60 días                                               |
+| 1 mes          | 2 quincenas, 30 días                                                        |
+| 1 quincena     | 15 días                                                                     |
 
 Estas equivalencias permiten calcular correctamente $m$ y $n$.
 
@@ -157,16 +157,16 @@ Sin embargo, en interés compuesto la TNA por sí sola no basta. También se nec
 
 ### 7.2. Notación recomendada
 
-| Símbolo | Significado | Comentario |
-|---|---|---|
-| $C$ | Capital inicial o valor presente | Monto colocado, prestado o adeudado al inicio. |
-| $S$ | Valor futuro o monto acumulado | Monto final después de capitalizar. |
-| $I$ | Interés generado | Diferencia entre $S$ y $C$. |
-| $j$ | Tasa nominal | Tasa pactada para un período determinado. También puede aparecer como $TN$. |
-| $m$ | Número de capitalizaciones de la tasa nominal | Cantidad de veces que capitaliza dentro del período de la tasa nominal. |
-| $i$ | Tasa del período de capitalización | Tasa que realmente entra a la fórmula compuesta. |
-| $n$ | Número de períodos de capitalización de la operación | Cantidad de veces que capitaliza durante el plazo real. |
-| $TEP$ | Tasa efectiva del período | Crecimiento real del capital en el plazo analizado. |
+| Símbolo | Significado                                          | Comentario                                                                  |
+|---------|------------------------------------------------------|-----------------------------------------------------------------------------|
+| $C$     | Capital inicial o valor presente                     | Monto colocado, prestado o adeudado al inicio.                              |
+| $S$     | Valor futuro o monto acumulado                       | Monto final después de capitalizar.                                         |
+| $I$     | Interés generado                                     | Diferencia entre $S$ y $C$.                                                 |
+| $j$     | Tasa nominal                                         | Tasa pactada para un período determinado. También puede aparecer como $TN$. |
+| $m$     | Número de capitalizaciones de la tasa nominal        | Cantidad de veces que capitaliza dentro del período de la tasa nominal.     |
+| $i$     | Tasa del período de capitalización                   | Tasa que realmente entra a la fórmula compuesta.                            |
+| $n$     | Número de períodos de capitalización de la operación | Cantidad de veces que capitaliza durante el plazo real.                     |
+| $TEP$   | Tasa efectiva del período                            | Crecimiento real del capital en el plazo analizado.                         |
 
 El PDF usa con frecuencia $TN$ para la tasa nominal y $i'$ para la tasa del período de capitalización. En clase también puede usarse $j$ para la tasa nominal e $i$ para la tasa efectiva por período.
 
@@ -250,16 +250,16 @@ $$
 Ejemplos:
 
 | Tasa nominal y capitalización | Período nominal | Período de capitalización | Cálculo de $m$ | $m$ |
-|---|---:|---:|---:|---:|
-| TNA c.m. | 360 días | 30 días | 360 / 30 | 12 |
-| TNA c.q. | 360 días | 15 días | 360 / 15 | 24 |
-| TNA c.d. | 360 días | 1 día | 360 / 1 | 360 |
-| TNS c.m. | 180 días | 30 días | 180 / 30 | 6 |
-| TNS c.d. | 180 días | 1 día | 180 / 1 | 180 |
-| TNT c.m. | 90 días | 30 días | 90 / 30 | 3 |
-| TNT c.d. | 90 días | 1 día | 90 / 1 | 90 |
-| TNM c.d. | 30 días | 1 día | 30 / 1 | 30 |
-| TNC c.b. | 120 días | 60 días | 120 / 60 | 2 |
+|-------------------------------|----------------:|--------------------------:|---------------:|----:|
+| TNA c.m.                      |        360 días |                   30 días |       360 / 30 |  12 |
+| TNA c.q.                      |        360 días |                   15 días |       360 / 15 |  24 |
+| TNA c.d.                      |        360 días |                     1 día |        360 / 1 | 360 |
+| TNS c.m.                      |        180 días |                   30 días |       180 / 30 |   6 |
+| TNS c.d.                      |        180 días |                     1 día |        180 / 1 | 180 |
+| TNT c.m.                      |         90 días |                   30 días |        90 / 30 |   3 |
+| TNT c.d.                      |         90 días |                     1 día |         90 / 1 |  90 |
+| TNM c.d.                      |         30 días |                     1 día |         30 / 1 |  30 |
+| TNC c.b.                      |        120 días |                   60 días |       120 / 60 |   2 |
 
 ### 8.2. Valor de $n$
 
@@ -276,13 +276,13 @@ $$
 Ejemplos:
 
 | Plazo de operación | Capitalización | Cálculo de $n$ | $n$ |
-|---|---:|---:|---:|
-| 3 meses | Mensual | 3 / 1 | 3 |
-| 1 año | Mensual | 12 / 1 | 12 |
-| 45 días | Quincenal | 45 / 15 | 3 |
-| 100 días | Diaria | 100 / 1 | 100 |
-| 1 cuatrimestre | Diaria | 120 / 1 | 120 |
-| 18 meses | Quincenal | 540 / 15 | 36 |
+|--------------------|---------------:|---------------:|----:|
+| 3 meses            |        Mensual |          3 / 1 |   3 |
+| 1 año              |        Mensual |         12 / 1 |  12 |
+| 45 días            |      Quincenal |        45 / 15 |   3 |
+| 100 días           |         Diaria |        100 / 1 | 100 |
+| 1 cuatrimestre     |         Diaria |        120 / 1 | 120 |
+| 18 meses           |      Quincenal |       540 / 15 |  36 |
 
 ---
 
@@ -390,15 +390,15 @@ Antes de resolver cualquier problema de interés compuesto o tasa nominal, sigue
 
 ## 11. Normas prácticas del curso
 
-| Regla | Aplicación |
-|---|---|
-| La tasa siempre entra a la fórmula en decimal | 6% se usa como 0.06. |
-| Si no se indica el período de la tasa nominal | Se asume anual. |
-| Si no se indica la capitalización | Se asume diaria. |
+| Regla                                              | Aplicación                                  |
+|----------------------------------------------------|---------------------------------------------|
+| La tasa siempre entra a la fórmula en decimal      | 6% se usa como 0.06.                        |
+| Si no se indica el período de la tasa nominal      | Se asume anual.                             |
+| Si no se indica la capitalización                  | Se asume diaria.                            |
 | La tasa y el tiempo deben estar en la misma unidad | Siempre manda el período de capitalización. |
-| Para días se usa año comercial | 360 días por año. |
-| Para meses se usa mes comercial | 30 días por mes. |
-| Si el resultado pide “por lo menos” cierto monto | Se redondea el tiempo hacia arriba. |
+| Para días se usa año comercial                     | 360 días por año.                           |
+| Para meses se usa mes comercial                    | 30 días por mes.                            |
+| Si el resultado pide “por lo menos” cierto monto   | Se redondea el tiempo hacia arriba.         |
 
 ---
 
@@ -410,13 +410,13 @@ Si tengo un capital de **S/ 1,000** y lo invierto durante **tres períodos mensu
 
 ### Datos
 
-| Dato | Valor |
-|---|---:|
-| Capital inicial $C$ | S/ 1,000.00 |
-| Tasa nominal $j$ | TNA 120% = 1.20 |
-| Capitalización | Mensual |
-| Tiempo | 3 meses |
-| Período nominal | 1 año = 12 meses |
+| Dato                |            Valor |
+|---------------------|-----------------:|
+| Capital inicial $C$ |      S/ 1,000.00 |
+| Tasa nominal $j$    |  TNA 120% = 1.20 |
+| Capitalización      |          Mensual |
+| Tiempo              |          3 meses |
+| Período nominal     | 1 año = 12 meses |
 
 ### Paso 1: calcular $m$
 
@@ -443,11 +443,11 @@ $$
 ### Paso 4: evolución mes a mes
 
 | Mes | Capital al inicio del período | Interés del período | Capital al final del período |
-|---:|---:|---:|---:|
-| 0 | S/ 1,000.00 | — | S/ 1,000.00 |
-| 1 | S/ 1,000.00 | S/ 100.00 | S/ 1,100.00 |
-| 2 | S/ 1,100.00 | S/ 110.00 | S/ 1,210.00 |
-| 3 | S/ 1,210.00 | S/ 121.00 | S/ 1,331.00 |
+|----:|------------------------------:|--------------------:|-----------------------------:|
+|   0 |                   S/ 1,000.00 |                   — |                  S/ 1,000.00 |
+|   1 |                   S/ 1,000.00 |           S/ 100.00 |                  S/ 1,100.00 |
+|   2 |                   S/ 1,100.00 |           S/ 110.00 |                  S/ 1,210.00 |
+|   3 |                   S/ 1,210.00 |           S/ 121.00 |                  S/ 1,331.00 |
 
 ### Paso 5: fórmula directa
 
@@ -511,12 +511,12 @@ El interés es **S/ 30.30** y la tasa efectiva trimestral es **3.03%**.
 
 ### Ejemplo 1: TNS 6% c.m. durante 1 cuatrimestre
 
-| Dato | Valor |
-|---|---:|
-| Capital $C$ | S/ 1,000.00 |
-| Tasa | TNS 6% c.m. |
-| Plazo | 1 cuatrimestre = 4 meses |
-| Capitalización | Mensual |
+| Dato           |                    Valor |
+|----------------|-------------------------:|
+| Capital $C$    |              S/ 1,000.00 |
+| Tasa           |              TNS 6% c.m. |
+| Plazo          | 1 cuatrimestre = 4 meses |
+| Capitalización |                  Mensual |
 
 $$
 m = 6
@@ -540,12 +540,12 @@ $$
 
 ### Ejemplo 2: TNS 6% c.m. durante 1 año
 
-| Dato | Valor |
-|---|---:|
-| Capital $C$ | S/ 1,000.00 |
-| Tasa | TNS 6% c.m. |
-| Plazo | 1 año = 12 meses |
-| Capitalización | Mensual |
+| Dato           |            Valor |
+|----------------|-----------------:|
+| Capital $C$    |      S/ 1,000.00 |
+| Tasa           |      TNS 6% c.m. |
+| Plazo          | 1 año = 12 meses |
+| Capitalización |          Mensual |
 
 $$
 m = 6
@@ -569,12 +569,12 @@ $$
 
 ### Ejemplo 3: TNS 6% c.d. durante 1 cuatrimestre
 
-| Dato | Valor |
-|---|---:|
-| Capital $C$ | S/ 1,000.00 |
-| Tasa | TNS 6% c.d. |
-| Plazo | 1 cuatrimestre = 120 días |
-| Capitalización | Diaria |
+| Dato           |                     Valor |
+|----------------|--------------------------:|
+| Capital $C$    |               S/ 1,000.00 |
+| Tasa           |               TNS 6% c.d. |
+| Plazo          | 1 cuatrimestre = 120 días |
+| Capitalización |                    Diaria |
 
 $$
 m = 180
@@ -598,12 +598,12 @@ $$
 
 ### Ejemplo 4: TNS 6% c.d. durante 1 año
 
-| Dato | Valor |
-|---|---:|
-| Capital $C$ | S/ 1,000.00 |
-| Tasa | TNS 6% c.d. |
-| Plazo | 1 año = 360 días |
-| Capitalización | Diaria |
+| Dato           |            Valor |
+|----------------|-----------------:|
+| Capital $C$    |      S/ 1,000.00 |
+| Tasa           |      TNS 6% c.d. |
+| Plazo          | 1 año = 360 días |
+| Capitalización |           Diaria |
 
 $$
 m = 180
@@ -627,12 +627,12 @@ $$
 
 ### Ejemplo 5: TNT 30% c.m. durante 4 meses
 
-| Dato | Valor |
-|---|---:|
-| Capital $C$ | S/ 1,000.00 |
-| Tasa | TNT 30% c.m. |
-| Plazo | 4 meses |
-| Capitalización | Mensual |
+| Dato           |        Valor |
+|----------------|-------------:|
+| Capital $C$    |  S/ 1,000.00 |
+| Tasa           | TNT 30% c.m. |
+| Plazo          |      4 meses |
+| Capitalización |      Mensual |
 
 $$
 m = 3
@@ -656,12 +656,12 @@ $$
 
 ### Ejemplo 6: TNT 30% c.m. durante 1 año
 
-| Dato | Valor |
-|---|---:|
-| Capital $C$ | S/ 1,000.00 |
-| Tasa | TNT 30% c.m. |
-| Plazo | 1 año = 12 meses |
-| Capitalización | Mensual |
+| Dato           |            Valor |
+|----------------|-----------------:|
+| Capital $C$    |      S/ 1,000.00 |
+| Tasa           |     TNT 30% c.m. |
+| Plazo          | 1 año = 12 meses |
+| Capitalización |          Mensual |
 
 $$
 m = 3
@@ -685,12 +685,12 @@ $$
 
 ### Ejemplo 7: TNT 30% c.d. durante 4 meses
 
-| Dato | Valor |
-|---|---:|
-| Capital $C$ | S/ 1,000.00 |
-| Tasa | TNT 30% c.d. |
-| Plazo | 4 meses = 120 días |
-| Capitalización | Diaria |
+| Dato           |              Valor |
+|----------------|-------------------:|
+| Capital $C$    |        S/ 1,000.00 |
+| Tasa           |       TNT 30% c.d. |
+| Plazo          | 4 meses = 120 días |
+| Capitalización |             Diaria |
 
 $$
 m = 90
@@ -714,12 +714,12 @@ $$
 
 ### Ejemplo 8: TNT 30% c.d. durante 1 año
 
-| Dato | Valor |
-|---|---:|
-| Capital $C$ | S/ 1,000.00 |
-| Tasa | TNT 30% c.d. |
-| Plazo | 1 año = 360 días |
-| Capitalización | Diaria |
+| Dato           |            Valor |
+|----------------|-----------------:|
+| Capital $C$    |      S/ 1,000.00 |
+| Tasa           |     TNT 30% c.d. |
+| Plazo          | 1 año = 360 días |
+| Capitalización |           Diaria |
 
 $$
 m = 90
@@ -743,12 +743,12 @@ $$
 
 ### Ejemplo 9: depósito de S/ 5,000 a TNA 6% c.m. por un semestre
 
-| Dato | Valor |
-|---|---:|
-| Capital $C$ | S/ 5,000.00 |
-| Tasa | TNA 6% c.m. |
-| Plazo | 1 semestre = 6 meses |
-| Capitalización | Mensual |
+| Dato           |                Valor |
+|----------------|---------------------:|
+| Capital $C$    |          S/ 5,000.00 |
+| Tasa           |          TNA 6% c.m. |
+| Plazo          | 1 semestre = 6 meses |
+| Capitalización |              Mensual |
 
 $$
 m = 12
@@ -772,12 +772,12 @@ $$
 
 ### Ejemplo 10: depósito de € 20,000 a TNM 0.2% c.d. por 100 días
 
-| Dato | Valor |
-|---|---:|
-| Capital $C$ | € 20,000.00 |
-| Tasa | TNM 0.2% c.d. |
-| Plazo | 100 días |
-| Capitalización | Diaria |
+| Dato           |         Valor |
+|----------------|--------------:|
+| Capital $C$    |   € 20,000.00 |
+| Tasa           | TNM 0.2% c.d. |
+| Plazo          |      100 días |
+| Capitalización |        Diaria |
 
 $$
 m = 30
@@ -797,12 +797,12 @@ $$
 
 ### Ejemplo 11: valor presente de una deuda de US\$ 12,000 a 45 días
 
-| Dato | Valor |
-|---|---:|
+| Dato             |          Valor |
+|------------------|---------------:|
 | Valor futuro $S$ | US\$ 12,000.00 |
-| Tasa | TNA 15% c.q. |
-| Plazo | 45 días |
-| Capitalización | Quincenal |
+| Tasa             |   TNA 15% c.q. |
+| Plazo            |        45 días |
+| Capitalización   |      Quincenal |
 
 $$
 m = 24
@@ -828,12 +828,12 @@ $$
 
 ### Ejemplo 12: tiempo necesario para que US\$ 1,350 acumulen US\$ 1,475
 
-| Dato | Valor |
-|---|---:|
-| Capital $C$ | US\$ 1,350.00 |
+| Dato                    |         Valor |
+|-------------------------|--------------:|
+| Capital $C$             | US\$ 1,350.00 |
 | Valor futuro mínimo $S$ | US\$ 1,475.00 |
-| Tasa | TNS 4% c.m. |
-| Capitalización | Mensual |
+| Tasa                    |   TNS 4% c.m. |
+| Capitalización          |       Mensual |
 
 $$
 m = 6
@@ -863,13 +863,13 @@ $$
 
 Juan presta S/ 5,000.00 a Pedro. Luego de 180 días, Pedro devuelve el dinero y además le regala una parrilla eléctrica de S/ 450.00. Si se analiza como operación financiera, el regalo funciona como interés.
 
-| Dato | Valor |
-|---|---:|
-| Capital $C$ | S/ 5,000.00 |
-| Interés implícito $I$ | S/ 450.00 |
-| Valor futuro $S$ | S/ 5,450.00 |
-| Plazo | 180 días |
-| Capitalización asumida | Diaria |
+| Dato                   |       Valor |
+|------------------------|------------:|
+| Capital $C$            | S/ 5,000.00 |
+| Interés implícito $I$  |   S/ 450.00 |
+| Valor futuro $S$       | S/ 5,450.00 |
+| Plazo                  |    180 días |
+| Capitalización asumida |      Diaria |
 
 $$
 m = 360
@@ -893,12 +893,12 @@ $$
 
 ### Ejemplo 14: capital necesario para generar US\$ 150 de interés
 
-| Dato | Valor |
-|---|---:|
+| Dato                |       Valor |
+|---------------------|------------:|
 | Interés deseado $I$ | US\$ 150.00 |
-| Tasa | TNT 2% c.m. |
-| Plazo | 2 meses |
-| Capitalización | Mensual |
+| Tasa                | TNT 2% c.m. |
+| Plazo               |     2 meses |
+| Capitalización      |     Mensual |
 
 $$
 m = 3
@@ -920,16 +920,16 @@ $$
 
 Los ejemplos muestran que, manteniendo constante la tasa nominal y el plazo, una capitalización más frecuente produce un valor futuro mayor.
 
-| Caso | Tasa | Plazo | Capitalización | Valor futuro | Tasa efectiva |
-|---|---:|---:|---:|---:|---:|
-| Ejemplo 1 | TNS 6% | 4 meses | Mensual | 1,040.60 | 4.06% |
-| Ejemplo 3 | TNS 6% | 4 meses | Diaria | 1,040.80 | 4.08% |
-| Ejemplo 2 | TNS 6% | 1 año | Mensual | 1,126.83 | 12.683% |
-| Ejemplo 4 | TNS 6% | 1 año | Diaria | 1,127.47 | 12.747% |
-| Ejemplo 5 | TNT 30% | 4 meses | Mensual | 1,464.10 | 46.41% |
-| Ejemplo 7 | TNT 30% | 4 meses | Diaria | 1,490.83 | 49.083% |
-| Ejemplo 6 | TNT 30% | 1 año | Mensual | 3,138.43 | 213.843% |
-| Ejemplo 8 | TNT 30% | 1 año | Diaria | 3,313.50 | 231.35% |
+| Caso      |    Tasa |   Plazo | Capitalización | Valor futuro | Tasa efectiva |
+|-----------|--------:|--------:|---------------:|-------------:|--------------:|
+| Ejemplo 1 |  TNS 6% | 4 meses |        Mensual |     1,040.60 |         4.06% |
+| Ejemplo 3 |  TNS 6% | 4 meses |         Diaria |     1,040.80 |         4.08% |
+| Ejemplo 2 |  TNS 6% |   1 año |        Mensual |     1,126.83 |       12.683% |
+| Ejemplo 4 |  TNS 6% |   1 año |         Diaria |     1,127.47 |       12.747% |
+| Ejemplo 5 | TNT 30% | 4 meses |        Mensual |     1,464.10 |        46.41% |
+| Ejemplo 7 | TNT 30% | 4 meses |         Diaria |     1,490.83 |       49.083% |
+| Ejemplo 6 | TNT 30% |   1 año |        Mensual |     3,138.43 |      213.843% |
+| Ejemplo 8 | TNT 30% |   1 año |         Diaria |     3,313.50 |       231.35% |
 
 Conclusión:
 
@@ -1025,32 +1025,32 @@ C = I / [(1 + j/m)^n - 1]
 
 ## 16. Errores comunes
 
-| Error | Por qué está mal | Cómo corregirlo |
-|---|---|---|
-| Usar la tasa nominal directamente | La tasa debe ajustarse al período de capitalización. | Calcular $i = j/m$. |
-| Confundir $m$ con $n$ | $m$ depende de la tasa; $n$ depende del plazo. | Formular dos preguntas: “¿dentro del período nominal?” y “¿durante el plazo real?”. |
-| Usar porcentaje sin dividir entre 100 | Las fórmulas trabajan con tasas decimales. | 6% = 0.06. |
-| Decir que 10% mensual por 3 meses equivale a 30% efectivo | En interés compuesto hay capitalización. | Calcular $(1.10)^3 - 1 = 33.10\%$. |
-| Ignorar la capitalización | La capitalización cambia el resultado efectivo. | Identificar si es mensual, diaria, quincenal, etc. |
-| No redondear hacia arriba cuando se pide “por lo menos” | Un tiempo menor no alcanza el monto exigido. | Redondear al siguiente día, mes o período aplicable. |
+| Error                                                     | Por qué está mal                                     | Cómo corregirlo                                                                     |
+|-----------------------------------------------------------|------------------------------------------------------|-------------------------------------------------------------------------------------|
+| Usar la tasa nominal directamente                         | La tasa debe ajustarse al período de capitalización. | Calcular $i = j/m$.                                                                 |
+| Confundir $m$ con $n$                                     | $m$ depende de la tasa; $n$ depende del plazo.       | Formular dos preguntas: “¿dentro del período nominal?” y “¿durante el plazo real?”. |
+| Usar porcentaje sin dividir entre 100                     | Las fórmulas trabajan con tasas decimales.           | 6% = 0.06.                                                                          |
+| Decir que 10% mensual por 3 meses equivale a 30% efectivo | En interés compuesto hay capitalización.             | Calcular $(1.10)^3 - 1 = 33.10\%$.                                                  |
+| Ignorar la capitalización                                 | La capitalización cambia el resultado efectivo.      | Identificar si es mensual, diaria, quincenal, etc.                                  |
+| No redondear hacia arriba cuando se pide “por lo menos”   | Un tiempo menor no alcanza el monto exigido.         | Redondear al siguiente día, mes o período aplicable.                                |
 
 ---
 
 ## 17. Ejercicios propuestos incluidos en el material
 
-| N.º | Enunciado resumido | Respuesta |
-|---:|---|---:|
-| 1 | Valor futuro e interés de US\$ 500 a 90 días con TNA 8.5% c.m. | US\$ 510.70 y US\$ 10.70 |
-| 2 | Valor futuro e interés de S/ 600 en 118 días con TNA 16%. | S/ 632.30 y S/ 32.30 |
-| 3 | Valor al vencimiento de US\$ 2,500 a 18 meses con TNS 12% c.q. | US\$ 3,576.92 |
-| 4 | Valor actual de deuda de S/ 1,200 a 120 días con TNC 8.5% c.b. | S/ 1,104.15 |
-| 5 | TNA c.m. de préstamo US\$ 10,000 pagadero con US\$ 12,000 en 2 meses. | 114.534138% |
-| 6 | Tiempo para que S/ 1,000 gane S/ 100 a TN 15%. | 229 días |
-| 7 | Tiempo para que US\$ 5,000 acumulen US\$ 6,000 con TNA 10% c.m. | 660 días |
-| 8 | Tiempo para que US\$ 12,350 acumulen el doble con TN 11.25%. | 2,219 días |
-| 9a | Tasa nominal máxima para pedir prestado y aprovechar descuento 3/10, n/40. | 36.56961036% |
-| 9b | Ganancia si accede a préstamo con TN 21% y paga adelantado. | US\$ 103.05 |
-| 10 | TNA c.q. implícita en compra de refrigeradora con inicial y recargo. | 158.6755467% |
+| N.º | Enunciado resumido                                                         |                Respuesta |
+|----:|----------------------------------------------------------------------------|-------------------------:|
+|   1 | Valor futuro e interés de US\$ 500 a 90 días con TNA 8.5% c.m.             | US\$ 510.70 y US\$ 10.70 |
+|   2 | Valor futuro e interés de S/ 600 en 118 días con TNA 16%.                  |     S/ 632.30 y S/ 32.30 |
+|   3 | Valor al vencimiento de US\$ 2,500 a 18 meses con TNS 12% c.q.             |            US\$ 3,576.92 |
+|   4 | Valor actual de deuda de S/ 1,200 a 120 días con TNC 8.5% c.b.             |              S/ 1,104.15 |
+|   5 | TNA c.m. de préstamo US\$ 10,000 pagadero con US\$ 12,000 en 2 meses.      |              114.534138% |
+|   6 | Tiempo para que S/ 1,000 gane S/ 100 a TN 15%.                             |                 229 días |
+|   7 | Tiempo para que US\$ 5,000 acumulen US\$ 6,000 con TNA 10% c.m.            |                 660 días |
+|   8 | Tiempo para que US\$ 12,350 acumulen el doble con TN 11.25%.               |               2,219 días |
+|  9a | Tasa nominal máxima para pedir prestado y aprovechar descuento 3/10, n/40. |             36.56961036% |
+|  9b | Ganancia si accede a préstamo con TN 21% y paga adelantado.                |              US\$ 103.05 |
+|  10 | TNA c.q. implícita en compra de refrigeradora con inicial y recargo.       |             158.6755467% |
 
 ---
 

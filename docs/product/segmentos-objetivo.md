@@ -7,11 +7,11 @@
 
 Antes de nombrar el segmento, conviene separar tres conceptos que suelen confundirse:
 
-| Concepto | Pregunta que responde | A quién corresponde |
-|---|---|---|
-| **Punto de vista del producto** | ¿Para quién es la herramienta? | La entidad financiera. |
-| **Perspectiva de cálculo** | ¿Desde qué óptica se calculan VAN y TIR? | El deudor. |
-| **Segmento objetivo** | ¿A quién apunta el producto como audiencia? | La entidad financiera, representada por el asesor de crédito. |
+| Concepto                        | Pregunta que responde                       | A quién corresponde                                           |
+|---------------------------------|---------------------------------------------|---------------------------------------------------------------|
+| **Punto de vista del producto** | ¿Para quién es la herramienta?              | La entidad financiera.                                        |
+| **Perspectiva de cálculo**      | ¿Desde qué óptica se calculan VAN y TIR?    | El deudor.                                                    |
+| **Segmento objetivo**           | ¿A quién apunta el producto como audiencia? | La entidad financiera, representada por el asesor de crédito. |
 
 Por eso AutoFinance tiene **un único segmento objetivo**: la **entidad financiera**. El deudor
 es **beneficiario final**, no segmento del producto, porque no opera el sistema.
@@ -26,23 +26,23 @@ es **beneficiario final**, no segmento del producto, porque no opera el sistema.
 La entidad financiera peruana que ofrece crédito vehicular bajo la modalidad **Compra
 Inteligente**. Operativamente, quien interactúa con el sistema es el **asesor de crédito**.
 
-| Atributo | Descripción |
-|---|---|
-| Quién es | Entidad financiera (banco, financiera, concesionaria con financiamiento) en Perú; el asesor de crédito es su rol operativo. |
+| Atributo     | Descripción                                                                                                                                                                            |
+|--------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Quién es     | Entidad financiera (banco, financiera, concesionaria con financiamiento) en Perú; el asesor de crédito es su rol operativo.                                                            |
 | Qué necesita | Armar simulaciones rápidas y **exactas**; registrar cliente y oferta; **editar y volver a guardar** lo registrado; mostrar al deudor el cronograma y los indicadores de transparencia. |
-| Contexto | Marco normativo SBS (transparencia de la información); operaciones en Soles o Dólares; modalidad balloon para reducir la cuota mensual. |
-| Qué valora | Reproducibilidad del cálculo, claridad de los indicadores, trazabilidad de las operaciones. |
+| Contexto     | Marco normativo SBS (transparencia de la información); operaciones en Soles o Dólares; modalidad balloon para reducir la cuota mensual.                                                |
+| Qué valora   | Reproducibilidad del cálculo, claridad de los indicadores, trazabilidad de las operaciones.                                                                                            |
 
 ## Beneficiario final: el deudor / comprador
 
 El deudor **no es segmento objetivo del producto** (no usa el sistema), pero su perfil y sus
 derechos **moldean los requisitos**.
 
-| Atributo | Descripción |
-|---|---|
-| Perfil | Comprador de vehículo **sensible a la cuota mensual baja**, dispuesto a asumir un pago final (cuotón) a cambio de cuotas periódicas menores. La modalidad Compra Inteligente encaja exactamente con este perfil. |
-| Por qué importa | Su **óptica define el cálculo de VAN y TIR**; la **norma de transparencia SBS** existe para protegerlo, lo que obliga a exponer TCEA y el desglose de seguros y costos. |
-| Relación con el sistema | Recibe la oferta y la explicación del asesor; sus datos se registran, pero **no opera** la herramienta. |
+| Atributo                | Descripción                                                                                                                                                                                                      |
+|-------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Perfil                  | Comprador de vehículo **sensible a la cuota mensual baja**, dispuesto a asumir un pago final (cuotón) a cambio de cuotas periódicas menores. La modalidad Compra Inteligente encaja exactamente con este perfil. |
+| Por qué importa         | Su **óptica define el cálculo de VAN y TIR**; la **norma de transparencia SBS** existe para protegerlo, lo que obliga a exponer TCEA y el desglose de seguros y costos.                                          |
+| Relación con el sistema | Recibe la oferta y la explicación del asesor; sus datos se registran, pero **no opera** la herramienta.                                                                                                          |
 
 ## Por qué un solo segmento en v1
 
@@ -55,7 +55,7 @@ derechos **moldean los requisitos**.
 
 ## Tabla resumen
 
-| Actor | Relación con el producto | Necesidad principal | Cómo lo atiende AutoFinance |
-|---|---|---|---|
-| Entidad financiera / asesor de crédito | **Segmento objetivo** (opera el sistema) | Cronograma e indicadores exactos, registro editable | Motor de cálculo + CRUD + persistencia trazable |
-| Deudor / comprador | **Beneficiario final** (no opera) | Cuota mensual baja y transparencia del costo | Modalidad balloon + VAN/TIR óptica del deudor + transparencia SBS |
+| Actor                                  | Relación con el producto                 | Necesidad principal                                 | Cómo lo atiende AutoFinance                                       |
+|----------------------------------------|------------------------------------------|-----------------------------------------------------|-------------------------------------------------------------------|
+| Entidad financiera / asesor de crédito | **Segmento objetivo** (opera el sistema) | Cronograma e indicadores exactos, registro editable | Motor de cálculo + CRUD + persistencia trazable                   |
+| Deudor / comprador                     | **Beneficiario final** (no opera)        | Cuota mensual baja y transparencia del costo        | Modalidad balloon + VAN/TIR óptica del deudor + transparencia SBS |

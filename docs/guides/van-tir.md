@@ -2,10 +2,10 @@
 
 Esta guía resume dos indicadores centrales de rentabilidad usados en evaluación de proyectos: el Valor Actual Neto (VAN) y la Tasa Interna de Retorno (TIR). Ambos trabajan con flujos de caja proyectados, pero responden preguntas distintas.
 
-| Indicador | Pregunta que responde | Resultado | Criterio principal |
-|---|---|---:|---|
-| VAN | ¿Cuánto valor monetario crea el proyecto hoy? | Un monto en S/, US$ u otra moneda | Aceptar si VAN > 0 |
-| TIR | ¿Qué porcentaje de rentabilidad genera el proyecto? | Una tasa porcentual | Aceptar si TIR > COK |
+| Indicador | Pregunta que responde                               |                         Resultado | Criterio principal   |
+|-----------|-----------------------------------------------------|----------------------------------:|----------------------|
+| VAN       | ¿Cuánto valor monetario crea el proyecto hoy?       | Un monto en S/, US$ u otra moneda | Aceptar si VAN > 0   |
+| TIR       | ¿Qué porcentaje de rentabilidad genera el proyecto? |               Una tasa porcentual | Aceptar si TIR > COK |
 
 ---
 
@@ -72,12 +72,12 @@ $$
 
 Donde:
 
-| Símbolo | Significado |
-|---|---|
-| $I_0$ | Inversión inicial |
-| $FC_t$ | Flujo de caja del período t |
-| $COK$ | Costo de oportunidad del capital o tasa de descuento |
-| $n$ | Número de períodos del proyecto |
+| Símbolo | Significado                                          |
+|---------|------------------------------------------------------|
+| $I_0$   | Inversión inicial                                    |
+| $FC_t$  | Flujo de caja del período t                          |
+| $COK$   | Costo de oportunidad del capital o tasa de descuento |
+| $n$     | Número de períodos del proyecto                      |
 
 También puede escribirse así:
 
@@ -89,11 +89,11 @@ $$
 
 ### 2.3 Criterios de decisión del VAN
 
-| Resultado | Interpretación | Decisión |
-|---:|---|---|
-| VAN > 0 | El proyecto genera valor por encima del COK | Aceptar |
-| VAN = 0 | El proyecto solo cubre la rentabilidad exigida | Indiferente, aceptar o postergar |
-| VAN < 0 | El proyecto no cubre la rentabilidad exigida | Rechazar |
+| Resultado | Interpretación                                 | Decisión                         |
+|----------:|------------------------------------------------|----------------------------------|
+|   VAN > 0 | El proyecto genera valor por encima del COK    | Aceptar                          |
+|   VAN = 0 | El proyecto solo cubre la rentabilidad exigida | Indiferente, aceptar o postergar |
+|   VAN < 0 | El proyecto no cubre la rentabilidad exigida   | Rechazar                         |
 
 El VAN suele considerarse el criterio más confiable porque mide creación de riqueza en unidades monetarias.
 
@@ -128,11 +128,11 @@ Importante: en Excel, la función `VNA` o `NPV` descuenta desde el período 1. P
 #### Datos del proyecto
 
 | Año | Flujo de caja |
-|---:|---:|
-| 0 | -1,000 |
-| 1 | 400 |
-| 2 | 500 |
-| 3 | 600 |
+|----:|--------------:|
+|   0 |        -1,000 |
+|   1 |           400 |
+|   2 |           500 |
+|   3 |           600 |
 
 COK = 10%
 
@@ -200,11 +200,11 @@ A diferencia del VAN, la TIR no se calcula directamente con una fórmula simple 
 
 ### 3.3 Criterios de decisión de la TIR
 
-| Resultado | Interpretación | Decisión |
-|---:|---|---|
-| TIR > COK | El proyecto supera la rentabilidad mínima exigida | Aceptar |
-| TIR = COK | El proyecto solo iguala la rentabilidad exigida | Indiferente, aceptar o postergar |
-| TIR < COK | El proyecto no alcanza la rentabilidad exigida | Rechazar |
+| Resultado | Interpretación                                    | Decisión                         |
+|----------:|---------------------------------------------------|----------------------------------|
+| TIR > COK | El proyecto supera la rentabilidad mínima exigida | Aceptar                          |
+| TIR = COK | El proyecto solo iguala la rentabilidad exigida   | Indiferente, aceptar o postergar |
+| TIR < COK | El proyecto no alcanza la rentabilidad exigida    | Rechazar                         |
 
 ---
 
@@ -241,11 +241,11 @@ En Excel en inglés:
 #### Datos del proyecto
 
 | Año | Flujo de caja |
-|---:|---:|
-| 0 | -1,000 |
-| 1 | 400 |
-| 2 | 500 |
-| 3 | 600 |
+|----:|--------------:|
+|   0 |        -1,000 |
+|   1 |           400 |
+|   2 |           500 |
+|   3 |           600 |
 
 #### Planteamiento
 
@@ -284,12 +284,12 @@ El proyecto genera una rentabilidad superior a la mínima exigida. Por lo tanto,
 ### 4.1 Proyecto A
 
 | Año | Flujo de caja |
-|---:|---:|
-| 0 | -5,000 |
-| 1 | 1,200 |
-| 2 | 1,500 |
-| 3 | 1,600 |
-| 4 | 1,700 |
+|----:|--------------:|
+|   0 |        -5,000 |
+|   1 |         1,200 |
+|   2 |         1,500 |
+|   3 |         1,600 |
+|   4 |         1,700 |
 
 COK = 12%
 
@@ -304,11 +304,11 @@ $$
 Valores presentes:
 
 | Año | Flujo | Factor de descuento | Valor presente |
-|---:|---:|---:|---:|
-| 1 | 1,200 | 1 / 1.12 | 1,071.43 |
-| 2 | 1,500 | 1 / 1.12² | 1,195.79 |
-| 3 | 1,600 | 1 / 1.12³ | 1,138.83 |
-| 4 | 1,700 | 1 / 1.12⁴ | 1,080.40 |
+|----:|------:|--------------------:|---------------:|
+|   1 | 1,200 |            1 / 1.12 |       1,071.43 |
+|   2 | 1,500 |           1 / 1.12² |       1,195.79 |
+|   3 | 1,600 |           1 / 1.12³ |       1,138.83 |
+|   4 | 1,700 |           1 / 1.12⁴ |       1,080.40 |
 
 Suma de valores presentes:
 
@@ -348,10 +348,10 @@ $$
 
 ### 4.4 Decisión
 
-| Indicador | Resultado | Criterio | Decisión |
-|---|---:|---|---|
-| VAN | -513.55 | VAN < 0 | Rechazar |
-| TIR | 7.29% | TIR < COK de 12% | Rechazar |
+| Indicador | Resultado | Criterio         | Decisión |
+|-----------|----------:|------------------|----------|
+| VAN       |   -513.55 | VAN < 0          | Rechazar |
+| TIR       |     7.29% | TIR < COK de 12% | Rechazar |
 
 Conclusión: el proyecto debe rechazarse porque no genera suficiente valor y su rentabilidad porcentual es menor que la tasa mínima exigida.
 
@@ -359,13 +359,13 @@ Conclusión: el proyecto debe rechazarse porque no genera suficiente valor y su 
 
 ## 5. Diferencia clave entre VAN y TIR
 
-| Criterio | VAN | TIR |
-|---|---|---|
-| Mide | Valor monetario creado | Rentabilidad porcentual |
-| Resultado | S/, US$ u otra moneda | Porcentaje |
-| Usa COK directamente | Sí | Se compara contra el COK |
-| Principal fortaleza | Mide creación de riqueza absoluta | Es fácil de interpretar como porcentaje |
-| Principal cuidado | Depende de una buena estimación del COK | Puede generar problemas con flujos no convencionales o proyectos excluyentes |
+| Criterio             | VAN                                     | TIR                                                                          |
+|----------------------|-----------------------------------------|------------------------------------------------------------------------------|
+| Mide                 | Valor monetario creado                  | Rentabilidad porcentual                                                      |
+| Resultado            | S/, US$ u otra moneda                   | Porcentaje                                                                   |
+| Usa COK directamente | Sí                                      | Se compara contra el COK                                                     |
+| Principal fortaleza  | Mide creación de riqueza absoluta       | Es fácil de interpretar como porcentaje                                      |
+| Principal cuidado    | Depende de una buena estimación del COK | Puede generar problemas con flujos no convencionales o proyectos excluyentes |
 
 ---
 
@@ -399,10 +399,10 @@ donde $P_0$ es el préstamo recibido en el período 0 y $C_t$ es la cuota total 
 
 El criterio se interpreta al revés que en un proyecto de inversión:
 
-| Resultado | Proyecto de inversión | Préstamo (deudor) |
-|---|---|---|
-| VAN > 0 | Crea valor → aceptar | El préstamo es **barato** frente al COK → conviene endeudarse |
-| VAN < 0 | Destruye valor → rechazar | El préstamo es **caro** frente al COK |
+| Resultado | Proyecto de inversión     | Préstamo (deudor)                                             |
+|-----------|---------------------------|---------------------------------------------------------------|
+| VAN > 0   | Crea valor → aceptar      | El préstamo es **barato** frente al COK → conviene endeudarse |
+| VAN < 0   | Destruye valor → rechazar | El préstamo es **caro** frente al COK                         |
 
 La TIR del préstamo, anualizada e incluyendo todos los costos obligatorios (seguros, comisiones, portes), es la **TCEA** (Tasa de Costo Efectivo Anual). El desarrollo detallado, con cronograma y ejemplos, está en [`metodo-frances.md`](metodo-frances.md), [`planes-de-pago.md`](planes-de-pago.md) (§22) y [`metodo-frances-compra-inteligente-balloon.md`](metodo-frances-compra-inteligente-balloon.md).
 
