@@ -521,7 +521,7 @@ TET = \left(1 + \frac{18\%}{24}\right)^6 - 1
 $$
 
 $$
-TET = 4.5852235\%
+TET = 4.58522351\%
 $$
 
 ### Interpretación
@@ -561,7 +561,7 @@ TNA = 360\left[(1 + 4\%)^{1/30} - 1\right]
 $$
 
 $$
-TNA = 47.09563416\%
+TNA = 47.09563448\%
 $$
 
 ### Resultado
@@ -569,7 +569,7 @@ $$
 La tasa nominal anual equivalente con capitalización diaria es:
 
 $$
-TNA = 47.09563416\% \text{ c.d.}
+TNA = 47.09563448\% \text{ c.d.}
 $$
 
 ---
@@ -844,16 +844,16 @@ $$
 
 ---
 
-## 19. Ejemplo 13: Tasa efectiva anual indirecta
+## 19. Ejemplo 13: Tasa efectiva anual implícita
 
-Juan presta S/ 5,000 a Pedro durante 180 días. Pedro devuelve el dinero y, como agradecimiento, le regala una parrilla eléctrica valorizada en S/ 450. Si se analiza como operación financiera, ¿cuál es la **TEA indirecta**?
+Juan presta S/ 5,000 a Pedro durante 180 días. Pedro devuelve el dinero y, como agradecimiento, le regala una parrilla eléctrica valorizada en S/ 450. Si se analiza como operación financiera, ¿cuál es la **TEA implícita**?
 
 ### Datos
 
 | Dato | Valor |
 |---|---:|
 | Capital | S/ 5,000 |
-| Interés indirecto | S/ 450 |
+| Interés implícito | S/ 450 |
 | Monto equivalente | S/ 5,450 |
 | Plazo | 180 días |
 
@@ -873,7 +873,7 @@ $$
 
 ### Resultado
 
-La tasa efectiva anual indirecta es:
+La tasa efectiva anual implícita es:
 
 $$
 TEA = 18.81\%

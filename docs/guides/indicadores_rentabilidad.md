@@ -137,25 +137,25 @@ El COK debe ser coherente con el flujo que se está descontando. No es lo mismo 
 
 Fórmula general del WACC cuando se considera impuesto a la renta:
 
-\[
+$$
 WACC = \frac{E}{D+E}K_e + \frac{D}{D+E}K_d(1-T)
-\]
+$$
 
 Donde:
 
 | Símbolo | Significado |
 |---|---|
-| \(E\) | Valor del capital propio o patrimonio. |
-| \(D\) | Valor de la deuda. |
-| \(K_e\) | Costo del capital propio. |
-| \(K_d\) | Costo de la deuda. |
-| \(T\) | Tasa de impuesto, si aplica. |
+| $E$ | Valor del capital propio o patrimonio. |
+| $D$ | Valor de la deuda. |
+| $K_e$ | Costo del capital propio. |
+| $K_d$ | Costo de la deuda. |
+| $T$ | Tasa de impuesto, si aplica. |
 
 Si el ejercicio no menciona impuestos, puede trabajarse una versión simplificada sin el ajuste tributario:
 
-\[
+$$
 WACC = \frac{E}{D+E}K_e + \frac{D}{D+E}K_d
-\]
+$$
 
 ### 3.3 Regla de consistencia
 
@@ -198,18 +198,18 @@ Mide cuánto más rico sería el inversionista si realiza el proyecto en lugar d
 
 ### 5.2 Fórmula
 
-\[
+$$
 VAN = -I_0 + \sum_{t=1}^{n} \frac{FC_t}{(1+COK)^t}
-\]
+$$
 
 Donde:
 
 | Símbolo | Significado |
 |---|---|
-| \(I_0\) | Inversión inicial en el periodo 0. |
-| \(FC_t\) | Flujo de caja del periodo \(t\). |
-| \(COK\) | Costo de oportunidad del capital o tasa de descuento. |
-| \(n\) | Vida útil u horizonte de evaluación. |
+| $I_0$ | Inversión inicial en el periodo 0. |
+| $FC_t$ | Flujo de caja del periodo $t$. |
+| $COK$ | Costo de oportunidad del capital o tasa de descuento. |
+| $n$ | Vida útil u horizonte de evaluación. |
 
 
 ### 5.2.1 Lectura práctica y fórmula en Excel
@@ -253,6 +253,8 @@ La función `VNA` descuenta solo los flujos futuros. Por eso la inversión del p
 | VAN < 0 | El proyecto no cubre la rentabilidad exigida. | Rechazar. |
 | VAN = 0 | El proyecto iguala exactamente la rentabilidad exigida. | Aceptar, postergar o quedar indiferente según el contexto. |
 
+> **Nota — préstamos desde la perspectiva del deudor:** en este sistema el VAN también se aplica a un préstamo visto por el deudor, donde el préstamo recibido es una **entrada** en el período 0 y las cuotas son **salidas**. En ese caso `VAN = Préstamo − Σ Cuota_t / (1 + COK)^t`, y **VAN > 0 significa que el préstamo es barato** frente al COK (conviene endeudarse), interpretación opuesta a la de un proyecto de inversión. Ver `van_tir.md` (§7) y `metodo_frances.md`.
+
 ### 5.5 Ventajas y desventajas
 
 | Aspecto | Explicación |
@@ -272,9 +274,9 @@ La **Tasa Interna de Retorno (TIR)** es la tasa de descuento que hace que el VAN
 
 ### 6.2 Fórmula conceptual
 
-\[
+$$
 0 = -I_0 + \sum_{t=1}^{n} \frac{FC_t}{(1+TIR)^t}
-\]
+$$
 
 La TIR no se despeja fácilmente cuando hay varios periodos. Normalmente se calcula con hoja de cálculo, calculadora financiera o método numérico.
 
@@ -361,15 +363,15 @@ Mide cuánto se genera por cada unidad monetaria invertida.
 
 ### 7.2 Fórmula
 
-\[
+$$
 B/C = \frac{VA}{I_0}
-\]
+$$
 
 Donde:
 
-\[
+$$
 VA = \sum_{t=1}^{n} \frac{FC_t}{(1+COK)^t}
-\]
+$$
 
 
 ### 7.2.1 Lectura práctica y fórmula en Excel
@@ -425,24 +427,24 @@ No mide rentabilidad directamente. Más bien mide la rapidez con que se recupera
 
 ### 8.3 Fórmula de interpolación
 
-\[
+$$
 PRD = a + \frac{I_0 - FAcum_a}{FDesc_{a+1}}
-\]
+$$
 
 Donde:
 
 | Símbolo | Significado |
 |---|---|
-| \(a\) | Último periodo antes de recuperar la inversión. |
-| \(FAcum_a\) | Flujo acumulado descontado hasta el periodo \(a\). |
-| \(FDesc_{a+1}\) | Flujo descontado del periodo siguiente. |
+| $a$ | Último periodo antes de recuperar la inversión. |
+| $FAcum_a$ | Flujo acumulado descontado hasta el periodo $a$. |
+| $FDesc_{a+1}$ | Flujo descontado del periodo siguiente. |
 
 
 Otra forma práctica de escribirlo, cuando se trabaja con acumulados negativos, es:
 
-\[
+$$
 PRD = \text{Último periodo negativo} + \frac{\text{Monto acumulado negativo pendiente}}{\text{Flujo descontado del siguiente periodo}}
-\]
+$$
 
 En esta fórmula, el numerador representa cuánto falta recuperar al cierre del último periodo negativo; el denominador representa cuánto aporta el flujo descontado del periodo siguiente. Por eso el resultado suele tener una parte entera y una fracción de periodo.
 
@@ -507,21 +509,21 @@ Una empresa evalúa un proyecto con los siguientes datos:
 
 ### 9.3 VAN
 
-\[
+$$
 VAN = -100000 + 26785.71 + 27901.79 + 28471.21 + 34953.49
-\]
+$$
 
-\[
+$$
 VAN = 18112.20
-\]
+$$
 
 **Interpretación:** el proyecto crea S/ 18,112.20 por encima de la rentabilidad exigida del 12%. Por VAN, el proyecto se acepta.
 
 ### 9.4 TIR
 
-\[
+$$
 0 = -100000 + \frac{30000}{(1+TIR)^1} + \frac{35000}{(1+TIR)^2} + \frac{40000}{(1+TIR)^3} + \frac{55000}{(1+TIR)^4}
-\]
+$$
 
 Resultado aproximado:
 
@@ -533,13 +535,13 @@ Como la TIR es mayor que el COK de 12%, el proyecto se acepta.
 
 ### 9.5 Relación B/C
 
-\[
+$$
 B/C = \frac{118112.20}{100000}
-\]
+$$
 
-\[
+$$
 B/C = 1.1811
-\]
+$$
 
 **Interpretación:** por cada S/ 1.00 invertido, el proyecto genera S/ 1.1811 en valor actual. Como B/C > 1, se acepta.
 
@@ -554,13 +556,13 @@ B/C = 1.1811
 
 La inversión se recupera entre los años 3 y 4.
 
-\[
+$$
 PRD = 3 + \frac{100000 - 83158.71}{34953.49}
-\]
+$$
 
-\[
+$$
 PRD = 3.48 \text{ años}
-\]
+$$
 
 **Interpretación:** la inversión se recupera aproximadamente en 3.48 años usando flujos descontados.
 
@@ -605,17 +607,17 @@ La Tasa de Fisher se obtiene calculando la **TIR del flujo diferencial o increme
 
 Si se comparan los proyectos A y B:
 
-\[
+$$
 Flujo\ diferencial_t = FC_{A,t} - FC_{B,t}
-\]
+$$
 
 Luego se calcula la tasa que hace cero el VAN diferencial:
 
-\[
+$$
 0 = \sum_{t=0}^{n} \frac{FC_{A,t} - FC_{B,t}}{(1+TF)^t}
-\]
+$$
 
-Esa tasa \(TF\) es la Tasa de Fisher.
+Esa tasa $TF$ es la Tasa de Fisher.
 
 En Excel o Google Sheets:
 
@@ -751,19 +753,19 @@ El **Valor Actual de Costos (VAC)** trae al periodo 0 todos los costos asociados
 
 ### 11.2 Fórmula general
 
-\[
+$$
 VAC = I_0 + \sum_{t=1}^{n} \frac{C_t}{(1+i)^t} - \frac{S_n}{(1+i)^n}
-\]
+$$
 
 Donde:
 
 | Símbolo | Significado |
 |---|---|
-| \(I_0\) | Costo inicial. |
-| \(C_t\) | Costo de operación, mantenimiento u otros costos del periodo \(t\). |
-| \(S_n\) | Valor de salvataje al final de la vida útil. |
-| \(i\) | Tasa de descuento. |
-| \(n\) | Vida útil. |
+| $I_0$ | Costo inicial. |
+| $C_t$ | Costo de operación, mantenimiento u otros costos del periodo $t$. |
+| $S_n$ | Valor de salvataje al final de la vida útil. |
+| $i$ | Tasa de descuento. |
+| $n$ | Vida útil. |
 
 ### 11.3 Criterio
 
@@ -782,22 +784,22 @@ Una empresa evalúa dos máquinas con vida útil de 10 años y TEA de 11%.
 
 | Dato | Máquina 1 | Máquina 2 |
 |---|---:|---:|
-| Costo inicial | US$ 50,000 | US$ 65,000 |
-| Costo anual de operación | US$ 3,000 | US$ 500 |
-| Valor de salvataje | US$ 5,000 | US$ 10,000 |
+| Costo inicial | US\$ 50,000 | US\$ 65,000 |
+| Costo anual de operación | US\$ 3,000 | US\$ 500 |
+| Valor de salvataje | US\$ 5,000 | US\$ 10,000 |
 | Vida útil | 10 años | 10 años |
 | Tasa | 11% | 11% |
 
 ### 12.2 Cálculo
 
-\[
+$$
 VAC = I_0 + C \left(\frac{1-(1+i)^{-n}}{i}\right) - \frac{S}{(1+i)^n}
-\]
+$$
 
 | Alternativa | VAC aproximado |
 |---|---:|
-| Máquina 1 | US$ 65,906.77 |
-| Máquina 2 | US$ 64,422.77 |
+| Máquina 1 | US\$ 65,906.77 |
+| Máquina 2 | US\$ 64,422.77 |
 
 ### 12.3 Decisión
 
@@ -815,17 +817,17 @@ Primero se calcula el VAC. Luego se transforma ese valor en un costo anual unifo
 
 ### 13.2 Fórmula
 
-\[
+$$
 CAUE = VAC \cdot \frac{i(1+i)^n}{(1+i)^n - 1}
-\]
+$$
 
 Donde:
 
 | Símbolo | Significado |
 |---|---|
-| \(VAC\) | Valor actual de costos. |
-| \(i\) | Tasa de descuento. |
-| \(n\) | Vida útil. |
+| $VAC$ | Valor actual de costos. |
+| $i$ | Tasa de descuento. |
+| $n$ | Vida útil. |
 
 ### 13.3 Criterio
 
@@ -844,20 +846,20 @@ Se comparan dos equipos con TEA de 14%.
 
 | Dato | Equipo 1 | Equipo 2 |
 |---|---:|---:|
-| Costo inicial | US$ 80,000 | US$ 90,000 |
-| Mantenimiento anual | US$ 5,000 | US$ 3,000 |
-| Mano de obra anual | US$ 25,000 | US$ 15,000 |
-| Otros costos anuales | US$ 0 | US$ 5,000 |
-| Costo anual total | US$ 30,000 | US$ 23,000 |
-| Salvataje | US$ 10,000 | US$ 20,000 |
+| Costo inicial | US\$ 80,000 | US\$ 90,000 |
+| Mantenimiento anual | US\$ 5,000 | US\$ 3,000 |
+| Mano de obra anual | US\$ 25,000 | US\$ 15,000 |
+| Otros costos anuales | US\$ 0 | US\$ 5,000 |
+| Costo anual total | US\$ 30,000 | US\$ 23,000 |
+| Salvataje | US\$ 10,000 | US\$ 20,000 |
 | Vida útil | 4 años | 7 años |
 
 ### 14.2 Resultados
 
 | Alternativa | VAC aproximado | CAUE aproximado |
 |---|---:|---:|
-| Equipo 1 | US$ 161,490.57 | US$ 55,424.33 |
-| Equipo 2 | US$ 180,638.26 | US$ 42,123.47 |
+| Equipo 1 | US\$ 161,490.57 | US\$ 55,424.33 |
+| Equipo 2 | US\$ 180,638.26 | US\$ 42,123.47 |
 
 ### 14.3 Decisión
 
@@ -902,24 +904,24 @@ Datos:
 
 | Dato | Máquina 1 | Máquina 2 |
 |---|---:|---:|
-| Costo inicial | US$ 5,000 | US$ 7,500 |
-| Costo anual | US$ 200 | US$ 100 |
-| Salvataje | US$ 100 | US$ 1,000 |
+| Costo inicial | US\$ 5,000 | US\$ 7,500 |
+| Costo anual | US\$ 200 | US\$ 100 |
+| Salvataje | US\$ 100 | US\$ 1,000 |
 | Vida útil | 2 años | 3 años |
 | Tasa | 18% | 18% |
 
 Horizonte común:
 
-\[
+$$
 MCM(2,3) = 6 \text{ años}
-\]
+$$
 
 Resultados aproximados al traer todos los ciclos a valor actual:
 
 | Alternativa | Costo actualizado en 6 años |
 |---|---:|
-| Máquina 1 | US$ 11,708.95 |
-| Máquina 2 | US$ 11,435.43 |
+| Máquina 1 | US\$ 11,708.95 |
+| Máquina 2 | US\$ 11,435.43 |
 
 **Decisión:** elegir la **Máquina 2**, porque tiene menor costo actualizado en el horizonte común.
 
@@ -933,11 +935,11 @@ El **Costo Capitalizado (CC)** se usa cuando el proyecto o alternativa se consid
 
 ### 16.2 Fórmula básica de perpetuidad
 
-Si existe un costo anual constante \(R\) indefinido:
+Si existe un costo anual constante $R$ indefinido:
 
-\[
+$$
 CC = \frac{R}{i}
-\]
+$$
 
 Si el costo empieza en un periodo futuro, debe descontarse al presente.
 
@@ -954,11 +956,11 @@ Si el costo empieza en un periodo futuro, debe descontarse al presente.
 
 ### 16.4 Mantenimiento periódico indefinido
 
-Si cada \(k\) años se incurre en un costo \(M\), su valor presente como serie indefinida es:
+Si cada $k$ años se incurre en un costo $M$, su valor presente como serie indefinida es:
 
-\[
+$$
 VP = \frac{M}{(1+i)^k - 1}
-\]
+$$
 
 ---
 
@@ -979,15 +981,15 @@ Un proyecto requiere:
 
 ### 17.2 Modelo de cálculo
 
-\[
+$$
 CC = 500000 + VP(10000 \text{ de año 1 a 7}) + VP(25000 \text{ desde año 8 a perpetuidad}) + \frac{100000}{(1.25)^5} + \frac{50000}{(1.25)^{15}-1}
-\]
+$$
 
 Resultado aproximado:
 
-\[
+$$
 CC = S/ 587174.28
-\]
+$$
 
 ### 17.3 Interpretación
 
@@ -1296,9 +1298,9 @@ Tasa: 15%.
 
 Modelo:
 
-\[
+$$
 CC = 300000 + \frac{18000}{0.20} + \frac{40000}{(1.20)^{10}-1}
-\]
+$$
 
 ---
 

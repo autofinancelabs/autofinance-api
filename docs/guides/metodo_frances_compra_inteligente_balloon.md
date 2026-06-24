@@ -125,9 +125,9 @@ Esto evita que el saldo principal aumente, aunque el deudor todavía asume costo
 
 ---
 
-# 7. Ejemplo complementario del Excel: Plan 36 con compra inteligente IB
+## 7. Ejemplo complementario del Excel: Plan 36 con compra inteligente IB
 
-## 7.1. Datos del préstamo
+### 7.1. Datos del préstamo
 
 | Concepto | Valor |
 |---|---:|
@@ -146,7 +146,7 @@ Esto evita que el saldo principal aumente, aunque el deudor todavía asume costo
 | Cuotas por año | 12 |
 | Número total de cuotas ordinarias | 36 |
 
-## 7.2. Costos iniciales
+### 7.2. Costos iniciales
 
 | Concepto | Valor |
 |---|---:|
@@ -176,7 +176,7 @@ Préstamo = 12,800.00 + 175.00
 Préstamo = 12,975.00
 ```
 
-## 7.3. Tasas del financiamiento
+### 7.3. Tasas del financiamiento
 
 | Concepto | Valor |
 |---|---:|
@@ -200,7 +200,7 @@ Como el Excel parte de una tasa nominal anual con capitalización diaria, primer
 
 ---
 
-## 7.4. Estructura financiera de la compra inteligente
+### 7.4. Estructura financiera de la compra inteligente
 
 En este ejemplo, el préstamo total se separa en dos partes:
 
@@ -228,7 +228,7 @@ La lógica es que una parte del préstamo se paga con cuotas ordinarias y otra p
 
 ---
 
-## 7.5. Gracia total y gracia parcial del ejemplo
+### 7.5. Gracia total y gracia parcial del ejemplo
 
 El cronograma incluye:
 
@@ -251,7 +251,7 @@ Durante la gracia parcial, el saldo regular se mantiene en 9,360.44 porque se pa
 
 ---
 
-## 7.6. Cuota regular del tramo ordinario
+### 7.6. Cuota regular del tramo ordinario
 
 En el tramo ordinario, la cuota regular del Excel es:
 
@@ -283,7 +283,7 @@ C = 379.16
 
 ---
 
-## 7.7. Costos periódicos del ejemplo
+### 7.7. Costos periódicos del ejemplo
 
 | Concepto | Valor por período |
 |---|---:|
@@ -303,7 +303,7 @@ En los períodos de gracia, aunque no exista amortización, el Excel sigue regis
 
 ---
 
-## 7.8. Cronograma resumido
+### 7.8. Cronograma resumido
 
 La tabla siguiente muestra los primeros períodos y la parte final del cronograma. Los valores se presentan en positivo para facilitar la lectura, aunque en el Excel los pagos aparecen como salidas de caja.
 
@@ -325,7 +325,7 @@ La tabla siguiente muestra los primeros períodos y la parte final del cronogram
 
 ---
 
-## 7.9. Resultados acumulados
+### 7.9. Resultados acumulados
 
 | Indicador | Resultado |
 |---|---:|
@@ -342,7 +342,7 @@ La tabla siguiente muestra los primeros períodos y la parte final del cronogram
 
 ---
 
-## 7.10. VAN, TIR y TCEA
+### 7.10. VAN, TIR y TCEA
 
 El VAN del financiamiento se calcula comparando el préstamo recibido con los pagos futuros descontados a la COK del período:
 
