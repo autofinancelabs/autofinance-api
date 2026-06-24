@@ -1,0 +1,90 @@
+@startuml database_er_diagram
+' Modelo entidad-relacion (PostgreSQL) - AutoFinance
+' FK reales solo intra-agregado (credit_simulations -> schedule_row, grace_period).
+' client_id / vehicle_offer_id: referencias by-id SIN FK (frontera ACL).
+' Espejo del diagrama Mermaid en docs/architecture/database_model.md
+
+hide circle
+skinparam linetype ortho
+
+entity "users" as users {
+  * id : uuid <<PK>>
+  --
+  * email : varchar
+  * username : varchar
+  * password_hash : varchar
+}
+
+entity "clients" as clients {
+  * id : uuid <<PK>>
+  --
+  * document_id_type : varchar
+  * document_id_number : varchar
+  contact_email : varchar
+  contact_phone : varchar
+  contact_address : varchar
+}
+
+entity "vehicle_offers" as offers {
+  * id : uuid <<PK>>
+  --
+  * vehicle_make : varchar
+  * vehicle_model : varchar
+  * vehicle_year : integer
+  * sale_price_amount : numeric(18,2)
+  * sale_price_currency : varchar
+  plan_name : varchar
+}
+
+entity "credit_simulations" as sim {
+  * id : uuid <<PK>>
+  --
+  * client_id : uuid <<by-id, no FK>>
+  * vehicle_offer_id : uuid <<by-id, no FK>>
+  * rate_value : numeric(18,10)
+  * rate_type : varchar
+  rate_capitalization : varchar
+  * initial_percentage : numeric(18,6)
+  * balloon_percentage : numeric(18,6)
+  * number_of_installments : integer
+  * loan_amount_amount : numeric(18,2)
+  * financed_balance_amount : numeric(18,12)
+  npv : numeric(18,2)
+  periodic_irr : numeric(18,8)
+  tcea : numeric(18,6)
+  * state : varchar
+  * version : bigint
+}
+
+entity "grace_period" as grace {
+  * credit_simulation_id : uuid <<PK>> <<FK>>
+  * period_index : integer <<PK>>
+  --
+  * grace_type : varchar
+}
+
+entity "schedule_row" as srow {
+  * credit_simulation_id : uuid <<PK>> <<FK>>
+  * period : integer <<PK>>
+  --
+  * grace_type : varchar
+  opening_balance_cuoton : numeric(18,2)
+  interest_cuoton : numeric(18,2)
+  closing_balance_cuoton : numeric(18,2)
+  opening_balance : numeric(18,2)
+  interest : numeric(18,2)
+  installment : numeric(18,2)
+  amortization : numeric(18,2)
+  closing_balance : numeric(18,2)
+  cash_flow : numeric(18,2)
+}
+
+' Relaciones intra-agregado (FK real)
+sim ||--o{ grace : "tiene (FK)"
+sim ||--o{ srow : "tiene (FK)"
+
+' Referencias by-id (sin FK, frontera ACL) -- punteadas
+clients ||..o{ sim : "by-id (sin FK)"
+offers  ||..o{ sim : "by-id (sin FK)"
+
+@enduml
