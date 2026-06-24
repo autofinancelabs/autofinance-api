@@ -2,7 +2,7 @@
 
 > Glosario **consolidado** del lenguaje común de AutoFinance, **organizado por bounded context** tras
 > el descubrimiento de dominio de la Fase 3. Sustituye a la semilla v1 (que agrupaba por temas A–G).
-> El detalle financiero (fórmulas) vive en `docs/design/`; el modelo táctico en
+> El detalle financiero (fórmulas) vive en `docs/guides/`; el modelo táctico en
 > [domain-model.md](../ddd/domain-model.md) y [bounded-contexts.md](../ddd/bounded-contexts.md).
 
 ## Cómo leer este glosario

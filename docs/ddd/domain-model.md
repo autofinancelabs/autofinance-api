@@ -2,9 +2,9 @@
 
 > Modelo de dominio **táctico** del contexto core **Credit Simulation**: agregado, entidades, value
 > objects, servicios de dominio, repositorio, factory y eventos, cada uno justificado con el árbol de
-> decisión del skill `ddd-playbook`. Las fórmulas viven en
-> [marco-conceptual-formulas.md](../design/marco-conceptual-formulas.md) y los tipos/restricciones en
-> [analisis-de-datos.md](../design/analisis-de-datos.md); aquí se modela el **dominio**. Diagrama de
+> decisión del skill `ddd-playbook`. Las fórmulas de referencia viven en `docs/guides/` (resumidas en
+> [marco-conceptual-formulas.md](../report/marco-conceptual-formulas.md)) y los tipos/restricciones en
+> [analisis-de-datos.md](../report/analisis-de-datos.md); aquí se modela el **dominio**. Diagrama de
 > clases: [credit-simulation-class-diagram.puml](../diagrams/credit-simulation-class-diagram.puml).
 
 ## Alcance

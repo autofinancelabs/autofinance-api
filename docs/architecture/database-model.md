@@ -2,7 +2,7 @@
 
 > Modelo relacional para PostgreSQL: **mapeo tabla↔dominio**, **DDL** y **diagrama ER**. Deriva del
 > modelo táctico [domain-model.md](../ddd/domain-model.md) y respeta la precisión del diccionario
-> [analisis-de-datos.md](../design/analisis-de-datos.md). El diagrama ER también está en PlantUML en
+> [analisis-de-datos.md](../report/analisis-de-datos.md). El diagrama ER también está en PlantUML en
 > [database-er-diagram.puml](../diagrams/database-er-diagram.puml).
 
 ## Reglas de mapeo (DDD → JPA → PostgreSQL)
