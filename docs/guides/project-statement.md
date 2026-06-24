@@ -16,14 +16,7 @@ En todos los casos deberán tomar en cuenta lo siguiente:
 
 1. **Introducción.**
 2. **Índice.**
-3. **Objetivo del Estudiante (Student Outcome).**### **Entrega**
-
-2. En cuanto a la entrega, deberán subir al BB un archivo comprimido con los siguientes archivos:
-    ✓ Presentación en PowerPoint con enfoque académico/comercial de su aplicación, donde se detalle las herramientas que utilizaron para su confección, lenguajes de programación, base de datos, servicio de alojamiento y si se encuentra desplegada, su dirección web; así como los requerimientos de hardware para su correcto funcionamiento.
-    ✓ Informe en Word de la primera parte del trabajo. En caso hubieran tenido importantes observaciones en la retroalimentación del profesor en la primera entrega, deberán de presentarlos con las correcciones del caso.
-    ✓ Anexo del informe, escaneados o como imágenes adjuntas.
-    ✓ Directorio con todos archivos fuente del proyecto comprimidos.
-    ✓ Video demostrativo.
+3. **Objetivo del Estudiante (Student Outcome).**
 4. **Definiciones generales y conceptos básicos.**
 5. **Marco Legal y Teórico.-** El que nos permita conocer el marco normativo para el Perú, así como entender los conceptos y metodologías que se aplican en este caso. Toda referencia a un contenido metodológico deberá estar referido a una norma legal, bibliografía o referencia web.
 6. **Análisis y Diseño del Sistema.-** Siendo obligatoria la presentación de las siguientes partes:
