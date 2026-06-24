@@ -1,9 +1,9 @@
-@startuml credit_simulation_class_diagram
+@startuml credit-simulation-class-diagram
 title Credit Simulation - Domain Model (core)
 
 ' DDD stereotypes: «aggregate root», «value object», «domain service»,
 ' «repository», «factory», enumerations as `enum`.
-' Business glossary <-> model mapping: docs/product/lenguaje_ubicuo.md
+' Business glossary <-> model mapping: docs/product/lenguaje-ubicuo.md
 
 skinparam classAttributeIconSize 0
 

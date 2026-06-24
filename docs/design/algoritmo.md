@@ -2,12 +2,12 @@
 
 > Algoritmo de solución del cronograma y los indicadores, en **pseudocódigo** (no es un diagrama de
 > procesos). Resuelve el "cómo se calcula", complementando el "qué" de
-> [marco_conceptual_formulas.md](marco_conceptual_formulas.md) y el diccionario de
-> [analisis_de_datos.md](analisis_de_datos.md).
+> [marco-conceptual-formulas.md](marco-conceptual-formulas.md) y el diccionario de
+> [analisis-de-datos.md](analisis-de-datos.md).
 
 ## 1. Entradas, salidas y precondiciones
 
-- **Entrada**: los datos de §4 de [analisis_de_datos.md](analisis_de_datos.md) (PV, moneda, tasa +
+- **Entrada**: los datos de §4 de [analisis-de-datos.md](analisis-de-datos.md) (PV, moneda, tasa +
   capitalización, %CI, %cuotón, n, frecuencia, gracia, costos, COK).
 - **Salida**: cronograma (filas), totales y los indicadores VAN, TIR, TCEA, más el eco de tasas.
 - **Precondiciones** (§7 del diccionario): capitalización obligatoria si la tasa es nominal;
@@ -174,13 +174,13 @@ FUNCIÓN calcularTCEA(tirPeriodo, cuotasPorAnio) -> tcea:
 - En periodos `S`: `cuotaRegular = interes + amortizacion`.
 - Gracia `T`: el saldo sube (`SF = SI × (1+i)`); gracia `P`: el saldo se mantiene.
 - El bloque del cuotón crece cada periodo y se cancela en la fila de liquidación.
-- Reproducible contra el dataset **D1 (Plan 36)** de [datos_de_prueba.md](datos_de_prueba.md).
+- Reproducible contra el dataset **D1 (Plan 36)** de [datos-de-prueba.md](datos-de-prueba.md).
 
 ## 6. Complejidad y precisión
 
 - **Complejidad**: `O(n)` para el cronograma; `O(n · iteraciones)` para la TIR (numérica).
 - **Precisión**: `BigDecimal` con scale interno ≥ 12 y `HALF_UP`; VAN/TIR sobre flujos sin redondear
-  (ver §3 de [analisis_de_datos.md](analisis_de_datos.md)).
+  (ver §3 de [analisis-de-datos.md](analisis-de-datos.md)).
 
 ## 7. Diagrama de flujo (orquestación)
 

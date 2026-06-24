@@ -1,8 +1,8 @@
 # Product backlog
 
 > Backlog **representativo** (historias clave por épica, no exhaustivo) de AutoFinance.
-> Acompaña a [about.md](about.md) y [segmentos_objetivo.md](segmentos_objetivo.md). El
-> vocabulario está en [lenguaje_ubicuo.md](lenguaje_ubicuo.md).
+> Acompaña a [about.md](about.md) y [segmentos-objetivo.md](segmentos-objetivo.md). El
+> vocabulario está en [lenguaje-ubicuo.md](lenguaje-ubicuo.md).
 
 ## Convenciones
 

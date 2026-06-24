@@ -1,7 +1,7 @@
 # Segmento objetivo
 
 > Define **a quién va dirigido** AutoFinance. Acompaña a [about.md](about.md) y usa el
-> vocabulario de [lenguaje_ubicuo.md](lenguaje_ubicuo.md).
+> vocabulario de [lenguaje-ubicuo.md](lenguaje-ubicuo.md).
 
 ## Marco conceptual
 

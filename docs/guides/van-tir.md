@@ -404,5 +404,5 @@ El criterio se interpreta al revés que en un proyecto de inversión:
 | VAN > 0 | Crea valor → aceptar | El préstamo es **barato** frente al COK → conviene endeudarse |
 | VAN < 0 | Destruye valor → rechazar | El préstamo es **caro** frente al COK |
 
-La TIR del préstamo, anualizada e incluyendo todos los costos obligatorios (seguros, comisiones, portes), es la **TCEA** (Tasa de Costo Efectivo Anual). El desarrollo detallado, con cronograma y ejemplos, está en [`metodo_frances.md`](metodo_frances.md), [`planes_de_pago.md`](planes_de_pago.md) (§22) y [`metodo_frances_compra_inteligente_balloon.md`](metodo_frances_compra_inteligente_balloon.md).
+La TIR del préstamo, anualizada e incluyendo todos los costos obligatorios (seguros, comisiones, portes), es la **TCEA** (Tasa de Costo Efectivo Anual). El desarrollo detallado, con cronograma y ejemplos, está en [`metodo-frances.md`](metodo-frances.md), [`planes-de-pago.md`](planes-de-pago.md) (§22) y [`metodo-frances-compra-inteligente-balloon.md`](metodo-frances-compra-inteligente-balloon.md).
 

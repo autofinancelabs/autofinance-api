@@ -1,8 +1,8 @@
-@startuml database_er_diagram
+@startuml database-er-diagram
 ' Modelo entidad-relacion (PostgreSQL) - AutoFinance
 ' FK reales solo intra-agregado (credit_simulations -> schedule_row, grace_period).
 ' client_id / vehicle_offer_id: referencias by-id SIN FK (frontera ACL).
-' Espejo del diagrama Mermaid en docs/architecture/database_model.md
+' Espejo del diagrama Mermaid en docs/architecture/database-model.md
 
 hide circle
 skinparam linetype ortho

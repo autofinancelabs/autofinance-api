@@ -3,7 +3,7 @@
 > Documento de producto (brief). Resume **qué es**, **qué problema resuelve** y **hasta dónde
 > llega** AutoFinance. Es el punto de entrada para entender el alcance antes del modelado de
 > dominio y el código. El vocabulario usado aquí está definido en
-> [lenguaje_ubicuo.md](lenguaje_ubicuo.md).
+> [lenguaje-ubicuo.md](lenguaje-ubicuo.md).
 
 ## Qué es
 
@@ -57,7 +57,7 @@ Conviene no confundir tres planos:
 |---|---|
 | **Punto de vista del producto/sistema** | La **entidad financiera** (el sistema es su herramienta). |
 | **Perspectiva de cálculo de VAN y TIR** | El **deudor** (los indicadores se calculan desde su óptica). |
-| **Segmento objetivo** | La **entidad financiera**, representada por el **asesor de crédito** (ver [segmentos_objetivo.md](segmentos_objetivo.md)). |
+| **Segmento objetivo** | La **entidad financiera**, representada por el **asesor de crédito** (ver [segmentos-objetivo.md](segmentos-objetivo.md)). |
 
 ## Stakeholders
 
