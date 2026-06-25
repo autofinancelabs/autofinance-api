@@ -1,12 +1,9 @@
 package com.autofinance.api;
 
-import org.junit.jupiter.api.Disabled;
+import com.autofinance.api.shared.AbstractIntegrationTest;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
-@Disabled("Needs a database + JPA mapping; re-enabled in the persistence slice (Testcontainers + tenant resolver)")
-class AutofinanceApiApplicationTests {
+class AutofinanceApiApplicationTests extends AbstractIntegrationTest {
 
     @Test
     void contextLoads() {

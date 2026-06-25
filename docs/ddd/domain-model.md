@@ -47,6 +47,15 @@ aísla la simulación por concesionaria (`@TenantId` de Hibernate).
 | **Throughput**                                | Bajo: un asesor por simulación; sin contención (≈1 cliente por instancia) → optimistic locking suficiente.                                                                                                                                                                                                                                                                                                                                                                                             |
 | **Size**                                      | Acotado: `n` filas (Plan 36/60) + 1 liquidación; instancia pequeña.                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 
+> **Nota de persistencia (mapeo).** El agregado guarda como campos **mapeados** dos listas planas:
+> `grace: List<GraceType>` y `costs: List<Cost>` (tablas hijas ordenadas `grace_periods` y
+> `credit_simulation_costs`). Los value objects `GraceConfiguration` y `Costs` son **wrappers
+> transitorios** que el agregado reconstruye sobre esas listas para alimentar a los calculadores; el
+> **constructor sí acepta** `GraceConfiguration`/`Costs` y los desempaqueta. El **cronograma**
+> (`schedule: List<ScheduleRow>`) y el **resumen** (`summary: SimulationSummary`, con `totalsPerCost`)
+> se persisten como **snapshots `jsonb`** (serializados por Jackson) en la propia tabla
+> `credit_simulations`, no como tablas hijas. Ver [database-model.md](../architecture/database-model.md).
+
 ## Entities
 
 | Entity             | Rol               | Justificación                                                             |

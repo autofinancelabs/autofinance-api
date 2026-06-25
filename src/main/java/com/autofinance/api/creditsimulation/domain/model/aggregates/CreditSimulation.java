@@ -3,9 +3,11 @@ package com.autofinance.api.creditsimulation.domain.model.aggregates;
 import com.autofinance.api.creditsimulation.domain.exceptions.ScheduleNotBalancedException;
 import com.autofinance.api.creditsimulation.domain.model.events.SimulationGenerated;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.ClientId;
+import com.autofinance.api.creditsimulation.domain.model.valueobjects.Cost;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.Costs;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.DealershipId;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.GraceConfiguration;
+import com.autofinance.api.creditsimulation.domain.model.valueobjects.GraceType;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.Indicators;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.Money;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.Percentage;
@@ -31,11 +33,14 @@ import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OrderColumn;
-import jakarta.persistence.Transient;
+import jakarta.persistence.Version;
 import lombok.Getter;
+import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.TenantId;
+import org.hibernate.type.SqlTypes;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -91,13 +96,19 @@ public class CreditSimulation extends AuditableAbstractAggregateRoot<CreditSimul
     @Embedded
     private Term term;
 
-    /** Persistence mapping (grace_period child table) is deferred to the persistence slice. */
-    @Transient
-    private GraceConfiguration grace;
+    /** Grace plan persisted as an ordered child table; wrapped in {@link GraceConfiguration} for calc. */
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "grace_period", joinColumns = @JoinColumn(name = "credit_simulation_id"))
+    @OrderColumn(name = "period_index")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "grace_type")
+    private List<GraceType> grace = new ArrayList<>();
 
-    /** Flexible cost set; persistence mapping deferred to the persistence slice. */
-    @Transient
-    private Costs costs;
+    /** Flexible cost set persisted as an ordered child table; wrapped in {@link Costs} for calc. */
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "credit_simulation_cost", joinColumns = @JoinColumn(name = "credit_simulation_id"))
+    @OrderColumn(name = "cost_index")
+    private List<Cost> costs = new ArrayList<>();
 
     @Embedded
     @AttributeOverrides({
@@ -121,21 +132,26 @@ public class CreditSimulation extends AuditableAbstractAggregateRoot<CreditSimul
     })
     private Money financedBalance;
 
-    @ElementCollection
-    @CollectionTable(name = "schedule_row", joinColumns = @JoinColumn(name = "credit_simulation_id"))
-    @OrderColumn(name = "row_index")
+    /** Computed schedule persisted as a jsonb snapshot (the quote as generated). */
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "schedule", columnDefinition = "jsonb")
     private List<ScheduleRow> schedule = new ArrayList<>();
 
     @Embedded
     private Indicators indicators;
 
-    /** Accumulated totals; persistence mapping deferred to the persistence slice. */
-    @Transient
+    /** Accumulated totals persisted as a jsonb snapshot. */
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "summary", columnDefinition = "jsonb")
     private SimulationSummary summary;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "state")
     private SimulationState state;
+
+    @Version
+    @Column(name = "version")
+    private long version;
 
     protected CreditSimulation() {
         // for JPA
@@ -153,8 +169,8 @@ public class CreditSimulation extends AuditableAbstractAggregateRoot<CreditSimul
         this.initialPercentage = initialPercentage;
         this.balloonPercentage = balloonPercentage;
         this.term = term;
-        this.grace = grace;
-        this.costs = costs;
+        this.grace = new ArrayList<>(grace.periods());
+        this.costs = new ArrayList<>(costs.items());
         this.costOfCapital = costOfCapital;
 
         BigDecimal i = rate.toPeriodicRate(term.frequencyDays(), term.daysPerYear());
@@ -179,7 +195,7 @@ public class CreditSimulation extends AuditableAbstractAggregateRoot<CreditSimul
         BigDecimal balloon = balloonPercentage.of(salePrice.amount());
 
         this.schedule = scheduleCalculator.build(
-                loanAmount.amount(), balloon, i, salePrice.amount(), term, grace, costs);
+                loanAmount.amount(), balloon, i, salePrice.amount(), term, graceConfiguration(), costSet());
 
         BigDecimal periodicCostOfCapital = costOfCapital.toPeriodicRate(term.frequencyDays(), term.daysPerYear());
         BigDecimal effectiveAnnualRate = rate.toEffectiveAnnual(term.daysPerYear());
@@ -204,6 +220,16 @@ public class CreditSimulation extends AuditableAbstractAggregateRoot<CreditSimul
             throw new ScheduleNotBalancedException(
                     "Last regular closing balance is not ~0: " + lastRegularClosing);
         }
+    }
+
+    /** Wraps the persisted raw grace list into the domain value object used by the calculators. */
+    private GraceConfiguration graceConfiguration() {
+        return new GraceConfiguration(grace);
+    }
+
+    /** Wraps the persisted raw cost list into the domain value object used by the calculators. */
+    private Costs costSet() {
+        return new Costs(costs);
     }
 
     @Override
