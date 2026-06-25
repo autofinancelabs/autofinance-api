@@ -1,6 +1,7 @@
 @startuml database-er-diagram
 ' Modelo entidad-relacion (PostgreSQL) - AutoFinance
-' FK reales solo intra-agregado (credit_simulations -> schedule_row, grace_period).
+' FK reales solo intra-agregado (credit_simulations -> grace_periods, credit_simulation_costs).
+' El cronograma (schedule) y el resumen (summary) son columnas jsonb en credit_simulations, no tablas.
 ' client_id / vehicle_offer_id: referencias by-id SIN FK (frontera ACL).
 ' Espejo del diagrama Mermaid en docs/architecture/database-model.md
 
@@ -64,32 +65,28 @@ entity "credit_simulations" as sim {
   npv : numeric(18,2)
   periodic_irr : numeric(18,8)
   tcea : numeric(18,6)
+  schedule : jsonb <<snapshot cronograma>>
+  summary : jsonb <<snapshot totales>>
   * state : varchar
   * version : bigint
 }
 
-entity "grace_period" as grace {
+entity "grace_periods" as grace {
   * credit_simulation_id : uuid <<PK>> <<FK>>
   * period_index : integer <<PK>>
   --
   * grace_type : varchar
 }
 
-entity "schedule_row" as srow {
+entity "credit_simulation_costs" as costs {
   * credit_simulation_id : uuid <<PK>> <<FK>>
-  * period : integer <<PK>>
+  * cost_index : integer <<PK>>
   --
-  * grace_type : varchar
-  opening_balance_balloon : numeric(18,2)
-  interest_balloon : numeric(18,2)
-  balloon_credit_life_insurance : numeric(18,2)
-  closing_balance_balloon : numeric(18,2)
-  opening_balance : numeric(18,2)
-  interest : numeric(18,2)
-  installment : numeric(18,2)
-  amortization : numeric(18,2)
-  closing_balance : numeric(18,2)
-  cash_flow : numeric(18,2)
+  * name : varchar
+  * value : numeric(18,10)
+  * basis : varchar
+  * timing : varchar
+  * embedded : boolean
 }
 
 ' Tenant: dealerships -> users (FK) + clients/offers/sim (@TenantId)
@@ -100,7 +97,7 @@ deal ||--o{ sim : "tenant"
 
 ' Relaciones intra-agregado (FK real)
 sim ||--o{ grace : "tiene (FK)"
-sim ||--o{ srow : "tiene (FK)"
+sim ||--o{ costs : "tiene (FK)"
 
 ' Referencias by-id (sin FK, frontera ACL) -- punteadas
 clients ||..o{ sim : "by-id (sin FK)"

@@ -24,9 +24,9 @@
 | `users`              | `User` (IAM, generic)                         | Credenciales mínimas; `dealership_id` (FK) → su concesionaria.                                       |
 | `clients`            | `Client` (supporting)                         | VOs `DocumentId`, `ContactInfo` embebidos; `dealership_id` (`@TenantId`).                            |
 | `vehicle_offers`     | `VehicleOffer` (supporting)                   | `Vehicle`, `SalePrice` (Money), `Plan` embebidos; `dealership_id` (`@TenantId`).                     |
-| `credit_simulations` | `CreditSimulation` (core, raíz)               | VOs escalares embebidos; `client_id`/`vehicle_offer_id` by-id sin FK; `dealership_id` (`@TenantId`). |
-| `grace_period`       | `GraceConfiguration.periods: List<GraceType>` | Tabla hija **ordenada** (`period_index`).                                                            |
-| `schedule_row`       | `schedule: List<ScheduleRow>`                 | Tabla hija; PK `(credit_simulation_id, period)`.                                                     |
+| `credit_simulations`     | `CreditSimulation` (core, raíz)               | VOs escalares embebidos; `client_id`/`vehicle_offer_id` by-id sin FK; `dealership_id` (`@TenantId`). El **cronograma** (`schedule`) y el **resumen** (`summary`) viven como **columnas `jsonb`** (snapshots) en esta misma tabla. |
+| `grace_periods`          | `grace: List<GraceType>` (wrap `GraceConfiguration`) | Tabla hija **ordenada** (`period_index`); PK `(credit_simulation_id, period_index)`.            |
+| `credit_simulation_costs`| `costs: List<Cost>` (wrap `Costs`)            | Tabla hija **ordenada** (`cost_index`) de costos flexibles; PK `(credit_simulation_id, cost_index)`. |
 
 ## Precisión (alineada con el diccionario de datos)
 
@@ -43,13 +43,14 @@
 
 ## DDL (PostgreSQL)
 
-> **Nota — modelo de costos flexible (implementado en dominio).** Los costos dejaron de ser columnas
-> fijas: son una **lista de `Cost`** `{ name, value, basis, timing, embedded }` por simulación, y el
-> desglose por fila es una **colección** (`applied_cost`). Por tanto, en el slice de persistencia las
-> columnas fijas de costo de `credit_simulations` (`credit_life_insurance_rate`, `all_risk_insurance`,
-> `gps`, `shipping_fees`, `admin_fees`) y de `schedule_row` se reemplazan por **tablas hijas**
-> (`credit_simulation_cost`, `schedule_row_applied_cost`), más una tabla de **totales** (`SimulationSummary`).
-> El DDL de abajo refleja el modelo previo (columnas fijas) y se actualizará en ese slice.
+> **Nota — modelo de costos flexible y snapshots (implementado).** Los costos no son columnas fijas:
+> son una **lista de `Cost`** `{ name, value, basis, timing, embedded }` por simulación, persistida en
+> la tabla hija **`credit_simulation_costs`** (ordenada por `cost_index`). No existen `schedule_row` ni
+> `schedule_row_applied_cost`: el **cronograma** se guarda como una columna **`jsonb`** `schedule`
+> (`List<ScheduleRow>`, con el desglose `appliedCosts` anidado) y el **resumen** acumulado como una
+> columna **`jsonb`** `summary` (`SimulationSummary`, incl. `totalsPerCost`). Ambos son *snapshots*
+> serializados por Jackson (`ScheduleRow` y `AppliedCost` son `record` planos, sin anotaciones JPA). El
+> DDL de abajo refleja el esquema **implementado** y validado por Hibernate (espejo de `V1__init.sql`).
 
 ```sql
 -- Identity & Access (generic) — cuenta/tenant + usuarios
@@ -58,8 +59,8 @@ CREATE TABLE dealerships (
     name           varchar(255) NOT NULL,
     ruc            varchar(11)  NOT NULL UNIQUE,           -- identificación de la concesionaria
     contact_email  varchar(255),
-    created_at     timestamptz  NOT NULL DEFAULT now(),
-    updated_at     timestamptz  NOT NULL DEFAULT now()
+    created_at     timestamp    NOT NULL,
+    updated_at     timestamp    NOT NULL
 );
 
 CREATE TABLE users (
@@ -68,8 +69,8 @@ CREATE TABLE users (
     email          varchar(255) NOT NULL UNIQUE,
     username       varchar(100) NOT NULL UNIQUE,
     password_hash  varchar(255) NOT NULL,
-    created_at     timestamptz  NOT NULL DEFAULT now(),
-    updated_at     timestamptz  NOT NULL DEFAULT now()
+    created_at     timestamp    NOT NULL,
+    updated_at     timestamp    NOT NULL
 );
 
 -- Clients (supporting)
@@ -81,8 +82,8 @@ CREATE TABLE clients (
     contact_email       varchar(255),                   -- VO ContactInfo
     contact_phone       varchar(30),
     contact_address     varchar(255),
-    created_at          timestamptz  NOT NULL DEFAULT now(),
-    updated_at          timestamptz  NOT NULL DEFAULT now(),
+    created_at          timestamp    NOT NULL,
+    updated_at          timestamp    NOT NULL,
     CONSTRAINT uq_clients_document UNIQUE (dealership_id, document_id_type, document_id_number)
 );
 
@@ -97,8 +98,8 @@ CREATE TABLE vehicle_offers (
     sale_price_currency  varchar(3)    NOT NULL,
     plan_name            varchar(40),                    -- VO Plan
     plan_installments    integer,
-    created_at           timestamptz   NOT NULL DEFAULT now(),
-    updated_at           timestamptz   NOT NULL DEFAULT now(),
+    created_at           timestamp     NOT NULL,
+    updated_at           timestamp     NOT NULL,
     CONSTRAINT ck_offer_price_positive CHECK (sale_price_amount > 0),
     CONSTRAINT ck_offer_currency       CHECK (sale_price_currency IN ('PEN','USD'))
 );
@@ -122,39 +123,33 @@ CREATE TABLE credit_simulations (
     balloon_percentage          numeric(18,6)  NOT NULL DEFAULT 0,
     -- Term
     number_of_installments      integer NOT NULL,
-    frequency_days              integer NOT NULL DEFAULT 30,
-    installments_per_year       integer NOT NULL DEFAULT 12,
-    days_per_year               integer NOT NULL DEFAULT 360,
-    -- InitialCosts
-    notary_cost                 numeric(18,2)  NOT NULL DEFAULT 0,
-    registry_cost               numeric(18,2)  NOT NULL DEFAULT 0,
-    appraisal_cost              numeric(18,2)  NOT NULL DEFAULT 0,
-    fees_cost                   numeric(18,2)  NOT NULL DEFAULT 0,
-    -- PeriodicCosts
-    credit_life_insurance_rate  numeric(18,10) NOT NULL DEFAULT 0,   -- TSD
-    all_risk_insurance          numeric(18,2)  NOT NULL DEFAULT 0,   -- TSR
-    gps                         numeric(18,2)  NOT NULL DEFAULT 0,
-    shipping_fees               numeric(18,2)  NOT NULL DEFAULT 0,
-    admin_fees                  numeric(18,2)  NOT NULL DEFAULT 0,
-    -- Cost of capital (Rate)
-    cost_of_capital             numeric(18,10) NOT NULL,
+    frequency_days              integer NOT NULL,
+    installments_per_year       integer NOT NULL,
+    days_per_year               integer NOT NULL,
+    -- Cost of capital (Rate VO -> 3 columnas)
+    cost_of_capital_value           numeric(18,10) NOT NULL,
+    cost_of_capital_type            varchar(10)    NOT NULL,
+    cost_of_capital_capitalization  varchar(12),
     -- Derived monetary results
     loan_amount_amount          numeric(18,2)  NOT NULL,
     loan_amount_currency        varchar(3)     NOT NULL,
     financed_balance_amount     numeric(18,12) NOT NULL,
     financed_balance_currency   varchar(3)     NOT NULL,
-    -- Indicators
+    -- Indicators (@Embedded plano)
     npv                         numeric(18,2),
     periodic_irr                numeric(18,8),
     tcea                        numeric(18,6),
     effective_annual_rate       numeric(18,8),
     periodic_rate               numeric(18,8),
     periodic_cost_of_capital    numeric(18,8),
+    -- Snapshots jsonb (cronograma + resumen acumulado)
+    schedule                    jsonb,
+    summary                     jsonb,
     -- State + concurrency + audit
-    state                       varchar(12) NOT NULL DEFAULT 'DRAFT',
-    version                     bigint      NOT NULL DEFAULT 0,        -- optimistic locking (@Version)
-    created_at                  timestamptz NOT NULL DEFAULT now(),
-    updated_at                  timestamptz NOT NULL DEFAULT now(),
+    state                       varchar(12) NOT NULL,
+    version                     bigint      NOT NULL,                  -- optimistic locking (@Version)
+    created_at                  timestamp   NOT NULL,
+    updated_at                  timestamp   NOT NULL,
 
     CONSTRAINT ck_sim_initial_pct CHECK (initial_percentage >= 0 AND initial_percentage < 1),
     CONSTRAINT ck_sim_balloon_pct CHECK (balloon_percentage >= 0 AND balloon_percentage < 1),
@@ -169,8 +164,8 @@ CREATE TABLE credit_simulations (
 );
 CREATE INDEX ix_sim_client ON credit_simulations (dealership_id, client_id);   -- soporta findByClientId dentro del tenant (historial, E7)
 
--- Grace configuration (tabla hija ordenada)
-CREATE TABLE grace_period (
+-- Grace configuration (tabla hija ordenada; nombre pluralizado por la naming strategy)
+CREATE TABLE grace_periods (
     credit_simulation_id  uuid    NOT NULL,
     period_index          integer NOT NULL,             -- @OrderColumn → preserva la secuencia S/T/P
     grace_type            varchar(10) NOT NULL,
@@ -180,33 +175,21 @@ CREATE TABLE grace_period (
     CONSTRAINT ck_grace_type CHECK (grace_type IN ('NONE','TOTAL','PARTIAL'))
 );
 
--- Schedule rows (tabla hija; cronograma persistido)
-CREATE TABLE schedule_row (
-    credit_simulation_id    uuid    NOT NULL,
-    period                  integer NOT NULL,
-    grace_type              varchar(10) NOT NULL,
-    -- bloque del cuotón (balloon)
-    opening_balance_balloon       numeric(18,2),
-    interest_balloon              numeric(18,2),
-    balloon_credit_life_insurance numeric(18,2),
-    closing_balance_balloon       numeric(18,2),
-    -- bloque de la cuota regular
-    opening_balance         numeric(18,2),
-    interest                numeric(18,2),
-    installment             numeric(18,2),
-    amortization            numeric(18,2),
-    -- costos periódicos
-    credit_life_insurance   numeric(18,2),
-    all_risk_insurance      numeric(18,2),
-    gps                     numeric(18,2),
-    shipping_fees           numeric(18,2),
-    admin_fees              numeric(18,2),
-    closing_balance         numeric(18,2),
-    cash_flow               numeric(18,2),
-    PRIMARY KEY (credit_simulation_id, period),
-    CONSTRAINT fk_schedule_sim FOREIGN KEY (credit_simulation_id)
+-- Flexible costs (tabla hija ordenada; lista de Cost por simulación)
+CREATE TABLE credit_simulation_costs (
+    credit_simulation_id uuid    NOT NULL,
+    cost_index           integer NOT NULL,             -- @OrderColumn
+    name                 varchar(100)   NOT NULL,
+    value                numeric(18,10) NOT NULL,
+    basis                varchar(16)    NOT NULL,       -- FIXED / ON_BALANCE / ON_SALE_PRICE
+    timing               varchar(16)    NOT NULL,       -- INITIAL / PERIODIC
+    embedded             boolean        NOT NULL,
+    PRIMARY KEY (credit_simulation_id, cost_index),
+    CONSTRAINT fk_cost_sim FOREIGN KEY (credit_simulation_id)
         REFERENCES credit_simulations (id) ON DELETE CASCADE,
-    CONSTRAINT ck_schedule_grace CHECK (grace_type IN ('NONE','TOTAL','PARTIAL'))
+    CONSTRAINT ck_cost_basis  CHECK (basis IN ('FIXED','ON_BALANCE','ON_SALE_PRICE')),
+    CONSTRAINT ck_cost_timing CHECK (timing IN ('INITIAL','PERIODIC')),
+    CONSTRAINT ck_cost_value  CHECK (value >= 0)
 );
 ```
 
@@ -222,7 +205,9 @@ CREATE TABLE schedule_row (
 
 ## Diagrama ER
 
-FKs reales **intra-agregado** (`credit_simulations` → `schedule_row`, `grace_period`). Las relaciones
+FKs reales **intra-agregado** (`credit_simulations` → `grace_periods`, `credit_simulation_costs`). El
+cronograma (`schedule`) y el resumen (`summary`) **no** son tablas hijas: son columnas `jsonb` en
+`credit_simulations`. Las relaciones
 de `clients` y `vehicle_offers` con `credit_simulations` son **referencias by-id sin FK** (frontera
 ACL); se dibujan con cardinalidad pero **no existe integridad referencial forzada** entre agregados.
 Todas las tablas de negocio (`clients`, `vehicle_offers`, `credit_simulations`) llevan `dealership_id`
@@ -272,31 +257,31 @@ erDiagram
         numeric npv
         numeric periodic_irr
         numeric tcea
+        jsonb schedule "snapshot cronograma"
+        jsonb summary "snapshot totales"
         varchar state
     }
-    grace_period {
+    grace_periods {
         uuid credit_simulation_id PK,FK
         integer period_index PK
         varchar grace_type
     }
-    schedule_row {
+    credit_simulation_costs {
         uuid credit_simulation_id PK,FK
-        integer period PK
-        varchar grace_type
-        numeric opening_balance
-        numeric interest
-        numeric installment
-        numeric amortization
-        numeric closing_balance
-        numeric cash_flow
+        integer cost_index PK
+        varchar name
+        numeric value
+        varchar basis
+        varchar timing
+        boolean embedded
     }
 
     dealerships ||--o{ users : "tiene (FK)"
     dealerships ||--o{ clients : "tenant (@TenantId)"
     dealerships ||--o{ vehicle_offers : "tenant (@TenantId)"
     dealerships ||--o{ credit_simulations : "tenant (@TenantId)"
-    credit_simulations ||--o{ grace_period : "tiene (FK)"
-    credit_simulations ||--o{ schedule_row : "tiene (FK)"
+    credit_simulations ||--o{ grace_periods : "tiene (FK)"
+    credit_simulations ||--o{ credit_simulation_costs : "tiene (FK)"
     clients ||--o{ credit_simulations : "by-id (sin FK, ACL)"
     vehicle_offers ||--o{ credit_simulations : "by-id (sin FK, ACL)"
 ```
