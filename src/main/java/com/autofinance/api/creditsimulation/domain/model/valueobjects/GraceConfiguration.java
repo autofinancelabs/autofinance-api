@@ -17,6 +17,16 @@ public record GraceConfiguration(List<GraceType> periods) {
         if (periods.stream().anyMatch(g -> g == null)) {
             throw new IllegalArgumentException("Grace plan cannot contain null entries");
         }
+        // Grace is defined at the start of the operation: no T/P period may follow an ordinary one.
+        boolean ordinaryStarted = false;
+        for (GraceType g : periods) {
+            if (g == GraceType.NONE) {
+                ordinaryStarted = true;
+            } else if (ordinaryStarted) {
+                throw new IllegalArgumentException(
+                        "Grace periods must be contiguous at the start of the schedule");
+            }
+        }
         periods = List.copyOf(periods);
     }
 
