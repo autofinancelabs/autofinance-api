@@ -14,6 +14,9 @@ spring:
   web:
     locale: en
     locale-resolver: fixed
+    error:
+      include-stacktrace: never
+      include-message: never
   jpa:
     show-sql: false
     hibernate:
@@ -25,14 +28,13 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
 
-server:
-  error:
-    include-stacktrace: never
-    include-message: never
-
 scalar:
   enabled: true
-  theme: kepler
+  theme: blue_planet
+  operation-sorter: method
+  dark-mode: true
+  hide-client-button: true
+  show-developer-tools: never
 
 documentation:
   application:
