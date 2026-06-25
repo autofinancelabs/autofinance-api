@@ -80,9 +80,10 @@ entity "schedule_row" as srow {
   * period : integer <<PK>>
   --
   * grace_type : varchar
-  opening_balance_cuoton : numeric(18,2)
-  interest_cuoton : numeric(18,2)
-  closing_balance_cuoton : numeric(18,2)
+  opening_balance_balloon : numeric(18,2)
+  interest_balloon : numeric(18,2)
+  balloon_credit_life_insurance : numeric(18,2)
+  closing_balance_balloon : numeric(18,2)
   opening_balance : numeric(18,2)
   interest : numeric(18,2)
   installment : numeric(18,2)

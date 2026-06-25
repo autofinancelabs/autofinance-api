@@ -28,12 +28,9 @@ class CreditSimulationGoldenDatasetTest {
     }
 
     /**
-     * D1 exercises the full balloon + grace + embedded-desgravamen + costs path. Its source (the IB
-     * compra-inteligente Excel) splits the cuotón using an extra desgravamen-on-cuotón column that our
-     * clean model does not replicate (documented drift), so D1's source-specific intermediate values
-     * (VP 3959.01, cuota 379.16, IRR 0.0158617) are NOT reproduced cent-for-cent. We assert what the
-     * clean model guarantees — exact loan/rates, a balanced 37-row schedule, the nominal balloon
-     * settlement, and sane indicators. D2/D3 are the precise arithmetic validators.
+     * D1 exercises the full balloon + grace + embedded-credit-life-insurance + costs path. The balloon
+     * also capitalizes its credit-life insurance (it grows at {@code j = i + TSD}), so its present value
+     * is {@code balloon / (1 + j)^(n+1)} — which reproduces the source values exactly.
      */
     @Nested
     class D1PlanThirtySixCompraInteligente {
@@ -41,36 +38,31 @@ class CreditSimulationGoldenDatasetTest {
         private final CreditSimulation sim = factory.create(GoldenDatasets.d1());
 
         @Test
-        void derivesLoanAndState() {
+        void derivesLoanAndFinancedBalance() {
             assertThat(sim.getLoanAmount().amount().doubleValue()).isCloseTo(12975.00, within(0.01));
-            assertThat(sim.getFinancedBalance().amount().doubleValue())
-                    .isPositive()
-                    .isLessThan(sim.getLoanAmount().amount().doubleValue());
+            assertThat(sim.getFinancedBalance().amount().doubleValue()).isCloseTo(9015.99, within(0.5));
             assertThat(sim.getState()).isEqualTo(SimulationState.GENERATED);
         }
 
         @Test
-        void convertsRatesExactly() {
-            assertThat(sim.getIndicators().effectiveAnnualRate().doubleValue()).isCloseTo(0.16179795, within(1e-4));
-            assertThat(sim.getIndicators().periodicRate().doubleValue()).isCloseTo(0.012575815, within(1e-5));
+        void convertsRates() {
+            assertThat(sim.getIndicators().effectiveAnnualRate().doubleValue()).isCloseTo(0.16179795, within(1e-5));
+            assertThat(sim.getIndicators().periodicRate().doubleValue()).isCloseTo(0.012575815, within(1e-6));
         }
 
         @Test
-        void buildsBalancedScheduleWithNominalSettlement() {
+        void buildsScheduleWithSettlement() {
             assertThat(sim.getSchedule()).hasSize(37);
+            assertThat(row(sim, 7).installment().doubleValue()).isCloseTo(379.16, within(0.5));
             assertThat(row(sim, 36).closingBalance().doubleValue()).isCloseTo(0.0, within(0.1));
-            assertThat(row(sim, 7).installment().doubleValue()).isPositive();
-            // settlement pays the nominal balloon (6400) + fixed period costs (31).
             assertThat(row(sim, 37).cashFlow().doubleValue()).isCloseTo(6431.00, within(0.5));
         }
 
         @Test
-        void producesSaneIndicators() {
-            assertThat(sim.getIndicators().npv().doubleValue()).isPositive();
-            assertThat(sim.getIndicators().periodicIrr().doubleValue()).isBetween(0.014, 0.017);
-            // TCEA exceeds the compensatory TEA because of insurance and costs.
-            assertThat(sim.getIndicators().tcea().doubleValue())
-                    .isGreaterThan(sim.getIndicators().effectiveAnnualRate().doubleValue());
+        void computesIndicators() {
+            assertThat(sim.getIndicators().periodicIrr().doubleValue()).isCloseTo(0.015861749, within(3e-5));
+            assertThat(sim.getIndicators().tcea().doubleValue()).isCloseTo(0.207856, within(1e-4));
+            assertThat(sim.getIndicators().npv().doubleValue()).isCloseTo(4436.18, within(2.0));
         }
     }
 

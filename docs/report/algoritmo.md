@@ -47,7 +47,8 @@ FUNCIÓN generarSimulacion(entrada) -> resultado:
 
     # 3.4 Preparación de los dos bloques
     n            ← entrada.numCuotas
-    VP           ← cuotón / (1 + i)^n                   # VP del cuotón (0 si cuotón=0)
+    jB           ← entrada.desgravamenEmbebido ? i + TSD : i   # tasa de capitalización del cuotón
+    VP           ← cuotón / (1 + jB)^(n+1)              # VP del cuotón (0 si cuotón=0); se liquida en n+1
     saldoCuota   ← préstamo − VP                        # base de la cuota regular
     saldoCuotón  ← VP
     R            ← indefinida                           # se fija en el primer periodo ordinario

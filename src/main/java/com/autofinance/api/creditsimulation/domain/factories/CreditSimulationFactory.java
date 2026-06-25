@@ -58,7 +58,7 @@ public class CreditSimulationFactory {
                 SimulationId.generate(), command.dealershipId(),
                 new ClientId(command.clientId()), new VehicleOfferId(command.vehicleOfferId()),
                 salePrice, rate, initialPercentage, balloonPercentage, term, grace,
-                initialCosts, periodicCosts, costOfCapital, command.desgravamenEmbebido());
+                initialCosts, periodicCosts, costOfCapital, command.creditLifeInsuranceEmbedded());
 
         if (!simulation.getLoanAmount().isPositive()) {
             throw new InvalidSimulationConfigurationException("loan amount must be > 0");

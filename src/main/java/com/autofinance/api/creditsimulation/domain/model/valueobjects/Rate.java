@@ -32,18 +32,36 @@ public record Rate(
         this(BigDecimal.ZERO, RateType.EFFECTIVE, null);
     }
 
+    /** An effective annual rate (TEA). */
     public static Rate effective(BigDecimal effectiveAnnual) {
         return new Rate(effectiveAnnual, RateType.EFFECTIVE, null);
     }
 
+    /** An effective rate expressed for a given period (e.g. TEM = effective monthly). */
+    public static Rate effective(BigDecimal effectivePeriodic, Capitalization period) {
+        return new Rate(effectivePeriodic, RateType.EFFECTIVE, period);
+    }
+
+    /** A nominal annual rate with its capitalization frequency. */
     public static Rate nominal(BigDecimal nominalAnnual, Capitalization capitalization) {
         return new Rate(nominalAnnual, RateType.NOMINAL, capitalization);
     }
 
-    /** Effective annual rate (TEA). For nominal: {@code (1 + TNA/m)^m - 1}, m = daysPerYear/capDays. */
+    /**
+     * Effective annual rate (TEA).
+     * <ul>
+     *   <li>Nominal: {@code (1 + TNA/m)^m - 1}, m = daysPerYear/capDays.</li>
+     *   <li>Effective: returned as-is when annual; when a sub-annual period is given (the
+     *       {@code capitalization} field), compounded up: {@code (1 + value)^periods - 1}.</li>
+     * </ul>
+     */
     public BigDecimal toEffectiveAnnual(int daysPerYear) {
         if (type == RateType.EFFECTIVE) {
-            return value;
+            if (capitalization == null || capitalization == Capitalization.ANNUAL) {
+                return value;
+            }
+            int periods = capitalization.periodsPerYear(daysPerYear);
+            return FinancialMath.pow(BigDecimal.ONE.add(value), periods).subtract(BigDecimal.ONE);
         }
         int m = capitalization.periodsPerYear(daysPerYear);
         BigDecimal base = BigDecimal.ONE.add(value.divide(BigDecimal.valueOf(m), FinancialMath.MC));

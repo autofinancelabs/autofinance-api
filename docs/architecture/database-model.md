@@ -177,10 +177,11 @@ CREATE TABLE schedule_row (
     credit_simulation_id    uuid    NOT NULL,
     period                  integer NOT NULL,
     grace_type              varchar(10) NOT NULL,
-    -- bloque del cuotón
-    opening_balance_cuoton  numeric(18,2),
-    interest_cuoton         numeric(18,2),
-    closing_balance_cuoton  numeric(18,2),
+    -- bloque del cuotón (balloon)
+    opening_balance_balloon       numeric(18,2),
+    interest_balloon              numeric(18,2),
+    balloon_credit_life_insurance numeric(18,2),
+    closing_balance_balloon       numeric(18,2),
     -- bloque de la cuota regular
     opening_balance         numeric(18,2),
     interest                numeric(18,2),

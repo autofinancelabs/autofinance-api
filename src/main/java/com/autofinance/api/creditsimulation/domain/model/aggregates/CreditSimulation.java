@@ -108,8 +108,8 @@ public class CreditSimulation extends AuditableAbstractAggregateRoot<CreditSimul
     })
     private Rate costOfCapital;
 
-    @Column(name = "desgravamen_embebido")
-    private boolean desgravamenEmbebido;
+    @Column(name = "credit_life_insurance_embedded")
+    private boolean creditLifeInsuranceEmbedded;
 
     @Embedded
     @AttributeOverrides({
@@ -144,7 +144,7 @@ public class CreditSimulation extends AuditableAbstractAggregateRoot<CreditSimul
     public CreditSimulation(SimulationId id, UUID dealershipId, ClientId clientId, VehicleOfferId vehicleOfferId,
                             Money salePrice, Rate rate, Percentage initialPercentage, Percentage balloonPercentage,
                             Term term, GraceConfiguration grace, InitialCosts initialCosts, PeriodicCosts periodicCosts,
-                            Rate costOfCapital, boolean desgravamenEmbebido) {
+                            Rate costOfCapital, boolean creditLifeInsuranceEmbedded) {
         this.id = id;
         this.dealershipId = dealershipId;
         this.clientId = clientId;
@@ -158,7 +158,7 @@ public class CreditSimulation extends AuditableAbstractAggregateRoot<CreditSimul
         this.initialCosts = initialCosts;
         this.periodicCosts = periodicCosts;
         this.costOfCapital = costOfCapital;
-        this.desgravamenEmbebido = desgravamenEmbebido;
+        this.creditLifeInsuranceEmbedded = creditLifeInsuranceEmbedded;
 
         BigDecimal i = rate.toPeriodicRate(term.frequencyDays(), term.daysPerYear());
         BigDecimal downPayment = initialPercentage.of(salePrice.amount());
@@ -166,10 +166,10 @@ public class CreditSimulation extends AuditableAbstractAggregateRoot<CreditSimul
                 .add(initialCosts.total(), FinancialMath.MC);
         this.loanAmount = new Money(loan, salePrice.currency());
 
-        BigDecimal cuoton = balloonPercentage.of(salePrice.amount());
-        BigDecimal presentValueOfBalloon = cuoton.signum() > 0
-                ? cuoton.divide(FinancialMath.pow(BigDecimal.ONE.add(i), term.numberOfInstallments()), FinancialMath.MC)
-                : BigDecimal.ZERO;
+        BigDecimal balloon = balloonPercentage.of(salePrice.amount());
+        BigDecimal presentValueOfBalloon = ScheduleCalculator.balloonPresentValue(
+                balloon, i, periodicCosts.creditLifeInsuranceRate(), creditLifeInsuranceEmbedded,
+                term.numberOfInstallments());
         this.financedBalance = new Money(loan.subtract(presentValueOfBalloon, FinancialMath.MC), salePrice.currency());
 
         this.state = SimulationState.CONFIGURED;
@@ -178,10 +178,10 @@ public class CreditSimulation extends AuditableAbstractAggregateRoot<CreditSimul
     /** Builds the schedule and indicators (double-dispatch), verifies the balance, transitions state. */
     public void generate(ScheduleCalculator scheduleCalculator, IndicatorsCalculator indicatorsCalculator) {
         BigDecimal i = rate.toPeriodicRate(term.frequencyDays(), term.daysPerYear());
-        BigDecimal cuoton = balloonPercentage.of(salePrice.amount());
+        BigDecimal balloon = balloonPercentage.of(salePrice.amount());
 
         this.schedule = scheduleCalculator.build(
-                loanAmount.amount(), cuoton, i, term, grace, periodicCosts, desgravamenEmbebido);
+                loanAmount.amount(), balloon, i, term, grace, periodicCosts, creditLifeInsuranceEmbedded);
 
         BigDecimal periodicCostOfCapital = costOfCapital.toPeriodicRate(term.frequencyDays(), term.daysPerYear());
         BigDecimal effectiveAnnualRate = rate.toEffectiveAnnual(term.daysPerYear());
