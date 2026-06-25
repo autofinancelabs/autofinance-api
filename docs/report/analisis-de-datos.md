@@ -114,7 +114,7 @@ Restricción de cruce: `porcentajeCuotaInicial + porcentajeCuotaFinal < 1`.
 | `cuotaInicial` (CI)               | `PV × %CI`                                   | BigDecimal | scale 2           | —                                                  |
 | `cuotonValor`                     | `PV × %cuotón`                               | BigDecimal | scale 2           | —                                                  |
 | `prestamo` (C/VA)                 | `PV − CI + costosInicialesTotal`             | BigDecimal | scale 2           | `> 0`                                              |
-| `cuotonVP`                        | VP del cuotón `cuotón/(1+i)^n`               | BigDecimal | interno ≥ 12      | —                                                  |
+| `cuotonVP`                        | VP del cuotón `cuotón/(1+jB)^(n+1)`          | BigDecimal | interno ≥ 12      | `jB = i + TSD` si el desgravamen se capitaliza     |
 | `saldoAFinanciar`                 | `prestamo − cuotonVP`                        | BigDecimal | interno ≥ 12      | base de la cuota regular                           |
 | `cokPeriodo`                      | `(1+cokAnual)^(frecuenciaDias/diasAnio) − 1` | BigDecimal | interno ≥ 12      | —                                                  |
 | `cuotaRegular` (R)                | cuota constante francés/balloon              | BigDecimal | scale 2 (display) | —                                                  |

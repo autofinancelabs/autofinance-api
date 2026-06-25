@@ -38,6 +38,6 @@ public record GenerateSimulationCommand(
         BigDecimal shippingFees,
         BigDecimal adminFees,
         BigDecimal costOfCapitalAnnual,
-        boolean desgravamenEmbebido
+        boolean creditLifeInsuranceEmbedded
 ) {
 }

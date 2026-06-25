@@ -30,7 +30,7 @@ public final class GoldenDatasets {
         return new BigDecimal(v);
     }
 
-    /** D1 — Plan 36 Compra Inteligente (PEN): balloon, grace 3T+3P, embedded desgravamen, TNA 15% daily, COK 50%. */
+    /** D1 — Plan 36 Compra Inteligente (PEN): balloon, grace 3T+3P, embedded credit-life insurance, TNA 15% daily, COK 50%. */
     public static GenerateSimulationCommand d1() {
         return new GenerateSimulationCommand(
                 UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(),

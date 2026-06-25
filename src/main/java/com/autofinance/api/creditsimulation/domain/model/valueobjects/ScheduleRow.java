@@ -9,16 +9,18 @@ import java.math.BigDecimal;
 
 /**
  * One immutable row of the payment schedule. Holds the regular-installment block and the
- * informational balloon ({@code cuotón}) block, plus per-period costs and the period cash flow.
+ * deferred-balloon block (which may capitalize its own credit-life insurance), plus per-period
+ * costs and the period cash flow.
  */
 @Embeddable
 public record ScheduleRow(
         @Column(name = "period") int period,
         @Enumerated(EnumType.STRING) @Column(name = "grace_type") GraceType graceType,
-        // balloon (cuotón) block — informational
-        @Column(name = "opening_balance_cuoton") BigDecimal openingBalanceCuoton,
-        @Column(name = "interest_cuoton") BigDecimal interestCuoton,
-        @Column(name = "closing_balance_cuoton") BigDecimal closingBalanceCuoton,
+        // deferred balloon block
+        @Column(name = "opening_balance_balloon") BigDecimal openingBalanceBalloon,
+        @Column(name = "interest_balloon") BigDecimal interestBalloon,
+        @Column(name = "balloon_credit_life_insurance") BigDecimal balloonCreditLifeInsurance,
+        @Column(name = "closing_balance_balloon") BigDecimal closingBalanceBalloon,
         // regular installment block
         @Column(name = "opening_balance") BigDecimal openingBalance,
         @Column(name = "interest") BigDecimal interest,
@@ -35,7 +37,7 @@ public record ScheduleRow(
 ) {
     public ScheduleRow() {
         this(0, GraceType.NONE,
-                BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO,
+                BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO,
                 BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO,
                 BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO,
                 BigDecimal.ZERO, BigDecimal.ZERO);

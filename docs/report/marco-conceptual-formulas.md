@@ -99,7 +99,8 @@ Una parte del valor se difiere como **cuotón** y no se amortiza con las cuotas 
 
 ```text
 cuotón = PV × %cuotón
-VP     = cuotón / (1 + i)^n                  (valor presente del cuotón)
+jB     = i + TSD   (si el desgravamen se capitaliza en el cuotón; si no, jB = i)
+VP     = cuotón / (1 + jB)^(n+1)             (valor presente del cuotón, liquidado en el periodo n+1)
 R      = (C − VP) × [ i / (1 − (1 + i)^(−n)) ]
 ```
 
@@ -107,10 +108,10 @@ Con cuotón = 0, `VP = 0` y la fórmula se reduce al francés puro de §5.
 
 El cronograma corre **dos bloques en paralelo**:
 
-| Bloque        | Comportamiento                                                                                  |
-|---------------|-------------------------------------------------------------------------------------------------|
-| Cuotón        | Crece cada periodo por capitalización: `SF = SI × (1 + i)`. Se cancela en la liquidación final. |
-| Cuota regular | Aplica el método francés de §5 sobre el saldo no diferido (`C − VP`).                           |
+| Bloque        | Comportamiento                                                                                                          |
+|---------------|------------------------------------------------------------------------------------------------------------------------|
+| Cuotón        | Crece cada periodo capitalizando interés **y desgravamen**: `SF = SI × (1 + jB)`. Se liquida en la fila final (periodo `n+1`) a su valor nominal. |
+| Cuota regular | Aplica el método francés de §5 sobre el saldo no diferido (`C − VP`).                                                  |
 
 Tras la última cuota ordinaria se añade una **fila de liquidación del cuotón** que paga el saldo
 acumulado del bloque del cuotón.
@@ -125,11 +126,12 @@ En algunos modelos la cuota incorpora el seguro de desgravamen ajustando la tasa
 
 ```text
 j = i + TSD
-R = (C − cuotón/(1+j)^n) × [ j / (1 − (1 + j)^(−n)) ]
+R = (C − cuotón/(1+j)^(n+1)) × [ j / (1 − (1 + j)^(−n)) ]
 ```
 
-Es una variante opcional (historia `H5.6`). Los demás costos periódicos se suman al flujo igual que
-en §10.
+Cuando el desgravamen está embebido, la tasa `j` se usa para la cuota regular **y** para la
+capitalización del cuotón (§6). El desgravamen por fila se registra aparte (sobre el saldo) pero no se
+suma dos veces al flujo. Los demás costos periódicos se suman al flujo igual que en §10.
 
 ## 8. Construcción del cronograma (el "qué")
 
