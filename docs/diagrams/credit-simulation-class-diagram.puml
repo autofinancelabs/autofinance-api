@@ -9,6 +9,7 @@ skinparam classAttributeIconSize 0
 
 class CreditSimulation <<aggregate root>> {
   - id : SimulationId
+  - dealershipId : DealershipId
   - clientId : ClientId
   - vehicleOfferId : VehicleOfferId
   - salePrice : Money
@@ -106,6 +107,11 @@ class BalloonPresentValue <<value object>> {
   - value : Money
 }
 
+class DealershipId <<value object>> {
+  ' tenant (@TenantId) — concesionaria dueña del dato
+  - value : UUID
+}
+
 class ClientId <<value object>> {
   - value : UUID
 }
@@ -182,6 +188,9 @@ CreditSimulation --> SimulationState
 ' Cross-aggregate references: BY ID ONLY (Anti-Corruption Layer)
 CreditSimulation ..> ClientId
 CreditSimulation ..> VehicleOfferId
+
+' Tenant discriminator (multi-tenant, @TenantId)
+CreditSimulation ..> DealershipId
 
 ' Value object internals
 Money --> Currency

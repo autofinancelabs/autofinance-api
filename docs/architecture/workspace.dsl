@@ -1,13 +1,13 @@
 workspace "AutoFinance" "Financiamiento vehicular en Perú: configura un crédito y genera el plan de pagos (método francés + Compra Inteligente) e indicadores de transparencia." {
 
     model {
-        advisor = person "Asesor de crédito" "Rol operativo de la entidad financiera que registra cliente/oferta, configura el financiamiento y genera simulaciones."
+        advisor = person "Asesor de ventas" "Rol operativo de la concesionaria que registra cliente/oferta, ingresa las condiciones y genera cotizaciones."
 
         idp = softwareSystem "Identity Provider" "Provee identidad y sesión (p. ej. Spring Security). El negocio lo consume tal cual (Conformist)." {
             tags "external"
         }
 
-        autofinance = softwareSystem "AutoFinance API" "Configura financiamientos vehiculares y produce el cronograma e indicadores VAN/TIR/TCEA desde la perspectiva de la entidad." {
+        autofinance = softwareSystem "AutoFinance API" "Herramienta de cotización de la concesionaria (multi-tenant): produce el cronograma e indicadores VAN/TIR/TCEA (estos desde la óptica del deudor)." {
 
             api = container "REST API" "Expone los casos de uso; aloja los 4 bounded contexts en 4 capas DDD (interfaces, application, domain, infrastructure)." "Spring Boot 4.1 / Java 25" {
 
@@ -30,7 +30,7 @@ workspace "AutoFinance" "Financiamiento vehicular en Perú: configura un crédit
                 # --- Supporting / generic ---
                 clientsComp    = component "Clients Component" "Client (supporting) — CRUD + repositorio."
                 offersComp     = component "Vehicle Offers Component" "VehicleOffer (supporting) — CRUD + repositorio."
-                iamComp        = component "Identity & Access Component" "User/Session (generic) — Conformist; delega en el Identity Provider."
+                iamComp        = component "Identity & Access Component" "User/Session/Dealership (generic) — Conformist; resuelve la concesionaria (tenant) de la sesión y delega el auth en el Identity Provider."
 
                 # Wiring del core (dependencias hacia adentro)
                 simController -> simAppService "invoca casos de uso"
@@ -50,7 +50,7 @@ workspace "AutoFinance" "Financiamiento vehicular en Perú: configura un crédit
                 }
             }
 
-            db = container "Database" "Almacena los agregados; FKs reales intra-agregado, referencias by-id sin FK." "PostgreSQL" {
+            db = container "Database" "Almacena los agregados; FKs reales intra-agregado, referencias by-id sin FK; columna dealership_id (tenant) en las tablas multi-tenant." "PostgreSQL" {
                 tags "database"
             }
 
@@ -58,7 +58,7 @@ workspace "AutoFinance" "Financiamiento vehicular en Perú: configura un crédit
             simRepoJpa -> db "lee/escribe credit_simulations + schedule_row + grace_period"
             clientsComp -> db "lee/escribe clients"
             offersComp -> db "lee/escribe vehicle_offers"
-            iamComp -> db "lee/escribe users"
+            iamComp -> db "lee/escribe users + dealerships"
         }
 
         # Relaciones de alto nivel

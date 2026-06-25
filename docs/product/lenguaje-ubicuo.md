@@ -12,8 +12,9 @@
   glosario es el **puente**: columna *Término* (negocio) ↔ columna *Modelo* (identificador en inglés).
 - Cada término se lista bajo el **contexto** al que pertenece. Donde un término no corresponde a una
   clase, la columna *Modelo* va con `—`.
-- **Nota de naming (IAM):** el término `User` pertenece al contexto genérico de **Identity & Access**.
-  **No** se usa "usuario" como la persona del negocio; la persona operativa es el **asesor de crédito**.
+- **Nota de naming (IAM):** el término `User` pertenece al contexto genérico de **Identity & Access**
+  y **pertenece a una `Dealership`** (la cuenta/tenant de la concesionaria). **No** se usa "usuario"
+  como la persona del negocio; la persona operativa es el **asesor de ventas**.
 
 ## Mapa de cambios v1 → v2
 
@@ -28,12 +29,17 @@
 
 ## Identity & Access (IAM) `generic`
 
-| Término           | Modelo    | Definición                                                                                                     |
-|-------------------|-----------|----------------------------------------------------------------------------------------------------------------|
-| Usuario           | `User`    | Identidad de acceso (email/username + password). Concepto de IAM; reservado, **no** es la persona del negocio. |
-| Credenciales      | —         | Email/username y contraseña con los que se autentica el acceso.                                                |
-| Login / Sesión    | `Session` | Acción de autenticarse y estado autenticado que habilita operar.                                               |
-| Asesor de crédito | — (rol)   | Rol operativo de la entidad financiera que opera el sistema. No es una clase de IAM.                           |
+| Término                       | Modelo                       | Definición                                                                                                                                          |
+|-------------------------------|------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
+| Concesionaria / Cuenta        | `Dealership`                 | Cuenta (**tenant**) de la concesionaria que opera el sistema; agrupa a sus usuarios y sus datos. Raíz del aislamiento multi-tenant.                 |
+| Usuario                       | `User`                       | Identidad de acceso (email/username + password) que **pertenece a una** `Dealership`. Concepto de IAM; reservado, **no** es la persona del negocio. |
+| Credenciales                  | —                            | Email/username y contraseña con los que se autentica el acceso.                                                                                     |
+| Login / Sesión                | `Session`                    | Acción de autenticarse y estado autenticado que habilita operar; fija la concesionaria (tenant) actual.                                             |
+| Tenant / concesionaria actual | `DealershipId` (`@TenantId`) | Identificador de la concesionaria del usuario logueado; discrimina y aísla los datos (Hibernate lo aplica automáticamente).                         |
+| Asesor de ventas              | — (rol)                      | Rol operativo de la **concesionaria** que opera el sistema. No es una clase de IAM.                                                                 |
+
+> Los datos de **Clients**, **Vehicle Offers** y **Credit Simulation** quedan **aislados por
+> `Dealership`** (cada agregado lleva el discriminador `dealershipId` vía `@TenantId`).
 
 ## Clients `supporting`
 

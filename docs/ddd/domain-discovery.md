@@ -17,6 +17,8 @@ produce eventos) y estos en **bounded contexts**.
 ## Línea de tiempo (happy path)
 
 ```text
+DealershipRegistered
+  │  (alta de cuenta de concesionaria; fija el tenant)
 AdvisorAuthenticated
   │  (pivote: IAM → negocio)
 ClientRegistered ── VehicleOfferRegistered
@@ -37,33 +39,38 @@ barra registro→simulación.
 
 ## Eventos de dominio
 
-| Evento                   | Contexto          | Disparado por (comando)        |
-|--------------------------|-------------------|--------------------------------|
-| `AdvisorAuthenticated`   | Identity & Access | `Authenticate`                 |
-| `ClientRegistered`       | Clients           | `RegisterClient`               |
-| `ClientUpdated`          | Clients           | `UpdateClient`                 |
-| `VehicleOfferRegistered` | Vehicle Offers    | `RegisterVehicleOffer`         |
-| `VehicleOfferUpdated`    | Vehicle Offers    | `UpdateVehicleOffer`           |
-| `FinancingConfigured`    | Credit Simulation | `ConfigureFinancing`           |
-| `SimulationGenerated`    | Credit Simulation | `GenerateSimulation`           |
-| `ScheduleGenerated`      | Credit Simulation | `GenerateSimulation` (interno) |
-| `BalloonSettled`         | Credit Simulation | `GenerateSimulation` (interno) |
-| `IndicatorsCalculated`   | Credit Simulation | `GenerateSimulation` (interno) |
-| `SimulationSaved`        | Credit Simulation | `SaveSimulation`               |
-| `SimulationReopened`     | Credit Simulation | `ReopenSimulation`             |
-| `SimulationReconfigured` | Credit Simulation | `ReconfigureSimulation`        |
+| Evento                   | Contexto          | Disparado por (comando)         |
+|--------------------------|-------------------|---------------------------------|
+| `DealershipRegistered`   | Identity & Access | `RegisterDealership`            |
+| `AdvisorAuthenticated`   | Identity & Access | `Authenticate` (fija el tenant) |
+| `ClientRegistered`       | Clients           | `RegisterClient`                |
+| `ClientUpdated`          | Clients           | `UpdateClient`                  |
+| `VehicleOfferRegistered` | Vehicle Offers    | `RegisterVehicleOffer`          |
+| `VehicleOfferUpdated`    | Vehicle Offers    | `UpdateVehicleOffer`            |
+| `FinancingConfigured`    | Credit Simulation | `ConfigureFinancing`            |
+| `SimulationGenerated`    | Credit Simulation | `GenerateSimulation`            |
+| `ScheduleGenerated`      | Credit Simulation | `GenerateSimulation` (interno)  |
+| `BalloonSettled`         | Credit Simulation | `GenerateSimulation` (interno)  |
+| `IndicatorsCalculated`   | Credit Simulation | `GenerateSimulation` (interno)  |
+| `SimulationSaved`        | Credit Simulation | `SaveSimulation`                |
+| `SimulationReopened`     | Credit Simulation | `ReopenSimulation`              |
+| `SimulationReconfigured` | Credit Simulation | `ReconfigureSimulation`         |
 
 ## Comandos
 
-| Comando                                       | Actor  | Agregado destino   | Evento(s) producido(s)                                                               |
-|-----------------------------------------------|--------|--------------------|--------------------------------------------------------------------------------------|
-| `Authenticate`                                | Asesor | `User`             | `AdvisorAuthenticated`                                                               |
-| `RegisterClient` / `UpdateClient`             | Asesor | `Client`           | `ClientRegistered` / `ClientUpdated`                                                 |
-| `RegisterVehicleOffer` / `UpdateVehicleOffer` | Asesor | `VehicleOffer`     | `VehicleOfferRegistered` / `VehicleOfferUpdated`                                     |
-| `ConfigureFinancing`                          | Asesor | `CreditSimulation` | `FinancingConfigured`                                                                |
-| `GenerateSimulation`                          | Asesor | `CreditSimulation` | `SimulationGenerated`, `ScheduleGenerated`, `BalloonSettled`, `IndicatorsCalculated` |
-| `SaveSimulation`                              | Asesor | `CreditSimulation` | `SimulationSaved`                                                                    |
-| `ReopenSimulation` / `ReconfigureSimulation`  | Asesor | `CreditSimulation` | `SimulationReopened` / `SimulationReconfigured`                                      |
+| Comando                                       | Actor            | Agregado destino   | Evento(s) producido(s)                                                               |
+|-----------------------------------------------|------------------|--------------------|--------------------------------------------------------------------------------------|
+| `RegisterDealership`                          | Concesionaria    | `Dealership`       | `DealershipRegistered` (crea la cuenta + su primer `User`)                           |
+| `Authenticate`                                | Asesor de ventas | `User`             | `AdvisorAuthenticated`                                                               |
+| `RegisterClient` / `UpdateClient`             | Asesor de ventas | `Client`           | `ClientRegistered` / `ClientUpdated`                                                 |
+| `RegisterVehicleOffer` / `UpdateVehicleOffer` | Asesor de ventas | `VehicleOffer`     | `VehicleOfferRegistered` / `VehicleOfferUpdated`                                     |
+| `ConfigureFinancing`                          | Asesor de ventas | `CreditSimulation` | `FinancingConfigured`                                                                |
+| `GenerateSimulation`                          | Asesor de ventas | `CreditSimulation` | `SimulationGenerated`, `ScheduleGenerated`, `BalloonSettled`, `IndicatorsCalculated` |
+| `SaveSimulation`                              | Asesor de ventas | `CreditSimulation` | `SimulationSaved`                                                                    |
+| `ReopenSimulation` / `ReconfigureSimulation`  | Asesor de ventas | `CreditSimulation` | `SimulationReopened` / `SimulationReconfigured`                                      |
+
+> El **asesor de ventas** pertenece a una `Dealership`; al autenticar, la sesión fija el **tenant**
+> (`dealershipId`) que aísla y discrimina todos sus datos (Hibernate `@TenantId`).
 
 ## Políticas (event → command)
 
@@ -81,10 +88,10 @@ barra registro→simulación.
 
 | Read model                                      | Quién lo consulta | Para decidir                                   |
 |-------------------------------------------------|-------------------|------------------------------------------------|
-| Lista de clientes                               | Asesor            | A qué cliente asociar la operación.            |
-| Lista de ofertas vehiculares                    | Asesor            | Qué oferta financiar.                          |
-| Cronograma + panel de indicadores/transparencia | Asesor            | Evaluar la conveniencia y mostrarla al deudor. |
-| Historial de simulaciones por cliente           | Asesor            | Revisar operaciones anteriores.                |
+| Lista de clientes                               | Asesor de ventas  | A qué cliente asociar la operación.            |
+| Lista de ofertas vehiculares                    | Asesor de ventas  | Qué oferta financiar.                          |
+| Cronograma + panel de indicadores/transparencia | Asesor de ventas  | Evaluar la conveniencia y mostrarla al deudor. |
+| Historial de simulaciones por cliente           | Asesor de ventas  | Revisar operaciones anteriores.                |
 
 ## Sistemas externos
 
@@ -103,6 +110,7 @@ Agrupando comandos+eventos (un agregado recibe comandos y produce eventos):
 
 | Agregado           | Recibe                                                                                                    | Produce                                                                                                    |
 |--------------------|-----------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------|
+| `Dealership` (IAM) | `RegisterDealership`                                                                                      | `DealershipRegistered`                                                                                     |
 | `User` (IAM)       | `Authenticate`                                                                                            | `AdvisorAuthenticated`                                                                                     |
 | `Client`           | `RegisterClient`, `UpdateClient`                                                                          | `ClientRegistered`, `ClientUpdated`                                                                        |
 | `VehicleOffer`     | `RegisterVehicleOffer`, `UpdateVehicleOffer`                                                              | `VehicleOfferRegistered`, `VehicleOfferUpdated`                                                            |
@@ -116,6 +124,7 @@ invariante que abarca todas las filas y debe valer dentro de **una transacción*
 
 | Agregados          | Contexto candidato | Subdominio |
 |--------------------|--------------------|------------|
+| `Dealership`       | Identity & Access  | generic    |
 | `User`             | Identity & Access  | generic    |
 | `Client`           | Clients            | supporting |
 | `VehicleOffer`     | Vehicle Offers     | supporting |
@@ -130,7 +139,7 @@ VehicleOffers son **by-id** (no comparten modelo) — base del ACL del context m
 
 ```mermaid
 sequenceDiagram
-    actor Advisor as Asesor
+    actor Advisor as Asesor de ventas
     participant CS as Credit Simulation (core)
     participant CL as Clients
     participant VO as Vehicle Offers

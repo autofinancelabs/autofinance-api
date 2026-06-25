@@ -7,31 +7,33 @@
 
 Antes de nombrar el segmento, conviene separar tres conceptos que suelen confundirse:
 
-| Concepto                        | Pregunta que responde                       | A quién corresponde                                           |
-|---------------------------------|---------------------------------------------|---------------------------------------------------------------|
-| **Punto de vista del producto** | ¿Para quién es la herramienta?              | La entidad financiera.                                        |
-| **Perspectiva de cálculo**      | ¿Desde qué óptica se calculan VAN y TIR?    | El deudor.                                                    |
-| **Segmento objetivo**           | ¿A quién apunta el producto como audiencia? | La entidad financiera, representada por el asesor de crédito. |
+| Concepto                        | Pregunta que responde                       | A quién corresponde                                     |
+|---------------------------------|---------------------------------------------|---------------------------------------------------------|
+| **Punto de vista del producto** | ¿Para quién es la herramienta?              | La concesionaria de vehículos.                          |
+| **Perspectiva de cálculo**      | ¿Desde qué óptica se calculan VAN y TIR?    | El deudor.                                              |
+| **Segmento objetivo**           | ¿A quién apunta el producto como audiencia? | La concesionaria, representada por el asesor de ventas. |
 
-Por eso AutoFinance tiene **un único segmento objetivo**: la **entidad financiera**. El deudor
-es **beneficiario final**, no segmento del producto, porque no opera el sistema.
+Por eso AutoFinance tiene **un único segmento objetivo**: la **concesionaria de vehículos** (y sus
+asesores de ventas). El deudor es **beneficiario final**, no segmento del producto, porque no opera
+el sistema. Es **multi-concesionaria**: la misma app sirve a varias concesionarias, cada una con su
+cuenta y sus datos separados.
 
 > **Nota de lenguaje:** en estos documentos **no** se usa la palabra "usuario" para referirse a
-> las personas. El término `Usuario` se reserva para el futuro contexto genérico de **IAM**
-> (autenticación/autorización). Aquí hablamos de **asesor de crédito**, **actor** o **rol
-> operativo**.
+> las personas. El término `Usuario` se reserva para el contexto genérico de **IAM**
+> (autenticación/cuenta). Aquí hablamos de **asesor de ventas**, **actor** o **rol operativo**.
 
-## Segmento objetivo: entidad financiera (asesor de crédito)
+## Segmento objetivo: concesionaria de vehículos (asesor de ventas)
 
-La entidad financiera peruana que ofrece crédito vehicular bajo la modalidad **Compra
-Inteligente**. Operativamente, quien interactúa con el sistema es el **asesor de crédito**.
+La **concesionaria de vehículos** peruana que ofrece crédito vehicular bajo la modalidad **Compra
+Inteligente** a sus compradores. Operativamente, quien interactúa con el sistema es el **asesor de
+ventas** de la concesionaria.
 
-| Atributo     | Descripción                                                                                                                                                                            |
-|--------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Quién es     | Entidad financiera (banco, financiera, concesionaria con financiamiento) en Perú; el asesor de crédito es su rol operativo.                                                            |
-| Qué necesita | Armar simulaciones rápidas y **exactas**; registrar cliente y oferta; **editar y volver a guardar** lo registrado; mostrar al deudor el cronograma y los indicadores de transparencia. |
-| Contexto     | Marco normativo SBS (transparencia de la información); operaciones en Soles o Dólares; modalidad balloon para reducir la cuota mensual.                                                |
-| Qué valora   | Reproducibilidad del cálculo, claridad de los indicadores, trazabilidad de las operaciones.                                                                                            |
+| Atributo     | Descripción                                                                                                                                                                                                  |
+|--------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Quién es     | Concesionaria de vehículos en Perú que ofrece financiamiento a sus compradores; el asesor de ventas es su rol operativo.                                                                                     |
+| Qué necesita | Armar cotizaciones rápidas y **exactas**; registrar cliente y oferta; **editar y volver a guardar** lo registrado; mostrar al deudor el cronograma y los indicadores de transparencia.                       |
+| Contexto     | Marco normativo SBS (transparencia de la información); operaciones en Soles o Dólares; modalidad balloon para reducir la cuota mensual; varias concesionarias sobre la misma app (cuenta por concesionaria). |
+| Qué valora   | Reproducibilidad del cálculo, claridad de los indicadores, trazabilidad de las cotizaciones, separación de sus datos.                                                                                        |
 
 ## Beneficiario final: el deudor / comprador
 
@@ -46,16 +48,18 @@ derechos **moldean los requisitos**.
 
 ## Por qué un solo segmento en v1
 
-- El enunciado fija que el desarrollo se enfoca **desde el punto de vista de la entidad**; el
-  sistema es su herramienta interna.
+- El enunciado fija que el desarrollo se enfoca **desde el punto de vista de la concesionaria**; el
+  sistema es su herramienta de cotización.
 - Mantener **un segmento** evita mezclar "quién usa el producto" con "quién se beneficia del
-  resultado", lo que mantendría limpio el modelado posterior.
+  resultado", lo que mantiene limpio el modelado posterior.
 - El perfil del deudor se captura como **driver de requisitos** (indicadores, transparencia),
   no como un segmento aparte que habría que atender con funcionalidades propias.
+- La **multi-concesionaria** no agrega segmentos: es la misma audiencia (concesionaria / asesor de
+  ventas) replicada por *tenant*, con datos separados.
 
 ## Tabla resumen
 
-| Actor                                  | Relación con el producto                 | Necesidad principal                                 | Cómo lo atiende AutoFinance                                       |
-|----------------------------------------|------------------------------------------|-----------------------------------------------------|-------------------------------------------------------------------|
-| Entidad financiera / asesor de crédito | **Segmento objetivo** (opera el sistema) | Cronograma e indicadores exactos, registro editable | Motor de cálculo + CRUD + persistencia trazable                   |
-| Deudor / comprador                     | **Beneficiario final** (no opera)        | Cuota mensual baja y transparencia del costo        | Modalidad balloon + VAN/TIR óptica del deudor + transparencia SBS |
+| Actor                            | Relación con el producto                 | Necesidad principal                                 | Cómo lo atiende AutoFinance                                        |
+|----------------------------------|------------------------------------------|-----------------------------------------------------|--------------------------------------------------------------------|
+| Concesionaria / asesor de ventas | **Segmento objetivo** (opera el sistema) | Cronograma e indicadores exactos, registro editable | Motor de cálculo + CRUD + persistencia trazable por concesionaria  |
+| Deudor / comprador               | **Beneficiario final** (no opera)        | Cuota mensual baja y transparencia del costo        | Modalidad balloon + VAN/TIR óptica del deudor + transparencia SBS  |

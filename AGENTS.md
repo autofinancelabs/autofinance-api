@@ -3,7 +3,8 @@
 AutoFinance is the **backend REST API** for building and persisting **vehicle-credit payment
 plans (cronogramas) in Peru**, computed with the **French method (*vencido ordinario*, 30/360)**
 under the **"Compra Inteligente" balloon** modality (a deferred final installment / *cuotón*).
-It is a tool for the **lending entity** (operational, not a consumer app) and exposes the **SBS
+It is the **quotation tool** for **vehicle dealerships** (operational, not a consumer app) —
+**multi-tenant** (each dealership has its own account and isolated data) — and exposes the **SBS
 transparency indicators** plus **VAN/TIR from the debtor's perspective**.
 
 > **Status: documented, not yet implemented.** `src/` is a fresh Spring Boot skeleton (only
@@ -34,17 +35,23 @@ Validation.** Package root: `com.autofinance.api`.
 
 Four **bounded contexts** — the value and the modeling effort concentrate in one:
 
-| Context               | Type       | What it does                                                                     |
-|-----------------------|------------|----------------------------------------------------------------------------------|
-| **Credit Simulation** | **core**   | The engine: configuration → French+balloon schedule (grace, costs) → indicators. |
-| Clients               | supporting | CRUD of the debtor.                                                              |
-| Vehicle Offers        | supporting | CRUD of the vehicle offer (sale price, currency).                                |
-| Identity & Access     | generic    | Login/session; **Conformist** to an external Identity Provider.                  |
+| Context               | Type       | What it does                                                                                                    |
+|-----------------------|------------|-----------------------------------------------------------------------------------------------------------------|
+| **Credit Simulation** | **core**   | The engine: configuration → French+balloon schedule (grace, costs) → indicators.                                |
+| Clients               | supporting | CRUD of the debtor.                                                                                             |
+| Vehicle Offers        | supporting | CRUD of the vehicle offer (sale price, currency).                                                               |
+| Identity & Access     | generic    | Login/session + the **`Dealership`** account (the **tenant**); **Conformist** to an external Identity Provider. |
 
 The core references the other contexts **only by ID** (`ClientId`, `VehicleOfferId`) through an
 **Anti-Corruption Layer** — it never imports `Client`/`VehicleOffer`, only pulls minimal data
 (`salePrice`, `currency`, validity). Why: `docs/ddd/bounded-contexts.md` (context map) and
 `docs/architecture/c4-architecture.md` (C4).
+
+**Multi-tenant:** the app serves many dealerships. `Clients`, `VehicleOffers` and `CreditSimulation`
+are scoped per dealership via Hibernate **`@TenantId`** (shared schema + `dealership_id` discriminator);
+a `CurrentTenantIdentifierResolver` reads the logged-in dealership from the session, and Hibernate
+auto-filters and auto-fills it. **One user belongs to one dealership.** `users` carries a
+`dealership_id` FK but is **not** `@TenantId`-filtered (the tenant is resolved at login).
 
 Each context maps to the **4 DDD layers**; dependencies point **inward** (domain depends on nothing):
 
@@ -94,7 +101,7 @@ map back into the guides — a handy reference, **but not the authority**: when 
   flows. ⇒ The docs' schedule tables show 2-decimal numbers that sometimes don't add up exactly
   (±0.01) — that is **display rounding, not a bug**; the engine must reconcile the last balance to 0
   internally.
-- **Perspective duality**: the *system* is the lender's, but **VAN/TIR are the debtor's**
+- **Perspective duality**: the *system* belongs to the dealership (the quotation tool), but **VAN/TIR are the debtor's**
   (`VAN = loan − Σ installment_t/(1+COK)^t`; `VAN > 0` ⇒ the loan is cheap vs the debtor's COK).
   See `docs/guides/van-tir.md` §7.
 - **Reproducibility**: the engine's output must match the **worked examples in the guides** (e.g.
