@@ -37,10 +37,14 @@ Las divisiones y potencias usan `MathContext` con redondeo `HALF_UP`.
 
 ### 4.1 Identificación y moneda
 
-| nombre        | descripción                       | tipo            | precisión | formato  | default | restricciones                    |
-|---------------|-----------------------------------|-----------------|-----------|----------|---------|----------------------------------|
-| `moneda`      | Divisa única de la operación      | enum {PEN, USD} | —         | "PEN"    | PEN     | obligatorio; mono-divisa, sin FX |
-| `precioVenta` | Precio de venta del vehículo (PV) | BigDecimal      | scale 2   | 16000.00 | —       | obligatorio; `> 0`               |
+| nombre         | descripción                                   | tipo            | precisión | formato  | default | restricciones                    |
+|----------------|-----------------------------------------------|-----------------|-----------|----------|---------|----------------------------------|
+| `dealershipId` | Concesionaria (tenant) dueña de la cotización | UUID            | —         | —        | sesión  | **de contexto**: lo fija la sesión, no lo digita el asesor (`@TenantId`) |
+| `moneda`       | Divisa única de la operación                  | enum {PEN, USD} | —         | "PEN"    | PEN     | obligatorio; mono-divisa, sin FX |
+| `precioVenta`  | Precio de venta del vehículo (PV)             | BigDecimal      | scale 2   | 16000.00 | —       | obligatorio; `> 0`               |
+
+> `dealershipId` no es un input financiero: es el **tenant** que aísla los datos por concesionaria;
+> Hibernate (`@TenantId`) lo toma de la sesión y lo aplica automáticamente.
 
 ### 4.2 Tasa
 
