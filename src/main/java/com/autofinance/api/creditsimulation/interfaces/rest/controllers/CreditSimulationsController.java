@@ -13,6 +13,7 @@ import com.autofinance.api.creditsimulation.interfaces.rest.transform.GenerateSi
 import com.autofinance.api.creditsimulation.interfaces.rest.transform.SimulationResourceFromEntityAssembler;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -67,6 +68,51 @@ public class CreditSimulationsController {
     })
     public ResponseEntity<SimulationResource> generate(
             @RequestHeader("X-Dealership-Id") UUID dealershipId,
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    required = true,
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = GenerateSimulationResource.class),
+                            examples = {
+                                    @ExampleObject(name = "Plan francés simple (sin balloon)", value = """
+                                            {
+                                              "clientId": "22222222-2222-2222-2222-222222222222",
+                                              "vehicleOfferId": "33333333-3333-3333-3333-333333333333",
+                                              "salePrice": 60000,
+                                              "currency": "PEN",
+                                              "rateValue": 0.20,
+                                              "rateType": "EFFECTIVE",
+                                              "capitalization": null,
+                                              "initialPercentage": 0.20,
+                                              "balloonPercentage": 0,
+                                              "numberOfInstallments": 12,
+                                              "frequencyDays": 30,
+                                              "daysPerYear": 360,
+                                              "gracePlan": ["NONE","NONE","NONE","NONE","NONE","NONE","NONE","NONE","NONE","NONE","NONE","NONE"],
+                                              "costs": [],
+                                              "costOfCapitalAnnual": 0.30
+                                            }"""),
+                                    @ExampleObject(name = "Compra Inteligente (balloon 30% + costos)", value = """
+                                            {
+                                              "clientId": "22222222-2222-2222-2222-222222222222",
+                                              "vehicleOfferId": "33333333-3333-3333-3333-333333333333",
+                                              "salePrice": 60000,
+                                              "currency": "PEN",
+                                              "rateValue": 0.20,
+                                              "rateType": "EFFECTIVE",
+                                              "capitalization": null,
+                                              "initialPercentage": 0.20,
+                                              "balloonPercentage": 0.30,
+                                              "numberOfInstallments": 12,
+                                              "frequencyDays": 30,
+                                              "daysPerYear": 360,
+                                              "gracePlan": ["NONE","NONE","NONE","NONE","NONE","NONE","NONE","NONE","NONE","NONE","NONE","NONE"],
+                                              "costs": [
+                                                { "name": "portes", "value": 3.50, "basis": "FIXED", "timing": "PERIODIC", "embedded": false },
+                                                { "name": "desgravamen", "value": 0.00049, "basis": "ON_BALANCE", "timing": "PERIODIC", "embedded": true }
+                                              ],
+                                              "costOfCapitalAnnual": 0.30
+                                            }""")
+                            }))
             @Valid @RequestBody GenerateSimulationResource resource) {
         var command = GenerateSimulationCommandFromResourceAssembler.toCommandFromResource(dealershipId, resource);
         var simulationId = commandService.handle(command);
