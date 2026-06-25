@@ -49,6 +49,9 @@ Fuente: `docs/guides/metodo-frances-compra-inteligente-balloon.md`.
 >    portes=3.50, gastos adm=3.50, riesgo=4.00). Se usan los valores de la **tabla del cronograma**.
 > 3. El bloque del cuotón de la fuente arrastra pequeños redondeos; D1 valida sobre todo los
 >    **indicadores** (dentro de tolerancia). D2 y D3 son los validadores aritméticos exactos.
+> 4. El **COK anual es 50%** (`cokAnual = 0.50`); el COK del periodo es `(1.5)^(30/360) − 1 =
+>    3.4366083%`, tasa con la que se descuenta el **VAN (+4,436.18)**. (Una versión previa rotulaba
+>    3.44% como "anual"; en realidad ese 3.44% era el COK del **periodo**.)
 
 ### 4.1 Entradas
 
@@ -65,7 +68,7 @@ Fuente: `docs/guides/metodo-frances-compra-inteligente-balloon.md`.
 | `costosNotariales` / `costosRegistrales`        |             100.00 / 75.00 (total 175.00) |
 | `tsd`                                           |                                  0.000490 |
 | `seguroRiesgo` / `gps` / `portes` / `gastosAdm` |                4.00 / 20.00 / 3.50 / 3.50 |
-| `cokAnual`                                      |                                    0.0344 |
+| `cokAnual`                                      |                               0.50 (=50%) |
 | `desgravamenEmbebido`                           |                                      true |
 
 ### 4.2 Valores intermedios esperados
