@@ -1,0 +1,12 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  datasource:
+    url: jdbc:postgresql://${AUTOFINANCE_DB_HOST:localhost}:${AUTOFINANCE_DB_PORT:5432}/${AUTOFINANCE_DB_NAME:autofinance_db}?sslmode=require
+    username: ${AUTOFINANCE_DB_USERNAME:admin}
+    password: ${AUTOFINANCE_DB_PASSWORD:password}
+
+logging:
+  level:
+    org.hibernate.SQL: info
