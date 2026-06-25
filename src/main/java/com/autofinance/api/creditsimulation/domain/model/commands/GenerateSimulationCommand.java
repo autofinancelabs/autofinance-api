@@ -1,6 +1,7 @@
 package com.autofinance.api.creditsimulation.domain.model.commands;
 
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.Capitalization;
+import com.autofinance.api.creditsimulation.domain.model.valueobjects.Cost;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.Currency;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.GraceType;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.RateType;
@@ -12,6 +13,7 @@ import java.util.UUID;
 /**
  * Raw inputs to generate a credit-simulation quote. Carries primitives/enums (not value objects)
  * so the application/REST boundary can map flat input directly; the factory builds the VOs.
+ * Costs are a flexible list, so any entity's cost structure can be expressed.
  */
 public record GenerateSimulationCommand(
         UUID dealershipId,
@@ -28,16 +30,7 @@ public record GenerateSimulationCommand(
         int frequencyDays,
         int daysPerYear,
         List<GraceType> gracePlan,
-        BigDecimal notary,
-        BigDecimal registry,
-        BigDecimal appraisal,
-        BigDecimal fees,
-        BigDecimal creditLifeInsuranceRate,
-        BigDecimal allRiskInsurance,
-        BigDecimal gps,
-        BigDecimal shippingFees,
-        BigDecimal adminFees,
-        BigDecimal costOfCapitalAnnual,
-        boolean creditLifeInsuranceEmbedded
+        List<Cost> costs,
+        BigDecimal costOfCapitalAnnual
 ) {
 }

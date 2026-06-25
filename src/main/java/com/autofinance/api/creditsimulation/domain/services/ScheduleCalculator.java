@@ -1,8 +1,10 @@
 package com.autofinance.api.creditsimulation.domain.services;
 
+import com.autofinance.api.creditsimulation.domain.model.valueobjects.AppliedCost;
+import com.autofinance.api.creditsimulation.domain.model.valueobjects.Cost;
+import com.autofinance.api.creditsimulation.domain.model.valueobjects.Costs;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.GraceConfiguration;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.GraceType;
-import com.autofinance.api.creditsimulation.domain.model.valueobjects.PeriodicCosts;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.ScheduleRow;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.Term;
 
@@ -12,33 +14,23 @@ import java.util.List;
 
 /**
  * Stateless domain service that builds the payment schedule: French method + Compra Inteligente
- * (deferred balloon), grace (S/T/P) with cuota recomputation after grace, periodic costs, and the
- * final balloon settlement row. Implements docs/report/algoritmo.md.
+ * (deferred balloon), grace (S/T/P) with cuota recomputation after grace, flexible periodic costs,
+ * and the final balloon settlement row. Implements docs/report/algoritmo.md (the formulas come from
+ * docs/guides/).
  * <p>
- * When credit-life insurance is embedded, both the regular installment and the deferred balloon
- * accrue it: the rate used is {@code j = i + TSD}. The balloon's present value is therefore
- * {@code balloon / (1 + j)^(n+1)} — it grows for the n ordinary periods plus the settlement period.
+ * Embedded costs (credit-life insurance) raise the installment rate to {@code j = i + Σ rate} and
+ * capitalize into the balloon ({@code VP = balloon/(1+j)^(n+1)}); on ordinary rows they live inside
+ * the installment, on grace rows they are charged separately.
  */
 public final class ScheduleCalculator {
 
     private static final BigDecimal ZERO = BigDecimal.ZERO;
 
-    /**
-     * Present value of the deferred balloon, discounted at the balloon's growth rate over {@code n+1}
-     * periods (the n ordinary periods plus the settlement period). Shared with the aggregate so the
-     * financed balance and the schedule agree.
-     */
-    public static BigDecimal balloonPresentValue(BigDecimal balloon,
-                                                 BigDecimal periodicRate,
-                                                 BigDecimal creditLifeInsuranceRate,
-                                                 boolean creditLifeInsuranceEmbedded,
-                                                 int numberOfInstallments) {
+    /** Present value of the deferred balloon, discounted at its growth rate over {@code n+1} periods. */
+    public static BigDecimal balloonPresentValue(BigDecimal balloon, BigDecimal balloonRate, int numberOfInstallments) {
         if (balloon.signum() <= 0) {
             return ZERO;
         }
-        BigDecimal balloonRate = creditLifeInsuranceEmbedded
-                ? periodicRate.add(creditLifeInsuranceRate, FinancialMath.MC)
-                : periodicRate;
         return balloon.divide(
                 FinancialMath.pow(BigDecimal.ONE.add(balloonRate), numberOfInstallments + 1),
                 FinancialMath.MC);
@@ -47,18 +39,18 @@ public final class ScheduleCalculator {
     public List<ScheduleRow> build(BigDecimal loanAmount,
                                    BigDecimal balloon,
                                    BigDecimal periodicRate,
+                                   BigDecimal salePrice,
                                    Term term,
                                    GraceConfiguration grace,
-                                   PeriodicCosts costs,
-                                   boolean creditLifeInsuranceEmbedded) {
+                                   Costs costs) {
         final int n = term.numberOfInstallments();
         final BigDecimal i = periodicRate;
-        final BigDecimal tsd = costs.creditLifeInsuranceRate();
-        final BigDecimal rateForInstallment = creditLifeInsuranceEmbedded ? i.add(tsd, FinancialMath.MC) : i;
-        final BigDecimal fixed = costs.fixedPerPeriod();
+        final BigDecimal embeddedRate = costs.embeddedRate();
+        final BigDecimal rateForInstallment = i.add(embeddedRate, FinancialMath.MC);
+        final List<Cost> periodic = costs.periodic();
         final boolean hasBalloon = balloon.signum() > 0;
 
-        BigDecimal balloonBalance = balloonPresentValue(balloon, i, tsd, creditLifeInsuranceEmbedded, n);
+        BigDecimal balloonBalance = balloonPresentValue(balloon, rateForInstallment, n);
         BigDecimal regularBalance = loanAmount.subtract(balloonBalance, FinancialMath.MC);
         BigDecimal installment = null; // computed lazily at the first ordinary period
 
@@ -66,12 +58,12 @@ public final class ScheduleCalculator {
 
         for (int t = 1; t <= n; t++) {
             GraceType graceType = grace.at(t);
-            BalloonStep balloonStep = growBalloon(balloonBalance, i, tsd, hasBalloon, creditLifeInsuranceEmbedded);
+            BalloonStep balloonStep = growBalloon(balloonBalance, i, embeddedRate, hasBalloon);
             balloonBalance = balloonStep.closing();
 
             BigDecimal openingRegular = regularBalance;
             BigDecimal interestDisplayed = openingRegular.multiply(i, FinancialMath.MC); // plain i
-            BigDecimal creditLifeInsurance = openingRegular.multiply(tsd, FinancialMath.MC);
+            CostEval ce = evaluateCosts(periodic, costs, openingRegular, salePrice);
 
             BigDecimal periodInstallment;
             BigDecimal amortization;
@@ -83,13 +75,13 @@ public final class ScheduleCalculator {
                     periodInstallment = ZERO;
                     amortization = ZERO;
                     closingRegular = openingRegular.add(interestDisplayed, FinancialMath.MC); // capitalizes
-                    cashFlow = creditLifeInsurance.add(fixed, FinancialMath.MC);
+                    cashFlow = ce.embedded().add(ce.other(), FinancialMath.MC);
                 }
                 case PARTIAL -> {
                     periodInstallment = interestDisplayed; // pays interest only
                     amortization = ZERO;
                     closingRegular = openingRegular;
-                    cashFlow = periodInstallment.add(creditLifeInsurance, FinancialMath.MC).add(fixed, FinancialMath.MC);
+                    cashFlow = periodInstallment.add(ce.embedded(), FinancialMath.MC).add(ce.other(), FinancialMath.MC);
                 }
                 case NONE -> {
                     if (installment == null) {
@@ -103,10 +95,7 @@ public final class ScheduleCalculator {
                     BigDecimal interestForAmort = openingRegular.multiply(rateForInstallment, FinancialMath.MC);
                     amortization = periodInstallment.subtract(interestForAmort, FinancialMath.MC);
                     closingRegular = openingRegular.subtract(amortization, FinancialMath.MC);
-                    cashFlow = periodInstallment.add(fixed, FinancialMath.MC);
-                    if (!creditLifeInsuranceEmbedded) {
-                        cashFlow = cashFlow.add(creditLifeInsurance, FinancialMath.MC);
-                    }
+                    cashFlow = periodInstallment.add(ce.other(), FinancialMath.MC); // embedded already inside installment
                 }
                 default -> throw new IllegalStateException("Unknown grace type: " + graceType);
             }
@@ -117,33 +106,50 @@ public final class ScheduleCalculator {
                     t, graceType,
                     balloonStep.opening(), balloonStep.interest(), balloonStep.insurance(), balloonStep.closing(),
                     openingRegular, interestDisplayed, periodInstallment, amortization,
-                    creditLifeInsurance, costs.allRiskInsurance(), costs.gps(), costs.shippingFees(), costs.adminFees(),
-                    closingRegular, cashFlow));
+                    closingRegular, cashFlow, ce.applied()));
         }
 
         if (hasBalloon) {
-            // Settlement: the balloon grows one final period (its display closes at the nominal value),
-            // and is paid at its nominal amount plus the fixed period costs.
-            BalloonStep settlement = growBalloon(balloonBalance, i, tsd, true, creditLifeInsuranceEmbedded);
-            BigDecimal settlementCashFlow = balloon.add(fixed, FinancialMath.MC);
+            // Settlement: the balloon grows one final period; it is paid at its nominal amount plus
+            // the period costs (evaluated at a zero regular balance: balance-based costs vanish).
+            BalloonStep settlement = growBalloon(balloonBalance, i, embeddedRate, true);
+            CostEval ce = evaluateCosts(periodic, costs, ZERO, salePrice);
+            BigDecimal settlementCashFlow = balloon.add(ce.other(), FinancialMath.MC);
             rows.add(new ScheduleRow(
                     n + 1, GraceType.NONE,
                     settlement.opening(), settlement.interest(), settlement.insurance(), ZERO,
                     ZERO, ZERO, ZERO, ZERO,
-                    ZERO, costs.allRiskInsurance(), costs.gps(), costs.shippingFees(), costs.adminFees(),
-                    ZERO, settlementCashFlow));
+                    ZERO, settlementCashFlow, ce.applied()));
         }
 
         return rows;
     }
 
-    private BalloonStep growBalloon(BigDecimal opening, BigDecimal i, BigDecimal tsd,
-                                    boolean hasBalloon, boolean embedded) {
+    private CostEval evaluateCosts(List<Cost> periodic, Costs costs,
+                                   BigDecimal openingBalance, BigDecimal salePrice) {
+        BigDecimal embedded = ZERO;
+        BigDecimal other = ZERO;
+        List<AppliedCost> applied = new ArrayList<>();
+        for (Cost c : periodic) {
+            BigDecimal amount = costs.amountFor(c, openingBalance, salePrice);
+            // every applied cost is recorded for display/totals; whether it hits the cash flow is
+            // decided per grace type (embedded costs are inside the installment on ordinary rows).
+            applied.add(new AppliedCost(c.name(), amount));
+            if (c.embedded()) {
+                embedded = embedded.add(amount, FinancialMath.MC);
+            } else {
+                other = other.add(amount, FinancialMath.MC);
+            }
+        }
+        return new CostEval(embedded, other, applied);
+    }
+
+    private BalloonStep growBalloon(BigDecimal opening, BigDecimal i, BigDecimal embeddedRate, boolean hasBalloon) {
         if (!hasBalloon) {
             return new BalloonStep(opening, ZERO, ZERO, opening);
         }
         BigDecimal interest = opening.multiply(i, FinancialMath.MC);
-        BigDecimal insurance = embedded ? opening.multiply(tsd, FinancialMath.MC) : ZERO;
+        BigDecimal insurance = opening.multiply(embeddedRate, FinancialMath.MC);
         BigDecimal closing = opening.add(interest, FinancialMath.MC).add(insurance, FinancialMath.MC);
         return new BalloonStep(opening, interest, insurance, closing);
     }
@@ -160,5 +166,8 @@ public final class ScheduleCalculator {
     }
 
     private record BalloonStep(BigDecimal opening, BigDecimal interest, BigDecimal insurance, BigDecimal closing) {
+    }
+
+    private record CostEval(BigDecimal embedded, BigDecimal other, List<AppliedCost> applied) {
     }
 }

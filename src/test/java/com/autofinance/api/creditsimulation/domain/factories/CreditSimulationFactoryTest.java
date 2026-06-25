@@ -24,7 +24,6 @@ class CreditSimulationFactoryTest {
 
     private static GenerateSimulationCommand command(String initialPct, String balloonPct,
                                                      int n, List<GraceType> gracePlan) {
-        BigDecimal zero = BigDecimal.ZERO;
         return new GenerateSimulationCommand(
                 UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(),
                 new BigDecimal("15000"), Currency.PEN,
@@ -32,10 +31,8 @@ class CreditSimulationFactoryTest {
                 new BigDecimal(initialPct), new BigDecimal(balloonPct),
                 n, 30, 360,
                 gracePlan,
-                zero, zero, zero, zero,
-                zero, zero, zero, zero, zero,
-                new BigDecimal("0.12"),
-                false);
+                List.of(),
+                new BigDecimal("0.12"));
     }
 
     @Test

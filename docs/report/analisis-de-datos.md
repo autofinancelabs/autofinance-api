@@ -96,6 +96,14 @@ Restricción de cruce: `porcentajeCuotaInicial + porcentajeCuotaFinal < 1`.
 | `gastosAdm`            | Gastos administrativos por periodo                            | BigDecimal | scale 2      | 3.50     | 0       | `≥ 0`                                |
 | `desgravamenEmbebido`  | Usar `j = i + TSD` en la cuota                                | boolean    | —            | false    | false   | variante `Should`                    |
 
+> **Modelo de costos flexible (implementado).** Los costos ya no son campos fijos: son una **lista
+> de `Cost`** `{ name, value, basis, timing, embedded }`, definible por operación (cualquier entidad
+> puede añadir costos en runtime). `basis ∈ {FIXED, ON_BALANCE, ON_SALE_PRICE}` (monto fijo, % sobre
+> saldo, % sobre precio); `timing ∈ {INITIAL, PERIODIC}`; `embedded` marca el desgravamen (entra en
+> `j` y capitaliza en el cuotón). Las tablas §4.5–§4.6 son los costos **típicos** expresados así
+> (p. ej. desgravamen = `ON_BALANCE` embebido; riesgo = `ON_SALE_PRICE`; GPS/portes/gastos adm. =
+> `FIXED PERIODIC`; notariales/registrales = `FIXED INITIAL`).
+
 ### 4.7 Parámetros de evaluación
 
 | nombre     | descripción          | tipo       | precisión | formato | default | restricciones               |
@@ -141,11 +149,15 @@ Restricción de cruce: `porcentajeCuotaInicial + porcentajeCuotaFinal < 1`.
 
 ### 6.2 Totales y acumulados
 
-| nombre                                                                             | descripción    | tipo       | precisión |
-|------------------------------------------------------------------------------------|----------------|------------|-----------|
-| `interesesTotales`                                                                 | Σ intereses    | BigDecimal | scale 2   |
-| `amortizacionTotal`                                                                | Σ amortización | BigDecimal | scale 2   |
-| `desgravamenTotal` / `riesgoTotal` / `gpsTotal` / `portesTotal` / `gastosAdmTotal` | Σ costos       | BigDecimal | scale 2   |
+Expuestos como `SimulationSummary`:
+
+| nombre                  | descripción                                        | tipo       | precisión |
+|-------------------------|----------------------------------------------------|------------|-----------|
+| `totalInterest`         | Σ intereses                                        | BigDecimal | scale 2   |
+| `totalAmortization`     | Σ amortización                                      | BigDecimal | scale 2   |
+| `totalLoanInstallments` | Σ cuota del préstamo (cuotas financieras pagadas)  | BigDecimal | scale 2   |
+| `totalToPay`            | Σ flujo (**monto total a pagar**, sin descontar)   | BigDecimal | scale 2   |
+| `totalsPerCost`         | Σ por **nombre de costo** (mapa; desgravamen, riesgo, GPS, portes, gastos adm., o cualquiera definido) | Map\<String,BigDecimal\> | scale 2 |
 
 ### 6.3 Indicadores
 
