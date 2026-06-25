@@ -1,7 +1,6 @@
-package com.autofinance.api.creditsimulation.domain.factories;
+package com.autofinance.api.creditsimulation.domain.model.aggregates;
 
 import com.autofinance.api.creditsimulation.domain.exceptions.InvalidSimulationConfigurationException;
-import com.autofinance.api.creditsimulation.domain.model.aggregates.CreditSimulation;
 import com.autofinance.api.creditsimulation.domain.model.commands.GenerateSimulationCommand;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.ClientId;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.Costs;
@@ -19,8 +18,9 @@ import com.autofinance.api.creditsimulation.domain.services.SummaryCalculator;
 import java.math.BigDecimal;
 
 /**
- * Domain factory: assembles a valid {@link CreditSimulation} from raw inputs, enforces the
- * cross-field configuration invariants, and triggers the initial calculation.
+ * Domain factory for the {@link CreditSimulation} aggregate: assembles a valid simulation from raw
+ * inputs, enforces the cross-field configuration invariants, and triggers the initial calculation.
+ * Co-located with the aggregate it creates.
  */
 public class CreditSimulationFactory {
 
