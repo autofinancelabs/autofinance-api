@@ -1,0 +1,17 @@
+name: autofinance-dev-env
+
+services:
+  db:
+    image: postgres:18.3-alpine3.23
+    container_name: autofinance-postgres
+    environment:
+      POSTGRES_DB: autofinance_db_dev
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+    ports:
+      - "${AUTOFINANCE_DB_PORT:-5252}:5432"
+    volumes:
+      - autofinance_data:/var/lib/postgresql
+
+volumes:
+  autofinance_data:
