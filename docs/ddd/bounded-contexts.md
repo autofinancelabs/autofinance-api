@@ -7,12 +7,12 @@
 
 ## Clasificación de subdominios
 
-| Contexto                | Subdominio     | Epics          | Justificación (diferenciación × complejidad de modelo)                                                                                        |
-|-------------------------|----------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
-| Identity & Access (IAM) | **generic**    | E1             | Problema resuelto (login/sesión); se reusa, no se modela en profundidad.                                                                      |
-| Clients                 | **supporting** | E2             | Necesario pero no diferencia el negocio; CRUD simple.                                                                                         |
-| Vehicle Offers          | **supporting** | E3             | Necesario pero no diferencia; CRUD simple.                                                                                                    |
-| **Credit Simulation**   | **core**       | E4, E5, E6, E7 | **La ventaja del producto**: el motor de cronograma francés+balloon, gracia, costos e indicadores SBS. Aquí va el mejor esfuerzo de modelado. |
+| Contexto                | Subdominio     | Epics          | Justificación (diferenciación × complejidad de modelo)                                                                                                                |
+|-------------------------|----------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Identity & Access (IAM) | **generic**    | E1             | Login/sesión + **cuenta de concesionaria** (`Dealership`, el *tenant*). El auth se reusa (Spring Security); la cuenta es un concepto mínimo de soporte dentro de IAM. |
+| Clients                 | **supporting** | E2             | Necesario pero no diferencia el negocio; CRUD simple.                                                                                                                 |
+| Vehicle Offers          | **supporting** | E3             | Necesario pero no diferencia; CRUD simple.                                                                                                                            |
+| **Credit Simulation**   | **core**       | E4, E5, E6, E7 | **La ventaja del producto**: el motor de cronograma francés+balloon, gracia, costos e indicadores SBS. Aquí va el mejor esfuerzo de modelado.                         |
 
 ## Decisiones de frontera
 
@@ -41,22 +41,22 @@ Guardar/reabrir/editar y el historial por cliente es el `CreditSimulationReposit
 | **Description**              | Configura un financiamiento vehicular y genera su plan de pagos (método francés vencido + Compra Inteligente), con gracia y costos, calculando los indicadores de transparencia (VAN/TIR/TCEA) desde la óptica del deudor. |
 | **Strategic Classification** | Domain: **core**. Business model: **compliance enforcer** (transparencia SBS) + generador de valor operativo. Evolution: **custom build**.                                                                                 |
 | **Domain Roles**             | Motor de cálculo ("analysis/engine"): transforma una configuración en un cronograma e indicadores.                                                                                                                         |
-| **Inbound Communication**    | `ConfigureFinancing`, `GenerateSimulation`, `SaveSimulation`, `ReopenSimulation`, `ReconfigureSimulation` (del asesor).                                                                                                    |
+| **Inbound Communication**    | `ConfigureFinancing`, `GenerateSimulation`, `SaveSimulation`, `ReopenSimulation`, `ReconfigureSimulation` (del asesor de ventas).                                                                                          |
 | **Outbound Communication**   | Queries **by-id** a Clients (validez del cliente) y a Vehicle Offers (precio de venta, moneda).                                                                                                                            |
 | **Ubiquitous Language**      | Préstamo, cuota regular, cuotón, gracia T/P/S, TEA/TEP, VAN/TIR/TCEA, flujo del periodo… (ver glosario, sección Credit Simulation).                                                                                        |
 | **Business Decisions**       | Invariantes: `initialPercentage + balloonPercentage < 1`; capitalización obligatoria si la tasa es nominal; `(totalGrace + partialGrace) < n`; moneda única; `loanAmount > 0`; el cronograma cuadra (último saldo ≈ 0).    |
 
 ## Bounded Context Canvas — Clients `supporting`
 
-| Sección                      | Contenido                                                                                 |
-|------------------------------|-------------------------------------------------------------------------------------------|
-| **Name**                     | Clients.                                                                                  |
-| **Description**              | Registra y mantiene los datos del cliente (deudor) que la entidad usa en sus operaciones. |
-| **Strategic Classification** | Domain: supporting. Evolution: custom/product.                                            |
-| **Inbound**                  | `RegisterClient`, `UpdateClient`; queries del core (validez por ID).                      |
-| **Outbound**                 | — (no inicia colaboraciones).                                                             |
-| **Ubiquitous Language**      | Cliente/Deudor, documento de identidad, datos de contacto.                                |
-| **Business Decisions**       | Unicidad del documento de identidad; datos obligatorios mínimos.                          |
+| Sección                      | Contenido                                                                                                                    |
+|------------------------------|------------------------------------------------------------------------------------------------------------------------------|
+| **Name**                     | Clients.                                                                                                                     |
+| **Description**              | Registra y mantiene los datos del cliente (deudor) que la concesionaria usa en sus operaciones (aislados por concesionaria). |
+| **Strategic Classification** | Domain: supporting. Evolution: custom/product.                                                                               |
+| **Inbound**                  | `RegisterClient`, `UpdateClient`; queries del core (validez por ID).                                                         |
+| **Outbound**                 | — (no inicia colaboraciones).                                                                                                |
+| **Ubiquitous Language**      | Cliente/Deudor, documento de identidad, datos de contacto.                                                                   |
+| **Business Decisions**       | Unicidad del documento de identidad; datos obligatorios mínimos.                                                             |
 
 ## Bounded Context Canvas — Vehicle Offers `supporting`
 
@@ -72,10 +72,17 @@ Guardar/reabrir/editar y el historial por cliente es el `CreditSimulationReposit
 
 ## Identity & Access (IAM) `generic`
 
-Nota mínima (sin modelado táctico): provee `User` (email/username, password) y la **sesión** que
-habilita operar. Se integra como **Conformist**: el negocio consume la identidad/sesión tal cual, sin
-traducirla. Candidato a delegarse en un proveedor (p. ej. Spring Security). Se incluye solo como
-referencia.
+Provee `User` (email/username, password), la **sesión** que habilita operar, y la **`Dealership`**
+(la **cuenta/tenant** de la concesionaria). El registro (`RegisterDealership`) crea la concesionaria
+y su primer `User`; **un usuario pertenece a una sola concesionaria**. El auth se integra como
+**Conformist** y es candidato a delegarse en un proveedor (p. ej. Spring Security); la `Dealership`
+es un concepto **mínimo de soporte** dentro de IAM (no un bounded context aparte — se separaría solo
+si creciera la gestión de cuenta: roles, multiusuario, billing, todo fuera de alcance).
+
+**Multi-tenant:** al autenticar, la sesión fija el `DealershipId` actual. Ese identificador es el
+**discriminador de tenant** (`@TenantId` de Hibernate) que se propaga a Clients, Vehicle Offers y
+Credit Simulation para **aislar los datos por concesionaria** (esquema compartido + columna
+`dealership_id`). Es una preocupación de **infraestructura cross-cutting**, no un contexto de dominio.
 
 ---
 
@@ -88,9 +95,9 @@ flowchart LR
     VO[Vehicle Offers\nsupporting]
     CS[Credit Simulation\ncore]
 
-    IAM -->|Conformist / sesión| CL
-    IAM -->|Conformist / sesión| VO
-    IAM -->|Conformist / sesión| CS
+    IAM -->|Conformist / sesión + tenant| CL
+    IAM -->|Conformist / sesión + tenant| VO
+    IAM -->|Conformist / sesión + tenant| CS
     CL -->|Customer/Supplier · ACL · by-id| CS
     VO -->|Customer/Supplier · ACL · by-id| CS
 ```
@@ -108,4 +115,7 @@ Notas:
   toma `ClientId`/`VehicleOfferId` + datos mínimos (`salePrice`, `currency`). Coincide con la regla del
   playbook "referenciar otros agregados solo por ID".
 - **No** hay Shared Kernel de negocio: `Money`/`Currency` es un **kernel técnico** compartido (sin
-  reglas de negocio). **No** hay Partnership ni Open Host Service público (API interna de la entidad).
+  reglas de negocio). **No** hay Partnership ni Open Host Service público (API interna de la concesionaria).
+- **Multi-tenant (cross-cutting):** IAM aporta el `DealershipId` de la sesión; Clients, Vehicle Offers
+  y Credit Simulation quedan **scoped por ese tenant** vía `@TenantId` (no cruza frontera de dominio,
+  es infraestructura). Un usuario → una concesionaria.

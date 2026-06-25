@@ -7,9 +7,18 @@
 hide circle
 skinparam linetype ortho
 
+entity "dealerships" as deal {
+  * id : uuid <<PK>>
+  --
+  * name : varchar
+  * ruc : varchar <<UQ>>
+  contact_email : varchar
+}
+
 entity "users" as users {
   * id : uuid <<PK>>
   --
+  * dealership_id : uuid <<FK>>
   * email : varchar
   * username : varchar
   * password_hash : varchar
@@ -18,6 +27,7 @@ entity "users" as users {
 entity "clients" as clients {
   * id : uuid <<PK>>
   --
+  * dealership_id : uuid <<@TenantId>>
   * document_id_type : varchar
   * document_id_number : varchar
   contact_email : varchar
@@ -28,6 +38,7 @@ entity "clients" as clients {
 entity "vehicle_offers" as offers {
   * id : uuid <<PK>>
   --
+  * dealership_id : uuid <<@TenantId>>
   * vehicle_make : varchar
   * vehicle_model : varchar
   * vehicle_year : integer
@@ -39,6 +50,7 @@ entity "vehicle_offers" as offers {
 entity "credit_simulations" as sim {
   * id : uuid <<PK>>
   --
+  * dealership_id : uuid <<@TenantId>>
   * client_id : uuid <<by-id, no FK>>
   * vehicle_offer_id : uuid <<by-id, no FK>>
   * rate_value : numeric(18,10)
@@ -78,6 +90,12 @@ entity "schedule_row" as srow {
   closing_balance : numeric(18,2)
   cash_flow : numeric(18,2)
 }
+
+' Tenant: dealerships -> users (FK) + clients/offers/sim (@TenantId)
+deal ||--o{ users : "tiene (FK)"
+deal ||--o{ clients : "tenant"
+deal ||--o{ offers : "tenant"
+deal ||--o{ sim : "tenant"
 
 ' Relaciones intra-agregado (FK real)
 sim ||--o{ grace : "tiene (FK)"

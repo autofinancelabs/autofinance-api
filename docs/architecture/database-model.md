@@ -7,24 +7,26 @@
 
 ## Reglas de mapeo (DDD → JPA → PostgreSQL)
 
-| Concepto DDD                  | Mapeo                                                                                                    |
-|-------------------------------|----------------------------------------------------------------------------------------------------------|
-| Raíz de agregado              | `@Entity` → tabla; identidad `@EmbeddedId` (VO tipado) → PK `uuid`.                                      |
-| Value object escalar          | `@Embeddable` record → **columnas embebidas** en la tabla del dueño (Money = `*_amount` + `*_currency`). |
-| Referencia a otro agregado    | id tipado `@Embedded` → **columna** (`client_id`) **sin FK** (frontera ACL).                             |
-| Colección propia del agregado | `@ElementCollection` → **tabla hija** con FK real a la raíz (`ON DELETE CASCADE`).                       |
-| Enum                          | `varchar` + `CHECK IN (...)` (`@Enumerated(STRING)`).                                                    |
+| Concepto DDD                  | Mapeo                                                                                                                                                           |
+|-------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Raíz de agregado              | `@Entity` → tabla; identidad `@EmbeddedId` (VO tipado) → PK `uuid`.                                                                                             |
+| Value object escalar          | `@Embeddable` record → **columnas embebidas** en la tabla del dueño (Money = `*_amount` + `*_currency`).                                                        |
+| Referencia a otro agregado    | id tipado `@Embedded` → **columna** (`client_id`) **sin FK** (frontera ACL).                                                                                    |
+| Colección propia del agregado | `@ElementCollection` → **tabla hija** con FK real a la raíz (`ON DELETE CASCADE`).                                                                              |
+| Enum                          | `varchar` + `CHECK IN (...)` (`@Enumerated(STRING)`).                                                                                                           |
+| Discriminador de tenant       | `@TenantId` sobre `dealership_id` → columna que Hibernate **auto-filtra y auto-rellena** con la concesionaria de la sesión (`CurrentTenantIdentifierResolver`). |
 
 ## Mapeo tabla ↔ dominio
 
-| Tabla                | Origen DDD                                    | Notas                                                                 |
-|----------------------|-----------------------------------------------|-----------------------------------------------------------------------|
-| `users`              | `User` (IAM, generic)                         | Credenciales mínimas.                                                 |
-| `clients`            | `Client` (supporting)                         | VOs `DocumentId`, `ContactInfo` embebidos.                            |
-| `vehicle_offers`     | `VehicleOffer` (supporting)                   | `Vehicle`, `SalePrice` (Money), `Plan` embebidos.                     |
-| `credit_simulations` | `CreditSimulation` (core, raíz)               | VOs escalares embebidos; `client_id`/`vehicle_offer_id` by-id sin FK. |
-| `grace_period`       | `GraceConfiguration.periods: List<GraceType>` | Tabla hija **ordenada** (`period_index`).                             |
-| `schedule_row`       | `schedule: List<ScheduleRow>`                 | Tabla hija; PK `(credit_simulation_id, period)`.                      |
+| Tabla                | Origen DDD                                    | Notas                                                                                                |
+|----------------------|-----------------------------------------------|------------------------------------------------------------------------------------------------------|
+| `dealerships`        | `Dealership` (IAM, generic) — **tenant**      | Cuenta de la concesionaria; registro de tenants (la tabla **no** es @TenantId).                      |
+| `users`              | `User` (IAM, generic)                         | Credenciales mínimas; `dealership_id` (FK) → su concesionaria.                                       |
+| `clients`            | `Client` (supporting)                         | VOs `DocumentId`, `ContactInfo` embebidos; `dealership_id` (`@TenantId`).                            |
+| `vehicle_offers`     | `VehicleOffer` (supporting)                   | `Vehicle`, `SalePrice` (Money), `Plan` embebidos; `dealership_id` (`@TenantId`).                     |
+| `credit_simulations` | `CreditSimulation` (core, raíz)               | VOs escalares embebidos; `client_id`/`vehicle_offer_id` by-id sin FK; `dealership_id` (`@TenantId`). |
+| `grace_period`       | `GraceConfiguration.periods: List<GraceType>` | Tabla hija **ordenada** (`period_index`).                                                            |
+| `schedule_row`       | `schedule: List<ScheduleRow>`                 | Tabla hija; PK `(credit_simulation_id, period)`.                                                     |
 
 ## Precisión (alineada con el diccionario de datos)
 
@@ -42,9 +44,19 @@
 ## DDL (PostgreSQL)
 
 ```sql
--- Identity & Access (generic)
+-- Identity & Access (generic) — cuenta/tenant + usuarios
+CREATE TABLE dealerships (
+    id             uuid PRIMARY KEY,                       -- el tenant
+    name           varchar(255) NOT NULL,
+    ruc            varchar(11)  NOT NULL UNIQUE,           -- identificación de la concesionaria
+    contact_email  varchar(255),
+    created_at     timestamptz  NOT NULL DEFAULT now(),
+    updated_at     timestamptz  NOT NULL DEFAULT now()
+);
+
 CREATE TABLE users (
     id             uuid PRIMARY KEY,
+    dealership_id  uuid NOT NULL REFERENCES dealerships (id) ON DELETE CASCADE,  -- un usuario -> una concesionaria (FK; NO @TenantId)
     email          varchar(255) NOT NULL UNIQUE,
     username       varchar(100) NOT NULL UNIQUE,
     password_hash  varchar(255) NOT NULL,
@@ -55,6 +67,7 @@ CREATE TABLE users (
 -- Clients (supporting)
 CREATE TABLE clients (
     id                  uuid PRIMARY KEY,
+    dealership_id       uuid NOT NULL,                  -- @TenantId (concesionaria)
     document_id_type    varchar(10)  NOT NULL,          -- VO DocumentId
     document_id_number  varchar(20)  NOT NULL,
     contact_email       varchar(255),                   -- VO ContactInfo
@@ -62,12 +75,13 @@ CREATE TABLE clients (
     contact_address     varchar(255),
     created_at          timestamptz  NOT NULL DEFAULT now(),
     updated_at          timestamptz  NOT NULL DEFAULT now(),
-    CONSTRAINT uq_clients_document UNIQUE (document_id_type, document_id_number)
+    CONSTRAINT uq_clients_document UNIQUE (dealership_id, document_id_type, document_id_number)
 );
 
 -- Vehicle Offers (supporting)
 CREATE TABLE vehicle_offers (
     id                   uuid PRIMARY KEY,
+    dealership_id        uuid NOT NULL,                  -- @TenantId (concesionaria)
     vehicle_make         varchar(80)   NOT NULL,         -- VO Vehicle
     vehicle_model        varchar(80)   NOT NULL,
     vehicle_year         integer       NOT NULL,
@@ -84,6 +98,7 @@ CREATE TABLE vehicle_offers (
 -- Credit Simulation (core, aggregate root)
 CREATE TABLE credit_simulations (
     id                          uuid PRIMARY KEY,
+    dealership_id               uuid NOT NULL,           -- @TenantId (concesionaria)
     -- referencias by-id (SIN FK: frontera ACL)
     client_id                   uuid NOT NULL,
     vehicle_offer_id            uuid NOT NULL,
@@ -144,7 +159,7 @@ CREATE TABLE credit_simulations (
     CONSTRAINT ck_sim_rate_type   CHECK (rate_type IN ('NOMINAL','EFFECTIVE')),
     CONSTRAINT ck_sim_state       CHECK (state IN ('DRAFT','CONFIGURED','GENERATED','SAVED','REOPENED'))
 );
-CREATE INDEX ix_sim_client ON credit_simulations (client_id);   -- soporta findByClientId (historial, E7)
+CREATE INDEX ix_sim_client ON credit_simulations (dealership_id, client_id);   -- soporta findByClientId dentro del tenant (historial, E7)
 
 -- Grace configuration (tabla hija ordenada)
 CREATE TABLE grace_period (
@@ -188,35 +203,47 @@ CREATE TABLE schedule_row (
 
 ## Invariantes: base de datos vs dominio
 
-| Invariante                                                                                            | Dónde                                       |
-|-------------------------------------------------------------------------------------------------------|---------------------------------------------|
-| `%CI∈[0,1)`, `%balloon∈[0,1)`, `%CI+%balloon<1`, `loan>0`, `sale>0`, `n≥1`, `frequency_days>0`, enums | **CHECK** en la base.                       |
-| Capitalización obligatoria si `rate_type = NOMINAL`                                                   | **Dominio** (multi-columna condicional).    |
-| Moneda única en toda la operación                                                                     | **Dominio** (cruza varias columnas/tablas). |
-| Cuadre del cronograma (último saldo ≈ 0; `installment = interest + amortization`)                     | **Dominio** (lo garantiza el motor).        |
+| Invariante                                                                                            | Dónde                                                |
+|-------------------------------------------------------------------------------------------------------|------------------------------------------------------|
+| `%CI∈[0,1)`, `%balloon∈[0,1)`, `%CI+%balloon<1`, `loan>0`, `sale>0`, `n≥1`, `frequency_days>0`, enums | **CHECK** en la base.                                |
+| Capitalización obligatoria si `rate_type = NOMINAL`                                                   | **Dominio** (multi-columna condicional).             |
+| Moneda única en toda la operación                                                                     | **Dominio** (cruza varias columnas/tablas).          |
+| Cuadre del cronograma (último saldo ≈ 0; `installment = interest + amortization`)                     | **Dominio** (lo garantiza el motor).                 |
+| Aislamiento por concesionaria (cada fila pertenece a su `dealership_id`)                              | **Infra** (`@TenantId` de Hibernate filtra/rellena). |
 
 ## Diagrama ER
 
 FKs reales **intra-agregado** (`credit_simulations` → `schedule_row`, `grace_period`). Las relaciones
 de `clients` y `vehicle_offers` con `credit_simulations` son **referencias by-id sin FK** (frontera
 ACL); se dibujan con cardinalidad pero **no existe integridad referencial forzada** entre agregados.
+Todas las tablas de negocio (`clients`, `vehicle_offers`, `credit_simulations`) llevan `dealership_id`
+(el **tenant**, vía `@TenantId`); `users` referencia `dealerships` por FK. `dealerships` es el registro
+de tenants (no lleva discriminador).
 
 ```mermaid
 erDiagram
+    dealerships {
+        uuid id PK
+        varchar name
+        varchar ruc
+    }
     users {
         uuid id PK
+        uuid dealership_id FK
         varchar email
         varchar username
         varchar password_hash
     }
     clients {
         uuid id PK
+        uuid dealership_id "tenant"
         varchar document_id_type
         varchar document_id_number
         varchar contact_email
     }
     vehicle_offers {
         uuid id PK
+        uuid dealership_id "tenant"
         varchar vehicle_make
         varchar vehicle_model
         numeric sale_price_amount
@@ -224,6 +251,7 @@ erDiagram
     }
     credit_simulations {
         uuid id PK
+        uuid dealership_id "tenant"
         uuid client_id "by-id, sin FK"
         uuid vehicle_offer_id "by-id, sin FK"
         numeric rate_value
@@ -254,14 +282,18 @@ erDiagram
         numeric cash_flow
     }
 
+    dealerships ||--o{ users : "tiene (FK)"
+    dealerships ||--o{ clients : "tenant (@TenantId)"
+    dealerships ||--o{ vehicle_offers : "tenant (@TenantId)"
+    dealerships ||--o{ credit_simulations : "tenant (@TenantId)"
     credit_simulations ||--o{ grace_period : "tiene (FK)"
     credit_simulations ||--o{ schedule_row : "tiene (FK)"
     clients ||--o{ credit_simulations : "by-id (sin FK, ACL)"
     vehicle_offers ||--o{ credit_simulations : "by-id (sin FK, ACL)"
 ```
 
-> Nota: `users` (asesores, IAM) no tiene relación forzada con el resto; el registro de "quién creó la
-> simulación" no se modela en v1.
+> Nota: `users` (asesores, IAM) pertenece a una `dealerships` (FK); su concesionaria es el **tenant**
+> que aísla los datos. El registro de "qué usuario creó la simulación" no se modela en v1.
 
 ## Nota: migraciones (Flyway) — Fase 5
 

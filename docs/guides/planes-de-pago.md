@@ -54,28 +54,28 @@ El PDF enumera varios métodos de pago: americano o inglés, alemán, francés, 
 
 ## 3. Variables y notación
 
-| Símbolo / campo | Significado                             | Observación operativa                                          |
-|-----------------|-----------------------------------------|----------------------------------------------------------------|
-| `PV`            | Precio de venta del bien                | Base para calcular la cuota inicial                            |
-| `CI`            | Cuota inicial                           | Puede expresarse como porcentaje del precio de venta           |
-| `C`             | Monto del préstamo o capital financiado | `C = PV - CI` o `C = PV * (1 - %CI)`                           |
-| `TEA`           | Tasa efectiva anual                     | Tasa anual informada por la entidad financiera                 |
-| `TEP`           | Tasa efectiva del periodo de pago       | Debe coincidir con la frecuencia de pago                       |
-| `TES`           | Tasa efectiva semestral                 | Caso particular de TEP cuando los pagos son semestrales        |
-| `TEC`           | Tasa efectiva cuatrimestral             | Caso particular de TEP cuando los pagos son cada 4 meses       |
-| `TEM`           | Tasa efectiva mensual                   | Caso particular de TEP cuando los pagos son mensuales          |
-| `TET`           | Tasa efectiva trimestral                | Caso particular de TEP cuando los pagos son trimestrales       |
-| `TEB`           | Tasa efectiva bimestral                 | Caso particular de TEP cuando los pagos son bimestrales        |
-| `n`             | Número total de cuotas                  | Depende del plazo y la frecuencia                              |
-| `nc`            | Número de la cuota que se calcula       | Se usa especialmente cuando cambia la tasa                     |
-| `SI`            | Saldo inicial del periodo               | Saldo sobre el cual se calculan intereses                      |
-| `I`             | Interés del periodo                     | `I = SI * TEP`                                                 |
-| `A`             | Amortización del periodo                | Parte de la cuota que reduce capital                           |
-| `R`             | Cuota periódica o anualidad             | En el método francés representa la cuota calculada por fórmula |
-| `SF`            | Saldo final                             | Saldo pendiente después del pago o capitalización              |
-| `T`             | Gracia total                            | No se paga cuota y el interés se capitaliza                    |
-| `P`             | Gracia parcial o normal                 | Se pagan intereses, pero no capital                            |
-| `S`             | Sin gracia                              | Se paga según el método correspondiente                        |
+| Símbolo / campo | Significado                             | Observación operativa                                                |
+|-----------------|-----------------------------------------|----------------------------------------------------------------------|
+| `PV`            | Precio de venta del bien                | Base para calcular la cuota inicial                                  |
+| `CI`            | Cuota inicial                           | Puede expresarse como porcentaje del precio de venta                 |
+| `C`             | Monto del préstamo o capital financiado | `C = PV - CI` o `C = PV * (1 - %CI)`                                 |
+| `TEA`           | Tasa efectiva anual                     | Tasa anual informada por la institución que otorga el financiamiento |
+| `TEP`           | Tasa efectiva del periodo de pago       | Debe coincidir con la frecuencia de pago                             |
+| `TES`           | Tasa efectiva semestral                 | Caso particular de TEP cuando los pagos son semestrales              |
+| `TEC`           | Tasa efectiva cuatrimestral             | Caso particular de TEP cuando los pagos son cada 4 meses             |
+| `TEM`           | Tasa efectiva mensual                   | Caso particular de TEP cuando los pagos son mensuales                |
+| `TET`           | Tasa efectiva trimestral                | Caso particular de TEP cuando los pagos son trimestrales             |
+| `TEB`           | Tasa efectiva bimestral                 | Caso particular de TEP cuando los pagos son bimestrales              |
+| `n`             | Número total de cuotas                  | Depende del plazo y la frecuencia                                    |
+| `nc`            | Número de la cuota que se calcula       | Se usa especialmente cuando cambia la tasa                           |
+| `SI`            | Saldo inicial del periodo               | Saldo sobre el cual se calculan intereses                            |
+| `I`             | Interés del periodo                     | `I = SI * TEP`                                                       |
+| `A`             | Amortización del periodo                | Parte de la cuota que reduce capital                                 |
+| `R`             | Cuota periódica o anualidad             | En el método francés representa la cuota calculada por fórmula       |
+| `SF`            | Saldo final                             | Saldo pendiente después del pago o capitalización                    |
+| `T`             | Gracia total                            | No se paga cuota y el interés se capitaliza                          |
+| `P`             | Gracia parcial o normal                 | Se pagan intereses, pero no capital                                  |
+| `S`             | Sin gracia                              | Se paga según el método correspondiente                              |
 
 ---
 

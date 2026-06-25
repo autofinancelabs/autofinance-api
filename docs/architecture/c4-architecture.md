@@ -14,21 +14,21 @@ usa el diagrama de clases PlantUML de la Fase 3.
 
 ## Nivel 1 — System Context
 
-| Elemento                          | Rol                                                                                                               |
-|-----------------------------------|-------------------------------------------------------------------------------------------------------------------|
-| Asesor de crédito (person)        | Opera el sistema: registra cliente/oferta, configura y genera simulaciones. **No** se usa "usuario" como persona. |
-| AutoFinance API (software system) | El sistema que construimos.                                                                                       |
-| Identity Provider (external)      | Provee identidad/sesión; el negocio lo consume **tal cual** (Conformist).                                         |
+| Elemento                          | Rol                                                                                                                                                                |
+|-----------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Asesor de ventas (person)         | Opera el sistema por cuenta de su **concesionaria**: registra cliente/oferta, ingresa las condiciones y genera cotizaciones. **No** se usa "usuario" como persona. |
+| AutoFinance API (software system) | El sistema que construimos.                                                                                                                                        |
+| Identity Provider (external)      | Provee identidad/sesión; el negocio lo consume **tal cual** (Conformist).                                                                                          |
 
 El asesor se autentica contra el Identity Provider y opera AutoFinance API; AutoFinance verifica la
 sesión contra el proveedor.
 
 ## Nivel 2 — Containers
 
-| Container | Tecnología                | Responsabilidad                                                               |
-|-----------|---------------------------|-------------------------------------------------------------------------------|
-| REST API  | Spring Boot 4.1 / Java 25 | Expone los casos de uso; aloja los 4 bounded contexts en 4 capas DDD.         |
-| Database  | PostgreSQL                | Persiste los agregados (FKs reales intra-agregado; referencias by-id sin FK). |
+| Container | Tecnología                | Responsabilidad                                                                                                                            |
+|-----------|---------------------------|--------------------------------------------------------------------------------------------------------------------------------------------|
+| REST API  | Spring Boot 4.1 / Java 25 | Expone los casos de uso; aloja los 4 bounded contexts en 4 capas DDD.                                                                      |
+| Database  | PostgreSQL                | Persiste los agregados (FKs reales intra-agregado; referencias by-id sin FK); columna `dealership_id` (tenant) en las tablas multi-tenant. |
 
 El Identity Provider permanece como sistema externo.
 
@@ -54,11 +54,11 @@ dominio no depende de nada externo.
 
 ### Supporting / generic
 
-| Componente                  | Subdominio                                                              |
-|-----------------------------|-------------------------------------------------------------------------|
-| Clients Component           | supporting (`Client`).                                                  |
-| Vehicle Offers Component    | supporting (`VehicleOffer`).                                            |
-| Identity & Access Component | generic (`User`/`Session`); Conformist, delega en el Identity Provider. |
+| Componente                  | Subdominio                                                                                                                                         |
+|-----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
+| Clients Component           | supporting (`Client`).                                                                                                                             |
+| Vehicle Offers Component    | supporting (`VehicleOffer`).                                                                                                                       |
+| Identity & Access Component | generic (`User`/`Session`/`Dealership`); Conformist; **resuelve la concesionaria (tenant) de la sesión** y delega el auth en el Identity Provider. |
 
 ## Decisiones reflejadas en el modelo
 
@@ -70,6 +70,10 @@ dominio no depende de nada externo.
   modelos. Refleja el patrón Customer/Supplier + ACL del context map.
 - **IAM es un sistema externo (Conformist):** la identidad/sesión se consume tal cual; el componente
   `Identity & Access` solo media con el proveedor.
+- **Multi-tenant (`@TenantId`):** IAM resuelve el `DealershipId` (concesionaria) de la sesión; un
+  `CurrentTenantIdentifierResolver` lo expone y Hibernate **aísla y rellena** la columna `dealership_id`
+  en `clients`, `vehicle_offers` y `credit_simulations` (esquema compartido). Es una preocupación de
+  infraestructura, transversal a los contextos.
 - **Persistencia en infraestructura:** el `CreditSimulationRepository` es un *port* del dominio; su
   implementación JPA vive en infrastructure y habla con la base PostgreSQL. El esquema está en
   [database-model.md](database-model.md).

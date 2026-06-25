@@ -32,7 +32,8 @@ Cada bloque siguiente cita la regla que lo justifica.
 ≈ 0, `installment = interest + amortization`, cuotón liquidado) es una invariante que abarca todas las
 filas y debe valer dentro de **una transacción** (regla: varios objetos consistentes juntos → agregado
 tras una raíz). Referencia a otros agregados **solo por ID** (`ClientId`, `VehicleOfferId`) — regla de
-agregados pequeños y referencias by-id.
+agregados pequeños y referencias by-id. Lleva además un `DealershipId` (el **tenant**): discrimina y
+aísla la simulación por concesionaria (`@TenantId` de Hibernate).
 
 ### Aggregate Design Canvas — `CreditSimulation`
 
@@ -94,7 +95,9 @@ calculan) — evita el modelo anémico.
 ## Repository
 
 `CreditSimulationRepository` — uno por raíz; interfaz en la capa de dominio, implementación en
-infraestructura (JPA). Cubre E7: guardar/reabrir/editar y `findByClientId` para el historial.
+infraestructura (JPA). Cubre E7: guardar/reabrir/editar y `findByClientId` para el historial. Todas
+sus consultas quedan **auto-filtradas por la concesionaria actual** (Hibernate `@TenantId`), así que
+`findByClientId` devuelve solo el historial del tenant en sesión.
 Justificación: persistir/recuperar un agregado → Repository.
 
 ## Factory
@@ -121,13 +124,18 @@ CRUD puro).
 | Clients        | `Client`       | `DocumentId`, `ContactInfo`                    | `ClientRepository`       |
 | Vehicle Offers | `VehicleOffer` | `Vehicle`, `SalePrice` (reusa `Money`), `Plan` | `VehicleOfferRepository` |
 
+Tanto `Client` como `VehicleOffer` (y `CreditSimulation`) llevan un `DealershipId` (el tenant) que los
+**aísla por concesionaria** (`@TenantId`).
+
 `Money`/`Currency` es un **kernel técnico** compartido (sin reglas de negocio), no un shared kernel de
 dominio.
 
-## Nota IAM `generic`
+## Nota IAM `generic` + cuenta (tenant)
 
-Sin modelado táctico: `User` (email/username, password) + sesión, vía proveedor (p. ej. Spring
-Security). Conformist. Ver [bounded-contexts.md](bounded-contexts.md).
+Sin modelado táctico profundo: `User` (email/username, password) + sesión, vía proveedor (p. ej.
+Spring Security). IAM también provee la **`Dealership`** (cuenta/tenant de la concesionaria): el
+registro crea la `Dealership` + su primer `User`, y **un usuario pertenece a una sola concesionaria**.
+Conformist. Ver [bounded-contexts.md](bounded-contexts.md).
 
 ## Mapa a las 4 capas (sin código)
 
@@ -135,7 +143,7 @@ Security). Conformist. Ver [bounded-contexts.md](bounded-contexts.md).
 |--------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **Domain**         | `CreditSimulation` (raíz), VOs, `ScheduleCalculator`, `IndicatorsCalculator`, interfaz `CreditSimulationRepository`, `CreditSimulationFactory`, domain events. |
 | **Application**    | Orquestación de casos de uso (handlers de `GenerateSimulation`, etc.).                                                                                         |
-| **Infrastructure** | Implementación JPA de los repositorios; persistencia.                                                                                                          |
+| **Infrastructure** | Implementación JPA de los repositorios; persistencia; el `CurrentTenantIdentifierResolver` que lee el `DealershipId` de la sesión (multi-tenant `@TenantId`).  |
 | **Interfaces**     | API REST (controllers, DTOs).                                                                                                                                  |
 
 Las dependencias apuntan **hacia adentro**; el dominio no depende de nada externo. El **código es la

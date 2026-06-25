@@ -11,9 +11,10 @@
 
 Backend (REST API) to build and persist **vehicle-credit payment plans in Peru**, computed with the
 **French amortization method** (*vencido ordinario*, 30/360) under the **"Compra Inteligente"
-balloon** modality (deferred final installment / *cuotón*). It is built from the **lending entity's
-perspective** and exposes the **SBS transparency indicators** together with **VAN and TIR (NPV/IRR)
-from the debtor's perspective**.
+balloon** modality (deferred final installment / *cuotón*). It is the **quotation tool** for
+**vehicle dealerships** (multi-tenant — each dealership has its own account and isolated data) and
+exposes the **SBS transparency indicators** together with **VAN and TIR (NPV/IRR) from the debtor's
+perspective**.
 
 ## Features
 
@@ -23,10 +24,13 @@ from the debtor's perspective**.
 - Configurable rate: effective, or nominal stating its capitalization.
 - Indicators: VAN/TIR from the debtor's perspective, plus the SBS transparency battery (TCEA,
   credit-life insurance, all-risk insurance, GPS, shipping fees, admin fees).
-- Persistence and traceability of every operation (register, edit, reopen, re-save).
+- **Multi-tenant**: many dealerships on one app, each with its own account and data isolated via
+  Hibernate `@TenantId`.
+- Persistence and traceability of every quote (register, edit, reopen, re-save).
 
-> Scope: this is a **backend** for the lending entity. Out of scope: other amortization methods, FX,
-> real payments, scoring and UI. Details in [docs/product/about.md](docs/product/about.md).
+> Scope: this is a **backend** (quotation tool) for vehicle dealerships. Out of scope: other
+> amortization methods, FX, real payments, scoring/credit-history, account billing, and UI. Details in
+> [docs/product/about.md](docs/product/about.md).
 
 ## Stack
 
@@ -51,14 +55,14 @@ Domain-Driven Design (4 bounded contexts across 4 layers).
 
 ## Documentation
 
-| Folder | Contents |
-|--------|----------|
-| [`docs/product/`](docs/product/) | What it is and for whom: brief, glossary (ubiquitous language), backlog, segments. |
-| [`docs/ddd/`](docs/ddd/) | Domain model (DDD): bounded contexts, discovery and tactical model. |
-| [`docs/architecture/`](docs/architecture/) | C4 architecture (Structurizr) and database model. |
-| [`docs/guides/`](docs/guides/) | **Financial reference** (formulas, derivations, worked examples): source of truth for the math. |
-| [`docs/report/`](docs/report/) | Academic-report material (formula summary, algorithm, test datasets). |
-| [`AGENTS.md`](AGENTS.md) | Guide for AI agents working in the repository. |
+| Folder                                     | Contents                                                                                        |
+|--------------------------------------------|-------------------------------------------------------------------------------------------------|
+| [`docs/product/`](docs/product/)           | What it is and for whom: brief, glossary (ubiquitous language), backlog, segments.              |
+| [`docs/ddd/`](docs/ddd/)                   | Domain model (DDD): bounded contexts, discovery and tactical model.                             |
+| [`docs/architecture/`](docs/architecture/) | C4 architecture (Structurizr) and database model.                                               |
+| [`docs/guides/`](docs/guides/)             | **Financial reference** (formulas, derivations, worked examples): source of truth for the math. |
+| [`docs/report/`](docs/report/)             | Academic-report material (formula summary, algorithm, test datasets).                           |
+| [`AGENTS.md`](AGENTS.md)                   | Guide for AI agents working in the repository.                                                  |
 
 ## Status
 
