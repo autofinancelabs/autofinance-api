@@ -71,7 +71,9 @@ class CreditSimulationRestTest extends AbstractIntegrationTest {
         mockMvc.perform(post("/api/v1/credit-simulations")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(body))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value("MISSING_TENANT"))
+                .andExpect(jsonPath("$.trace").doesNotExist());
     }
 
     private static GenerateSimulationResource resourceFrom(GenerateSimulationCommand c) {

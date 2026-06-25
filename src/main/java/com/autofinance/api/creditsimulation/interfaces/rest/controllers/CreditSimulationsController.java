@@ -6,11 +6,16 @@ import com.autofinance.api.creditsimulation.domain.model.valueobjects.ClientId;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.SimulationId;
 import com.autofinance.api.creditsimulation.domain.services.CreditSimulationCommandService;
 import com.autofinance.api.creditsimulation.domain.services.CreditSimulationQueryService;
+import com.autofinance.api.creditsimulation.interfaces.rest.resources.ApiErrorSchema;
 import com.autofinance.api.creditsimulation.interfaces.rest.resources.GenerateSimulationResource;
 import com.autofinance.api.creditsimulation.interfaces.rest.resources.SimulationResource;
 import com.autofinance.api.creditsimulation.interfaces.rest.transform.GenerateSimulationCommandFromResourceAssembler;
 import com.autofinance.api.creditsimulation.interfaces.rest.transform.SimulationResourceFromEntityAssembler;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -49,6 +54,17 @@ public class CreditSimulationsController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Generate a credit simulation and return the stored snapshot")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Generated",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SimulationResource.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid configuration / validation / missing tenant header (see 'code')",
+                    content = @Content(mediaType = "application/problem+json",
+                            schema = @Schema(implementation = ApiErrorSchema.class))),
+            @ApiResponse(responseCode = "422", description = "Valid request, but the schedule could not be computed (see 'code')",
+                    content = @Content(mediaType = "application/problem+json",
+                            schema = @Schema(implementation = ApiErrorSchema.class)))
+    })
     public ResponseEntity<SimulationResource> generate(
             @RequestHeader("X-Dealership-Id") UUID dealershipId,
             @Valid @RequestBody GenerateSimulationResource resource) {
@@ -62,6 +78,12 @@ public class CreditSimulationsController {
 
     @GetMapping("/{simulationId}")
     @Operation(summary = "Get a credit simulation by id")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Found",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SimulationResource.class))),
+            @ApiResponse(responseCode = "404", description = "Not found in the current dealership", content = @Content)
+    })
     public ResponseEntity<SimulationResource> getById(@PathVariable UUID simulationId) {
         return queryService.handle(new GetSimulationByIdQuery(new SimulationId(simulationId)))
                 .map(simulation -> ResponseEntity.ok(

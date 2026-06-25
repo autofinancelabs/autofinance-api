@@ -62,6 +62,18 @@ class CreditSimulationsControllerTest {
                 new BigDecimal("0.50"));
     }
 
+    /** Deserializes fine but violates a Bean Validation constraint (@Positive salePrice). */
+    private GenerateSimulationResource constraintViolatingResource() {
+        return new GenerateSimulationResource(
+                UUID.randomUUID(), UUID.randomUUID(),
+                new BigDecimal("-1"), "PEN",
+                new BigDecimal("0.20"), "EFFECTIVE", null,
+                new BigDecimal("0.20"), BigDecimal.ZERO,
+                12, 30, 360,
+                List.of("NONE"), List.<CostResource>of(),
+                new BigDecimal("0.50"));
+    }
+
     @Test
     void generateReturns201WithTheStoredSnapshot() throws Exception {
         when(commandService.handle(any())).thenReturn(generated.getId());
@@ -78,21 +90,49 @@ class CreditSimulationsControllerTest {
     }
 
     @Test
-    void generateWithoutTenantHeaderReturns400() throws Exception {
+    void generateWithoutTenantHeaderReturns400WithProblemDetail() throws Exception {
         mockMvc.perform(post("/api/v1/credit-simulations")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(validResource())))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value("MISSING_TENANT"))
+                .andExpect(jsonPath("$.trace").doesNotExist());
     }
 
     @Test
-    void generateWithInvalidBodyReturns400() throws Exception {
-        String invalid = "{\"clientId\":null}";
+    void generateWithInvalidBodyReturns400WithFieldErrors() throws Exception {
         mockMvc.perform(post("/api/v1/credit-simulations")
                         .header(HEADER, DEALER.toString())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(invalid))
-                .andExpect(status().isBadRequest());
+                        .content(objectMapper.writeValueAsString(constraintViolatingResource())))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value("VALIDATION_FAILED"))
+                .andExpect(jsonPath("$.errors").isArray());
+    }
+
+    @Test
+    void malformedBodyReturns400() throws Exception {
+        mockMvc.perform(post("/api/v1/credit-simulations")
+                        .header(HEADER, DEALER.toString())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"clientId\":null}"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value("MALFORMED_REQUEST"))
+                .andExpect(jsonPath("$.trace").doesNotExist());
+    }
+
+    @Test
+    void unexpectedErrorReturns500WithoutLeakingInternals() throws Exception {
+        when(commandService.handle(any())).thenThrow(new RuntimeException("boom: secret stacktrace"));
+
+        mockMvc.perform(post("/api/v1/credit-simulations")
+                        .header(HEADER, DEALER.toString())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(validResource())))
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.code").value("INTERNAL_ERROR"))
+                .andExpect(jsonPath("$.detail").value("An unexpected error occurred."))
+                .andExpect(jsonPath("$.trace").doesNotExist());
     }
 
     @Test

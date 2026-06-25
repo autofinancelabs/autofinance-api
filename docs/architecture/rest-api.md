@@ -44,16 +44,38 @@ con `totalsPerCost`) y `state`. Sin tipos de dominio: enums expuestos como `Stri
 
 ## Errores
 
-Un único `@RestControllerAdvice` (`creditsimulation/interfaces/rest/GlobalExceptionHandler`) usa
-`ErrorResponse.create(...)` (RFC 7807 `ProblemDetail`). Las excepciones de dominio no conocen HTTP:
+Todo error sale como **RFC 9457 `ProblemDetail`** (`application/problem+json`), nunca con stack trace
+(`server.error.include-stacktrace: never`). Un único `@RestControllerAdvice`
+(`creditsimulation/interfaces/rest/GlobalExceptionHandler extends ResponseEntityExceptionHandler`) maneja
+tanto las excepciones de dominio (que no conocen HTTP) como las de Spring MVC (header faltante, validación,
+JSON ilegible), y las etiqueta con un **`code`** estable del catálogo `ErrorCode`. **El frontend reacciona
+al `code`, no al `detail`** (mensaje para devs) ni al status. Sin i18n en backend: la traducción de copy es
+del frontend, por `code`.
 
-| Status                     | Casos                                                                                                                                                                                                                                            |
-|----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `400 Bad Request`          | `InvalidSimulationConfigurationException`, `CurrencyMismatchException`, `PercentageOutOfRangeException`, `MissingCapitalizationException`, `IllegalArgumentException` (parseo de enums), validación del body, header de tenant ausente/ inválido |
-| `422 Unprocessable Entity` | `ScheduleNotBalancedException`, `IrrNotBracketedException` (request válida, el cálculo no converge)                                                                                                                                              |
-| `404 Not Found`            | `GET /{id}` sin coincidencia en el dealership actual                                                                                                                                                                                             |
+Cuerpo: `type`, `title`, `status`, `detail`, `instance`, `code`, `timestamp` y — en validación de body —
+`errors[] = {field, message}`.
+
+| `code` | Status | Casos |
+|--------|--------|-------|
+| `MISSING_TENANT` | `400` | Header `X-Dealership-Id` ausente |
+| `MALFORMED_REQUEST` | `400` | JSON ilegible, UUID/tipo inválido |
+| `VALIDATION_FAILED` | `400` | Bean Validation del body (`errors[]`); parseo de enums (`IllegalArgumentException`) |
+| `INVALID_SIMULATION_CONFIGURATION` | `400` | Invariantes cruzadas (inicial+balloon<1, gracia, etc.) |
+| `PERCENTAGE_OUT_OF_RANGE` | `400` | `Percentage` fuera de `[0,1)` |
+| `CURRENCY_MISMATCH` | `400` | Monedas incompatibles |
+| `MISSING_CAPITALIZATION` | `400` | Tasa `NOMINAL` sin capitalización |
+| `SCHEDULE_NOT_BALANCED` | `422` | El cronograma no cuadra (request válida) |
+| `IRR_NOT_BRACKETED` | `422` | La TIR no converge (request válida) |
+| `INTERNAL_ERROR` | `500` | Fallback de cualquier error no contemplado (sin filtrar internals) |
+
+`GET /{id}` sin coincidencia en el dealership actual → `404` (sin cuerpo).
+
+Cualquier excepción no mapeada cae en un `@ExceptionHandler(Exception.class)` → `500 INTERNAL_ERROR`
+con `detail` genérico (no se filtra el mensaje real). Los 5xx se loguean con stack en el servidor
+(`log.error`); los 4xx a `debug`.
 
 ## OpenAPI
 
-Documentado vía springdoc + Scalar UI (`@Tag`/`@Operation` en el controller). Ver `scalar.enabled` en
-`application.yaml`.
+Documentado vía springdoc + Scalar UI (`@Tag`/`@Operation`/`@ApiResponses` en el controller). Las respuestas
+de error se documentan con el schema `ProblemDetail` (`ApiErrorSchema`), que expone el enum de `code` y la
+forma de `errors[]`, para que el consumidor vea el catálogo completo. Ver `scalar.enabled` en `application.yaml`.
