@@ -1,8 +1,7 @@
-package com.autofinance.api.creditsimulation.domain.factories;
+package com.autofinance.api.creditsimulation.domain.model.aggregates;
 
 import com.autofinance.api.creditsimulation.GoldenDatasets;
 import com.autofinance.api.creditsimulation.domain.exceptions.InvalidSimulationConfigurationException;
-import com.autofinance.api.creditsimulation.domain.model.aggregates.CreditSimulation;
 import com.autofinance.api.creditsimulation.domain.model.commands.GenerateSimulationCommand;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.Currency;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.GraceType;

@@ -1,6 +1,6 @@
 package com.autofinance.api.creditsimulation;
 
-import com.autofinance.api.creditsimulation.domain.factories.CreditSimulationFactory;
+import com.autofinance.api.creditsimulation.domain.model.aggregates.CreditSimulationFactory;
 import com.autofinance.api.creditsimulation.domain.model.aggregates.CreditSimulation;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.GraceType;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.ScheduleRow;
