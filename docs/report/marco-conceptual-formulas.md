@@ -13,7 +13,7 @@
 - **Una sola tasa por operación** (sin cambios de tasa intermedios).
 - **Mono-divisa**: toda la operación en PEN **o** USD; sin tipo de cambio.
 - **Convención 30/360**: mes de 30 días, año de 360 días.
-- **Perspectiva dual**: el sistema modela la operación desde la **entidad**; los indicadores
+- **Perspectiva dual**: el sistema modela la operación desde la **concesionaria**; los indicadores
   **VAN/TIR** se calculan desde la **óptica del deudor**.
 - **Fuera del modelo**: otros métodos (alemán/americano/peruano), FX, cambio de tasa intermedio.
 
