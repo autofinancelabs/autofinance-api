@@ -17,6 +17,7 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.within;
 
 class CreditSimulationFactoryTest {
 
@@ -62,5 +63,25 @@ class CreditSimulationFactoryTest {
         assertThatThrownBy(() -> factory.create(
                 command("0.20", "0.00", 3, Collections.nCopies(3, GraceType.TOTAL))))
                 .isInstanceOf(InvalidSimulationConfigurationException.class);
+    }
+
+    @Test
+    void handlesZeroRateAsEqualPrincipalPayments() {
+        GenerateSimulationCommand cmd = new GenerateSimulationCommand(
+                UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(),
+                new BigDecimal("12000"), Currency.PEN,
+                BigDecimal.ZERO, RateType.EFFECTIVE, null,
+                BigDecimal.ZERO, BigDecimal.ZERO,
+                12, 30, 360,
+                Collections.nCopies(12, GraceType.NONE),
+                List.of(),
+                new BigDecimal("0.10"));
+
+        CreditSimulation sim = factory.create(cmd);
+
+        assertThat(sim.getState()).isEqualTo(SimulationState.GENERATED);
+        // 0% loan of 12,000 over 12 → equal payments of 1,000, balance to 0.
+        assertThat(sim.getSchedule().get(0).installment().doubleValue()).isCloseTo(1000.00, within(0.01));
+        assertThat(sim.getSchedule().get(11).closingBalance().doubleValue()).isCloseTo(0.0, within(0.01));
     }
 }

@@ -86,10 +86,15 @@ public final class ScheduleCalculator {
                 case NONE -> {
                     if (installment == null) {
                         int remaining = remainingOrdinaryPeriods(grace, t, n);
-                        BigDecimal factor = BigDecimal.ONE.subtract(
-                                FinancialMath.pow(BigDecimal.ONE.add(rateForInstallment), -remaining), FinancialMath.MC);
-                        installment = openingRegular.multiply(rateForInstallment, FinancialMath.MC)
-                                .divide(factor, FinancialMath.MC);
+                        if (rateForInstallment.signum() == 0) {
+                            // 0% rate: equal principal payments (avoids division by zero in the annuity).
+                            installment = openingRegular.divide(BigDecimal.valueOf(remaining), FinancialMath.MC);
+                        } else {
+                            BigDecimal factor = BigDecimal.ONE.subtract(
+                                    FinancialMath.pow(BigDecimal.ONE.add(rateForInstallment), -remaining), FinancialMath.MC);
+                            installment = openingRegular.multiply(rateForInstallment, FinancialMath.MC)
+                                    .divide(factor, FinancialMath.MC);
+                        }
                     }
                     periodInstallment = installment;
                     BigDecimal interestForAmort = openingRegular.multiply(rateForInstallment, FinancialMath.MC);

@@ -27,6 +27,13 @@ class GraceConfigurationTest {
     }
 
     @Test
+    void rejectsGraceAfterAnOrdinaryPeriod() {
+        // grace must be contiguous at the start
+        assertThatThrownBy(() -> new GraceConfiguration(List.of(GraceType.NONE, GraceType.TOTAL)))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
     void noneFactoryFillsWithNone() {
         GraceConfiguration grace = GraceConfiguration.none(3);
         assertThat(grace.totalCount()).isZero();
