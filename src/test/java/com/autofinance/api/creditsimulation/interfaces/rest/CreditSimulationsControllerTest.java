@@ -74,6 +74,18 @@ class CreditSimulationsControllerTest {
                 new BigDecimal("0.50"));
     }
 
+    /** Violates several constraints at once: gracePlan empty, numberOfInstallments and salePrice not positive. */
+    private GenerateSimulationResource multiViolationResource() {
+        return new GenerateSimulationResource(
+                UUID.randomUUID(), UUID.randomUUID(),
+                new BigDecimal("-1"), "PEN",
+                new BigDecimal("0.20"), "EFFECTIVE", null,
+                new BigDecimal("0.20"), BigDecimal.ZERO,
+                0, 30, 360,
+                List.<String>of(), List.<CostResource>of(),
+                new BigDecimal("0.50"));
+    }
+
     @Test
     void generateReturns201WithTheStoredSnapshot() throws Exception {
         when(commandService.handle(any())).thenReturn(generated.getId());
@@ -108,6 +120,19 @@ class CreditSimulationsControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code").value("VALIDATION_FAILED"))
                 .andExpect(jsonPath("$.errors").isArray());
+    }
+
+    @Test
+    void validationErrorsAreSortedByField() throws Exception {
+        mockMvc.perform(post("/api/v1/credit-simulations")
+                        .header(HEADER, DEALER.toString())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(multiViolationResource())))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value("VALIDATION_FAILED"))
+                .andExpect(jsonPath("$.errors[0].field").value("gracePlan"))
+                .andExpect(jsonPath("$.errors[1].field").value("numberOfInstallments"))
+                .andExpect(jsonPath("$.errors[2].field").value("salePrice"));
     }
 
     @Test

@@ -20,11 +20,14 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.validation.FieldError;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.net.URI;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -94,7 +97,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         problem.setType(code.type());
         problem.setInstance(URI.create(request.getRequestURI()));
         problem.setProperty("code", code.code());
-        problem.setProperty("timestamp", Instant.now());
+        problem.setProperty("timestamp", Instant.now().truncatedTo(ChronoUnit.MILLIS));
         return problem;
     }
 
@@ -107,6 +110,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         ResponseEntity<Object> response = super.handleMethodArgumentNotValid(ex, headers, status, request);
         if (response != null && response.getBody() instanceof ProblemDetail problem) {
             List<Map<String, String>> errors = ex.getBindingResult().getFieldErrors().stream()
+                    .sorted(Comparator.comparing(FieldError::getField))
                     .map(fe -> Map.of("field", fe.getField(),
                             "message", fe.getDefaultMessage() == null ? "" : fe.getDefaultMessage()))
                     .toList();
@@ -126,7 +130,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 problem.setProperty("code", code.code());
                 problem.setType(code.type());
             }
-            problem.setProperty("timestamp", Instant.now());
+            problem.setProperty("timestamp", Instant.now().truncatedTo(ChronoUnit.MILLIS));
         }
         if (statusCode.is5xxServerError()) {
             log.error("Framework error ({}) at {}", statusCode, request.getDescription(false), ex);
