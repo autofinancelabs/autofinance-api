@@ -3,22 +3,23 @@ package com.autofinance.api.creditsimulation.domain.model.aggregates;
 import com.autofinance.api.creditsimulation.domain.exceptions.ScheduleNotBalancedException;
 import com.autofinance.api.creditsimulation.domain.model.events.SimulationGenerated;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.ClientId;
+import com.autofinance.api.creditsimulation.domain.model.valueobjects.Costs;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.DealershipId;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.GraceConfiguration;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.Indicators;
-import com.autofinance.api.creditsimulation.domain.model.valueobjects.InitialCosts;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.Money;
-import com.autofinance.api.creditsimulation.domain.model.valueobjects.PeriodicCosts;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.Percentage;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.Rate;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.ScheduleRow;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.SimulationId;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.SimulationState;
+import com.autofinance.api.creditsimulation.domain.model.valueobjects.SimulationSummary;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.Term;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.VehicleOfferId;
 import com.autofinance.api.creditsimulation.domain.services.FinancialMath;
 import com.autofinance.api.creditsimulation.domain.services.IndicatorsCalculator;
 import com.autofinance.api.creditsimulation.domain.services.ScheduleCalculator;
+import com.autofinance.api.creditsimulation.domain.services.SummaryCalculator;
 import com.autofinance.api.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
@@ -42,8 +43,8 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * Aggregate root of the Credit Simulation core: holds the configuration, the generated schedule
- * and the indicators, enforcing the balance invariant in a single transaction.
+ * Aggregate root of the Credit Simulation core: holds the configuration, the generated schedule,
+ * the indicators and the accumulated summary, enforcing the balance invariant in a single transaction.
  */
 @Getter
 @Entity
@@ -94,11 +95,9 @@ public class CreditSimulation extends AuditableAbstractAggregateRoot<CreditSimul
     @Transient
     private GraceConfiguration grace;
 
-    @Embedded
-    private InitialCosts initialCosts;
-
-    @Embedded
-    private PeriodicCosts periodicCosts;
+    /** Flexible cost set; persistence mapping deferred to the persistence slice. */
+    @Transient
+    private Costs costs;
 
     @Embedded
     @AttributeOverrides({
@@ -107,9 +106,6 @@ public class CreditSimulation extends AuditableAbstractAggregateRoot<CreditSimul
             @AttributeOverride(name = "capitalization", column = @Column(name = "cost_of_capital_capitalization"))
     })
     private Rate costOfCapital;
-
-    @Column(name = "credit_life_insurance_embedded")
-    private boolean creditLifeInsuranceEmbedded;
 
     @Embedded
     @AttributeOverrides({
@@ -133,6 +129,10 @@ public class CreditSimulation extends AuditableAbstractAggregateRoot<CreditSimul
     @Embedded
     private Indicators indicators;
 
+    /** Accumulated totals; persistence mapping deferred to the persistence slice. */
+    @Transient
+    private SimulationSummary summary;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "state")
     private SimulationState state;
@@ -143,8 +143,7 @@ public class CreditSimulation extends AuditableAbstractAggregateRoot<CreditSimul
 
     public CreditSimulation(SimulationId id, UUID dealershipId, ClientId clientId, VehicleOfferId vehicleOfferId,
                             Money salePrice, Rate rate, Percentage initialPercentage, Percentage balloonPercentage,
-                            Term term, GraceConfiguration grace, InitialCosts initialCosts, PeriodicCosts periodicCosts,
-                            Rate costOfCapital, boolean creditLifeInsuranceEmbedded) {
+                            Term term, GraceConfiguration grace, Costs costs, Rate costOfCapital) {
         this.id = id;
         this.dealershipId = dealershipId;
         this.clientId = clientId;
@@ -155,39 +154,39 @@ public class CreditSimulation extends AuditableAbstractAggregateRoot<CreditSimul
         this.balloonPercentage = balloonPercentage;
         this.term = term;
         this.grace = grace;
-        this.initialCosts = initialCosts;
-        this.periodicCosts = periodicCosts;
+        this.costs = costs;
         this.costOfCapital = costOfCapital;
-        this.creditLifeInsuranceEmbedded = creditLifeInsuranceEmbedded;
 
         BigDecimal i = rate.toPeriodicRate(term.frequencyDays(), term.daysPerYear());
         BigDecimal downPayment = initialPercentage.of(salePrice.amount());
         BigDecimal loan = salePrice.amount().subtract(downPayment, FinancialMath.MC)
-                .add(initialCosts.total(), FinancialMath.MC);
+                .add(costs.initialTotal(), FinancialMath.MC);
         this.loanAmount = new Money(loan, salePrice.currency());
 
         BigDecimal balloon = balloonPercentage.of(salePrice.amount());
+        BigDecimal balloonRate = i.add(costs.embeddedRate(), FinancialMath.MC);
         BigDecimal presentValueOfBalloon = ScheduleCalculator.balloonPresentValue(
-                balloon, i, periodicCosts.creditLifeInsuranceRate(), creditLifeInsuranceEmbedded,
-                term.numberOfInstallments());
+                balloon, balloonRate, term.numberOfInstallments());
         this.financedBalance = new Money(loan.subtract(presentValueOfBalloon, FinancialMath.MC), salePrice.currency());
 
         this.state = SimulationState.CONFIGURED;
     }
 
-    /** Builds the schedule and indicators (double-dispatch), verifies the balance, transitions state. */
-    public void generate(ScheduleCalculator scheduleCalculator, IndicatorsCalculator indicatorsCalculator) {
+    /** Builds the schedule, indicators and summary (double-dispatch), verifies balance, transitions state. */
+    public void generate(ScheduleCalculator scheduleCalculator, IndicatorsCalculator indicatorsCalculator,
+                         SummaryCalculator summaryCalculator) {
         BigDecimal i = rate.toPeriodicRate(term.frequencyDays(), term.daysPerYear());
         BigDecimal balloon = balloonPercentage.of(salePrice.amount());
 
         this.schedule = scheduleCalculator.build(
-                loanAmount.amount(), balloon, i, term, grace, periodicCosts, creditLifeInsuranceEmbedded);
+                loanAmount.amount(), balloon, i, salePrice.amount(), term, grace, costs);
 
         BigDecimal periodicCostOfCapital = costOfCapital.toPeriodicRate(term.frequencyDays(), term.daysPerYear());
         BigDecimal effectiveAnnualRate = rate.toEffectiveAnnual(term.daysPerYear());
         this.indicators = indicatorsCalculator.compute(
                 loanAmount.amount(), schedule, periodicCostOfCapital, term.installmentsPerYear(),
                 effectiveAnnualRate, i);
+        this.summary = summaryCalculator.compute(schedule);
 
         verifyBalance();
         this.state = SimulationState.GENERATED;

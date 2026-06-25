@@ -4,10 +4,9 @@ import com.autofinance.api.creditsimulation.domain.exceptions.InvalidSimulationC
 import com.autofinance.api.creditsimulation.domain.model.aggregates.CreditSimulation;
 import com.autofinance.api.creditsimulation.domain.model.commands.GenerateSimulationCommand;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.ClientId;
+import com.autofinance.api.creditsimulation.domain.model.valueobjects.Costs;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.GraceConfiguration;
-import com.autofinance.api.creditsimulation.domain.model.valueobjects.InitialCosts;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.Money;
-import com.autofinance.api.creditsimulation.domain.model.valueobjects.PeriodicCosts;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.Percentage;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.Rate;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.SimulationId;
@@ -15,6 +14,7 @@ import com.autofinance.api.creditsimulation.domain.model.valueobjects.Term;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.VehicleOfferId;
 import com.autofinance.api.creditsimulation.domain.services.IndicatorsCalculator;
 import com.autofinance.api.creditsimulation.domain.services.ScheduleCalculator;
+import com.autofinance.api.creditsimulation.domain.services.SummaryCalculator;
 
 import java.math.BigDecimal;
 
@@ -26,6 +26,7 @@ public class CreditSimulationFactory {
 
     private final ScheduleCalculator scheduleCalculator = new ScheduleCalculator();
     private final IndicatorsCalculator indicatorsCalculator = new IndicatorsCalculator();
+    private final SummaryCalculator summaryCalculator = new SummaryCalculator();
 
     public CreditSimulation create(GenerateSimulationCommand command) {
         Money salePrice = new Money(command.salePrice(), command.currency());
@@ -34,11 +35,7 @@ public class CreditSimulationFactory {
         Percentage balloonPercentage = new Percentage(command.balloonPercentage());
         Term term = Term.of(command.numberOfInstallments(), command.frequencyDays(), command.daysPerYear());
         GraceConfiguration grace = new GraceConfiguration(command.gracePlan());
-        InitialCosts initialCosts = new InitialCosts(
-                command.notary(), command.registry(), command.appraisal(), command.fees());
-        PeriodicCosts periodicCosts = new PeriodicCosts(
-                command.creditLifeInsuranceRate(), command.allRiskInsurance(),
-                command.gps(), command.shippingFees(), command.adminFees());
+        Costs costs = new Costs(command.costs());
         Rate costOfCapital = Rate.effective(command.costOfCapitalAnnual());
 
         if (initialPercentage.value().add(balloonPercentage.value()).compareTo(BigDecimal.ONE) >= 0) {
@@ -57,14 +54,13 @@ public class CreditSimulationFactory {
         CreditSimulation simulation = new CreditSimulation(
                 SimulationId.generate(), command.dealershipId(),
                 new ClientId(command.clientId()), new VehicleOfferId(command.vehicleOfferId()),
-                salePrice, rate, initialPercentage, balloonPercentage, term, grace,
-                initialCosts, periodicCosts, costOfCapital, command.creditLifeInsuranceEmbedded());
+                salePrice, rate, initialPercentage, balloonPercentage, term, grace, costs, costOfCapital);
 
         if (!simulation.getLoanAmount().isPositive()) {
             throw new InvalidSimulationConfigurationException("loan amount must be > 0");
         }
 
-        simulation.generate(scheduleCalculator, indicatorsCalculator);
+        simulation.generate(scheduleCalculator, indicatorsCalculator, summaryCalculator);
         return simulation;
     }
 }

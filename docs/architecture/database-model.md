@@ -43,6 +43,14 @@
 
 ## DDL (PostgreSQL)
 
+> **Nota — modelo de costos flexible (implementado en dominio).** Los costos dejaron de ser columnas
+> fijas: son una **lista de `Cost`** `{ name, value, basis, timing, embedded }` por simulación, y el
+> desglose por fila es una **colección** (`applied_cost`). Por tanto, en el slice de persistencia las
+> columnas fijas de costo de `credit_simulations` (`credit_life_insurance_rate`, `all_risk_insurance`,
+> `gps`, `shipping_fees`, `admin_fees`) y de `schedule_row` se reemplazan por **tablas hijas**
+> (`credit_simulation_cost`, `schedule_row_applied_cost`), más una tabla de **totales** (`SimulationSummary`).
+> El DDL de abajo refleja el modelo previo (columnas fijas) y se actualizará en ese slice.
+
 ```sql
 -- Identity & Access (generic) — cuenta/tenant + usuarios
 CREATE TABLE dealerships (
