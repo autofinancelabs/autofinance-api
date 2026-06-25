@@ -34,7 +34,7 @@ public class OpenApiConfiguration {
                 .version(applicationVersion);
 
         return new OpenAPI()
-                .openapi("3.1.0")
+                .openapi("3.1.1")
                 .info(info)
                 .servers(List.of(
                         new Server().url(serverUrl).description("Current environment")));
