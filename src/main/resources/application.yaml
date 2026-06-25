@@ -11,6 +11,9 @@ spring:
   mvc:
     problemdetails:
       enabled: true
+  web:
+    locale: en
+    locale-resolver: fixed
   jpa:
     show-sql: false
     hibernate:
