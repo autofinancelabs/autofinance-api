@@ -13,7 +13,8 @@ CREATE TABLE dealerships (
     ruc            varchar(11)  NOT NULL UNIQUE,
     contact_email  varchar(255),
     created_at     timestamp    NOT NULL,
-    updated_at     timestamp    NOT NULL
+    updated_at     timestamp    NOT NULL,
+    version        bigint       NOT NULL
 );
 
 CREATE TABLE users (
@@ -23,7 +24,8 @@ CREATE TABLE users (
     username       varchar(100) NOT NULL UNIQUE,
     password_hash  varchar(255) NOT NULL,
     created_at     timestamp    NOT NULL,
-    updated_at     timestamp    NOT NULL
+    updated_at     timestamp    NOT NULL,
+    version        bigint       NOT NULL
 );
 
 -- ---------------------------------------------------------------------------
