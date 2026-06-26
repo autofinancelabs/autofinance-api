@@ -1,5 +1,10 @@
 package com.autofinance.api.creditsimulation.interfaces.rest.resources;
 
+import com.autofinance.api.creditsimulation.domain.model.valueobjects.GraceType;
+import com.autofinance.api.creditsimulation.domain.model.valueobjects.SimulationState;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
@@ -14,7 +19,7 @@ public record SimulationResource(
         BigDecimal initialPercentage,
         BigDecimal balloonPercentage,
         TermResource term,
-        List<String> grace,
+        @ArraySchema(schema = @Schema(implementation = GraceType.class)) List<String> grace,
         List<CostResource> costs,
         RateResource costOfCapital,
         MoneyResource loanAmount,
@@ -22,6 +27,6 @@ public record SimulationResource(
         IndicatorsResource indicators,
         List<ScheduleRowResource> schedule,
         SummaryResource summary,
-        String state
+        @Schema(implementation = SimulationState.class) String state
 ) {
 }
