@@ -39,6 +39,7 @@ CREATE TABLE clients (
     contact_address     varchar(255),
     created_at          timestamp    NOT NULL,
     updated_at          timestamp    NOT NULL,
+    version             bigint       NOT NULL,
     CONSTRAINT uq_clients_document UNIQUE (dealership_id, document_id_type, document_id_number)
 );
 
