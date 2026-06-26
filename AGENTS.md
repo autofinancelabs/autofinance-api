@@ -121,6 +121,11 @@ map back into the guides — a handy reference, **but not the authority**: when 
 - **Diagrams**: C4 source is `docs/architecture/workspace.dsl` (Structurizr — render with Structurizr
   Lite via Docker); class/ER level is `docs/diagrams/*.puml` (PlantUML). DB schema:
   `docs/architecture/database-model.md` (real FKs intra-aggregate; by-id refs **without** FK).
+- **Error codes**: every API error is an RFC 9457 ProblemDetail carrying a stable `code` from a
+  per-context `ErrorCode` enum (`shared/domain/exceptions/ErrorCode`), mapped to HTTP by category in the
+  shared advice. The frontend keys on `code`. **When you add a new code (or a new context's catalog),
+  update `docs/architecture/error-codes.md`** — `ErrorCodesDocumentedTest` fails until every code is
+  documented (incl. its endpoint).
 
 ## Where things live
 
@@ -131,7 +136,7 @@ For the **code**, the authoritative references are `product/` (scope), `ddd/` (d
 ```
 docs/product/      what & for whom — about, lenguaje-ubicuo (glossary), product-backlog, segmentos-objetivo
 docs/ddd/          domain model (strategic + tactical) — bounded-contexts, domain-discovery, domain-model   ← read before coding the domain
-docs/architecture/ how it's structured — C4 (c4-architecture + workspace.dsl), database-model
+docs/architecture/ how it's structured — C4 (c4-architecture + workspace.dsl), database-model, error-codes (API error catalog / frontend contract)
 docs/guides/       AUTHORITATIVE finance reference — the real formulas, derivations & worked examples (método francés, balloon, tasas, VAN/TIR, indicadores). Source of truth for all math.
 docs/report/       academic *informe* material — usable as a secondary reference, not the source of truth — marco-conceptual-formulas (formula summary), algoritmo (pseudocode), analisis-de-datos (data analysis), datos-de-prueba (test datasets)
 src/main/java/com/autofinance/api/   Spring Boot app (domain implementation = next phase)

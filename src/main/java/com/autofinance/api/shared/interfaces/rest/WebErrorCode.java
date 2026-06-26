@@ -5,14 +5,13 @@ import com.autofinance.api.shared.domain.exceptions.ErrorCode;
 
 /**
  * Error codes produced by the web layer itself (not by the domain): bean-validation failures, malformed
- * bodies, a missing tenant header and the last-resort fallback. Implements the same {@link ErrorCode}
- * contract as the domain catalogs so the handler treats every code uniformly.
+ * bodies, authentication/authorization failures and the last-resort fallback. Implements the same
+ * {@link ErrorCode} contract as the domain catalogs so the handler treats every code uniformly.
  */
 public enum WebErrorCode implements ErrorCode {
 
     VALIDATION_FAILED(ErrorCategory.VALIDATION),
     MALFORMED_REQUEST(ErrorCategory.VALIDATION),
-    MISSING_TENANT(ErrorCategory.VALIDATION),
     UNAUTHENTICATED(ErrorCategory.UNAUTHORIZED),
     ACCESS_DENIED(ErrorCategory.FORBIDDEN),
     INTERNAL_ERROR(ErrorCategory.INTERNAL);
