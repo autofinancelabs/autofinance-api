@@ -8,6 +8,7 @@ import com.autofinance.api.creditsimulation.domain.model.queries.GetSimulationsB
 import com.autofinance.api.creditsimulation.domain.services.CreditSimulationCommandService;
 import com.autofinance.api.creditsimulation.domain.services.CreditSimulationQueryService;
 import com.autofinance.api.creditsimulation.interfaces.rest.controllers.CreditSimulationsController;
+import com.autofinance.api.shared.interfaces.rest.GlobalExceptionHandler;
 import com.autofinance.api.creditsimulation.interfaces.rest.resources.CostResource;
 import com.autofinance.api.creditsimulation.interfaces.rest.resources.GenerateSimulationResource;
 import com.fasterxml.jackson.databind.ObjectMapper;

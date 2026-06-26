@@ -6,18 +6,10 @@ import com.autofinance.api.creditsimulation.domain.model.valueobjects.ClientId;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.SimulationId;
 import com.autofinance.api.creditsimulation.domain.services.CreditSimulationCommandService;
 import com.autofinance.api.creditsimulation.domain.services.CreditSimulationQueryService;
-import com.autofinance.api.creditsimulation.interfaces.rest.resources.ApiErrorSchema;
 import com.autofinance.api.creditsimulation.interfaces.rest.resources.GenerateSimulationResource;
 import com.autofinance.api.creditsimulation.interfaces.rest.resources.SimulationResource;
 import com.autofinance.api.creditsimulation.interfaces.rest.transform.GenerateSimulationCommandFromResourceAssembler;
 import com.autofinance.api.creditsimulation.interfaces.rest.transform.SimulationResourceFromEntityAssembler;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.ExampleObject;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -38,11 +30,11 @@ import java.util.UUID;
  * Inbound REST adapter for the Credit Simulation context. The dealership (tenant) is taken from the
  * {@code X-Dealership-Id} header; the body never carries it. Thin: resource → assembler → command/query
  * services → assembler → resource (re-querying after a write so the response reflects stored state).
+ * OpenAPI docs live in {@link CreditSimulationsApi}.
  */
 @RestController
 @RequestMapping(value = "/api/v1/credit-simulations", produces = MediaType.APPLICATION_JSON_VALUE)
-@Tag(name = "Credit Simulations", description = "Generate and retrieve vehicle-credit quotations")
-public class CreditSimulationsController {
+public class CreditSimulationsController implements CreditSimulationsApi {
 
     private final CreditSimulationCommandService commandService;
     private final CreditSimulationQueryService queryService;
@@ -53,84 +45,10 @@ public class CreditSimulationsController {
         this.queryService = queryService;
     }
 
+    @Override
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    @Operation(summary = "Generate a credit simulation and return the stored snapshot")
-    @ApiResponses({
-            @ApiResponse(responseCode = "201", description = "Generated",
-                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = SimulationResource.class))),
-            @ApiResponse(responseCode = "400", description = "Invalid configuration / validation / missing tenant header (see 'code')",
-                    content = @Content(mediaType = "application/problem+json",
-                            schema = @Schema(implementation = ApiErrorSchema.class))),
-            @ApiResponse(responseCode = "422", description = "Valid request, but the schedule could not be computed (see 'code')",
-                    content = @Content(mediaType = "application/problem+json",
-                            schema = @Schema(implementation = ApiErrorSchema.class)))
-    })
     public ResponseEntity<SimulationResource> generate(
             @RequestHeader("X-Dealership-Id") UUID dealershipId,
-            @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    required = true,
-                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = GenerateSimulationResource.class),
-                            examples = {
-                                    @ExampleObject(name = "Plan francés simple (sin balloon)", value = """
-                                            {
-                                              "clientId": "22222222-2222-2222-2222-222222222222",
-                                              "vehicleOfferId": "33333333-3333-3333-3333-333333333333",
-                                              "salePrice": 60000,
-                                              "currency": "PEN",
-                                              "rateValue": 0.20,
-                                              "rateType": "EFFECTIVE",
-                                              "capitalization": null,
-                                              "initialPercentage": 0.20,
-                                              "balloonPercentage": 0,
-                                              "numberOfInstallments": 12,
-                                              "frequencyDays": 30,
-                                              "daysPerYear": 360,
-                                              "gracePlan": ["NONE","NONE","NONE","NONE","NONE","NONE","NONE","NONE","NONE","NONE","NONE","NONE"],
-                                              "costs": [],
-                                              "costOfCapitalAnnual": 0.30
-                                            }"""),
-                                    @ExampleObject(name = "Compra Inteligente (balloon 30% + costos)", value = """
-                                            {
-                                              "clientId": "22222222-2222-2222-2222-222222222222",
-                                              "vehicleOfferId": "33333333-3333-3333-3333-333333333333",
-                                              "salePrice": 60000,
-                                              "currency": "PEN",
-                                              "rateValue": 0.20,
-                                              "rateType": "EFFECTIVE",
-                                              "capitalization": null,
-                                              "initialPercentage": 0.20,
-                                              "balloonPercentage": 0.30,
-                                              "numberOfInstallments": 12,
-                                              "frequencyDays": 30,
-                                              "daysPerYear": 360,
-                                              "gracePlan": ["NONE","NONE","NONE","NONE","NONE","NONE","NONE","NONE","NONE","NONE","NONE","NONE"],
-                                              "costs": [
-                                                { "name": "portes", "value": 3.50, "basis": "FIXED", "timing": "PERIODIC", "embedded": false },
-                                                { "name": "desgravamen", "value": 0.00049, "basis": "ON_BALANCE", "timing": "PERIODIC", "embedded": true }
-                                              ],
-                                              "costOfCapitalAnnual": 0.30
-                                            }"""),
-                                    @ExampleObject(name = "Tasa nominal con capitalización mensual", value = """
-                                            {
-                                              "clientId": "22222222-2222-2222-2222-222222222222",
-                                              "vehicleOfferId": "33333333-3333-3333-3333-333333333333",
-                                              "salePrice": 60000,
-                                              "currency": "PEN",
-                                              "rateValue": 0.18,
-                                              "rateType": "NOMINAL",
-                                              "capitalization": "MONTHLY",
-                                              "initialPercentage": 0.20,
-                                              "balloonPercentage": 0,
-                                              "numberOfInstallments": 12,
-                                              "frequencyDays": 30,
-                                              "daysPerYear": 360,
-                                              "gracePlan": ["NONE","NONE","NONE","NONE","NONE","NONE","NONE","NONE","NONE","NONE","NONE","NONE"],
-                                              "costs": [],
-                                              "costOfCapitalAnnual": 0.30
-                                            }""")
-                            }))
             @Valid @RequestBody GenerateSimulationResource resource) {
         var command = GenerateSimulationCommandFromResourceAssembler.toCommandFromResource(dealershipId, resource);
         var simulationId = commandService.handle(command);
@@ -140,14 +58,8 @@ public class CreditSimulationsController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @Override
     @GetMapping("/{simulationId}")
-    @Operation(summary = "Get a credit simulation by id")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Found",
-                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = SimulationResource.class))),
-            @ApiResponse(responseCode = "404", description = "Not found in the current dealership", content = @Content)
-    })
     public ResponseEntity<SimulationResource> getById(@PathVariable UUID simulationId) {
         return queryService.handle(new GetSimulationByIdQuery(new SimulationId(simulationId)))
                 .map(simulation -> ResponseEntity.ok(
@@ -155,8 +67,8 @@ public class CreditSimulationsController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @Override
     @GetMapping(params = "clientId")
-    @Operation(summary = "List a client's credit simulations")
     public ResponseEntity<List<SimulationResource>> getByClient(@RequestParam UUID clientId) {
         List<SimulationResource> resources = queryService.handle(new GetSimulationsByClientIdQuery(new ClientId(clientId)))
                 .stream()

@@ -1,9 +1,11 @@
 package com.autofinance.api.vehicleoffers.interfaces.rest;
 
-import com.autofinance.api.creditsimulation.interfaces.rest.GlobalExceptionHandler;
 import com.autofinance.api.shared.domain.model.valueobjects.Currency;
 import com.autofinance.api.shared.domain.model.valueobjects.Money;
+import com.autofinance.api.shared.interfaces.rest.GlobalExceptionHandler;
+import com.autofinance.api.vehicleoffers.domain.exceptions.InvalidVehicleOfferException;
 import com.autofinance.api.vehicleoffers.domain.model.aggregates.VehicleOffer;
+import com.autofinance.api.vehicleoffers.domain.model.commands.RegisterVehicleOfferCommand;
 import com.autofinance.api.vehicleoffers.domain.model.queries.GetAllVehicleOffersQuery;
 import com.autofinance.api.vehicleoffers.domain.model.queries.GetVehicleOfferByIdQuery;
 import com.autofinance.api.vehicleoffers.domain.model.valueobjects.Plan;
@@ -107,6 +109,20 @@ class VehicleOffersControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code").value("VALIDATION_FAILED"))
                 .andExpect(jsonPath("$.errors").isArray());
+    }
+
+    @Test
+    void registerWithDomainViolationReturns400WithItsCode() throws Exception {
+        when(commandService.handle(any(RegisterVehicleOfferCommand.class)))
+                .thenThrow(new InvalidVehicleOfferException("sale price must be > 0"));
+
+        mockMvc.perform(post("/api/v1/vehicle-offers")
+                        .header(HEADER, DEALER.toString())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(validRegister())))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value("INVALID_VEHICLE_OFFER"))
+                .andExpect(jsonPath("$.trace").doesNotExist());
     }
 
     @Test

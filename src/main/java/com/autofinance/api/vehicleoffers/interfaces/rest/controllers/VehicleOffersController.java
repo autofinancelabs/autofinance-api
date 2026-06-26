@@ -11,12 +11,6 @@ import com.autofinance.api.vehicleoffers.interfaces.rest.resources.VehicleOfferR
 import com.autofinance.api.vehicleoffers.interfaces.rest.transform.RegisterVehicleOfferCommandFromResourceAssembler;
 import com.autofinance.api.vehicleoffers.interfaces.rest.transform.UpdateVehicleOfferCommandFromResourceAssembler;
 import com.autofinance.api.vehicleoffers.interfaces.rest.transform.VehicleOfferResourceFromEntityAssembler;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -37,12 +31,11 @@ import java.util.UUID;
  * Inbound REST adapter for the Vehicle Offers context. The dealership (tenant) is taken from the
  * {@code X-Dealership-Id} header on writes that need it; reads and updates are scoped by the tenant
  * filter. Thin: resource → assembler → command/query services → assembler → resource (re-querying after
- * a write so the response reflects stored state).
+ * a write so the response reflects stored state). OpenAPI docs live in {@link VehicleOffersApi}.
  */
 @RestController
 @RequestMapping(value = "/api/v1/vehicle-offers", produces = MediaType.APPLICATION_JSON_VALUE)
-@Tag(name = "Vehicle Offers", description = "Register and maintain vehicle offers used as financing base")
-public class VehicleOffersController {
+public class VehicleOffersController implements VehicleOffersApi {
 
     private final VehicleOfferCommandService commandService;
     private final VehicleOfferQueryService queryService;
@@ -53,15 +46,8 @@ public class VehicleOffersController {
         this.queryService = queryService;
     }
 
+    @Override
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    @Operation(summary = "Register a vehicle offer and return the stored snapshot")
-    @ApiResponses({
-            @ApiResponse(responseCode = "201", description = "Registered",
-                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = VehicleOfferResource.class))),
-            @ApiResponse(responseCode = "400", description = "Validation / malformed body / missing tenant header (see 'code')",
-                    content = @Content(mediaType = "application/problem+json"))
-    })
     public ResponseEntity<VehicleOfferResource> register(
             @RequestHeader("X-Dealership-Id") UUID dealershipId,
             @Valid @RequestBody RegisterVehicleOfferResource resource) {
@@ -73,16 +59,8 @@ public class VehicleOffersController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @Override
     @PutMapping(value = "/{vehicleOfferId}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    @Operation(summary = "Update a vehicle offer and return the stored snapshot")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Updated",
-                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = VehicleOfferResource.class))),
-            @ApiResponse(responseCode = "400", description = "Validation / malformed body (see 'code')",
-                    content = @Content(mediaType = "application/problem+json")),
-            @ApiResponse(responseCode = "404", description = "Not found in the current dealership", content = @Content)
-    })
     public ResponseEntity<VehicleOfferResource> update(
             @PathVariable UUID vehicleOfferId,
             @Valid @RequestBody UpdateVehicleOfferResource resource) {
@@ -94,14 +72,8 @@ public class VehicleOffersController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @Override
     @GetMapping("/{vehicleOfferId}")
-    @Operation(summary = "Get a vehicle offer by id")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Found",
-                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = VehicleOfferResource.class))),
-            @ApiResponse(responseCode = "404", description = "Not found in the current dealership", content = @Content)
-    })
     public ResponseEntity<VehicleOfferResource> getById(@PathVariable UUID vehicleOfferId) {
         return queryService.handle(new GetVehicleOfferByIdQuery(new VehicleOfferId(vehicleOfferId)))
                 .map(offer -> ResponseEntity.ok(
@@ -109,8 +81,8 @@ public class VehicleOffersController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @Override
     @GetMapping
-    @Operation(summary = "List the current dealership's vehicle offers")
     public ResponseEntity<List<VehicleOfferResource>> list() {
         List<VehicleOfferResource> resources = queryService.handle(new GetAllVehicleOffersQuery())
                 .stream()

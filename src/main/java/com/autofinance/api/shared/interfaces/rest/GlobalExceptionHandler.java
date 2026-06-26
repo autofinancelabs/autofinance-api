@@ -1,26 +1,24 @@
-package com.autofinance.api.creditsimulation.interfaces.rest;
+package com.autofinance.api.shared.interfaces.rest;
 
-import com.autofinance.api.shared.domain.exceptions.CurrencyMismatchException;
-import com.autofinance.api.creditsimulation.domain.exceptions.InvalidSimulationConfigurationException;
-import com.autofinance.api.creditsimulation.domain.exceptions.IrrNotBracketedException;
-import com.autofinance.api.creditsimulation.domain.exceptions.MissingCapitalizationException;
-import com.autofinance.api.creditsimulation.domain.exceptions.PercentageOutOfRangeException;
-import com.autofinance.api.creditsimulation.domain.exceptions.ScheduleNotBalancedException;
+import com.autofinance.api.shared.domain.exceptions.DomainException;
+import com.autofinance.api.shared.domain.exceptions.ErrorCategory;
+import com.autofinance.api.shared.domain.exceptions.ErrorCode;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.lang.Nullable;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.validation.FieldError;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -33,72 +31,62 @@ import java.util.Map;
 
 /**
  * Translates every failure to an RFC 9457 {@code ProblemDetail} in one place, tagged with a stable
- * {@code code} from the {@link ErrorCode} catalog (the frontend reacts to the code, not the message).
- * Domain exceptions stay free of HTTP; Spring MVC exceptions are mapped by overriding the base handler.
+ * {@code code} (the frontend reacts to the code, not the message). Application-wide: a single
+ * {@code @ExceptionHandler(DomainException.class)} serves every bounded context — each domain exception
+ * carries its own {@link ErrorCode} (code + HTTP-agnostic category), so adding one needs no change here.
+ * Spring MVC exceptions are mapped by overriding the base handler.
  */
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+    private static final String TYPE_BASE = "https://api.autofinance/errors/";
 
-    // --- Domain exceptions -------------------------------------------------
+    // --- Domain exceptions (any context) -----------------------------------
 
-    @ExceptionHandler(InvalidSimulationConfigurationException.class)
-    ProblemDetail handle(InvalidSimulationConfigurationException ex, HttpServletRequest request) {
-        return domainProblem(ErrorCode.INVALID_SIMULATION_CONFIGURATION, ex, request);
+    @ExceptionHandler(DomainException.class)
+    ProblemDetail handle(DomainException ex, HttpServletRequest request) {
+        log.debug("Domain error {} at {}: {}", ex.errorCode().code(), request.getRequestURI(), ex.getMessage());
+        return problem(ex.errorCode(), ex.getMessage(), request);
     }
 
-    @ExceptionHandler(PercentageOutOfRangeException.class)
-    ProblemDetail handle(PercentageOutOfRangeException ex, HttpServletRequest request) {
-        return domainProblem(ErrorCode.PERCENTAGE_OUT_OF_RANGE, ex, request);
-    }
-
-    @ExceptionHandler(CurrencyMismatchException.class)
-    ProblemDetail handle(CurrencyMismatchException ex, HttpServletRequest request) {
-        return domainProblem(ErrorCode.CURRENCY_MISMATCH, ex, request);
-    }
-
-    @ExceptionHandler(MissingCapitalizationException.class)
-    ProblemDetail handle(MissingCapitalizationException ex, HttpServletRequest request) {
-        return domainProblem(ErrorCode.MISSING_CAPITALIZATION, ex, request);
-    }
-
-    /** Value-object validation, enum parsing, etc. */
+    /** Value-object validation, enum parsing, etc. (not a {@link DomainException}). */
     @ExceptionHandler(IllegalArgumentException.class)
     ProblemDetail handle(IllegalArgumentException ex, HttpServletRequest request) {
-        return domainProblem(ErrorCode.VALIDATION_FAILED, ex, request);
-    }
-
-    @ExceptionHandler(ScheduleNotBalancedException.class)
-    ProblemDetail handle(ScheduleNotBalancedException ex, HttpServletRequest request) {
-        return domainProblem(ErrorCode.SCHEDULE_NOT_BALANCED, ex, request);
-    }
-
-    @ExceptionHandler(IrrNotBracketedException.class)
-    ProblemDetail handle(IrrNotBracketedException ex, HttpServletRequest request) {
-        return domainProblem(ErrorCode.IRR_NOT_BRACKETED, ex, request);
+        log.debug("Validation error at {}: {}", request.getRequestURI(), ex.getMessage());
+        return problem(WebErrorCode.VALIDATION_FAILED, ex.getMessage(), request);
     }
 
     /** Last-resort fallback: anything unmapped becomes a 500 without leaking internals. */
     @ExceptionHandler(Exception.class)
     ProblemDetail handleUnexpected(Exception ex, HttpServletRequest request) {
         log.error("Unhandled error at {} {}", request.getMethod(), request.getRequestURI(), ex);
-        return problem(ErrorCode.INTERNAL_ERROR, "An unexpected error occurred.", request);
-    }
-
-    private ProblemDetail domainProblem(ErrorCode code, Exception ex, HttpServletRequest request) {
-        log.debug("Domain error {} at {}: {}", code.code(), request.getRequestURI(), ex.getMessage());
-        return problem(code, ex.getMessage(), request);
+        return problem(WebErrorCode.INTERNAL_ERROR, "An unexpected error occurred.", request);
     }
 
     private ProblemDetail problem(ErrorCode code, String detail, HttpServletRequest request) {
-        ProblemDetail problem = ProblemDetail.forStatusAndDetail(code.status(), detail);
-        problem.setTitle(code.status().getReasonPhrase());
-        problem.setType(code.type());
+        HttpStatus status = statusFor(code.category());
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(status, detail);
+        problem.setTitle(status.getReasonPhrase());
+        problem.setType(typeFor(code));
         problem.setInstance(URI.create(request.getRequestURI()));
         problem.setProperty("code", code.code());
         problem.setProperty("timestamp", Instant.now().truncatedTo(ChronoUnit.MILLIS));
         return problem;
+    }
+
+    private static HttpStatus statusFor(ErrorCategory category) {
+        return switch (category) {
+            case VALIDATION -> HttpStatus.BAD_REQUEST;
+            case UNPROCESSABLE -> HttpStatus.UNPROCESSABLE_ENTITY;
+            case NOT_FOUND -> HttpStatus.NOT_FOUND;
+            case CONFLICT -> HttpStatus.CONFLICT;
+            case INTERNAL -> HttpStatus.INTERNAL_SERVER_ERROR;
+        };
+    }
+
+    private static URI typeFor(ErrorCode code) {
+        return URI.create(TYPE_BASE + code.code().toLowerCase().replace('_', '-'));
     }
 
     // --- Spring MVC exceptions (override the base, then tag with a code) ----
@@ -128,7 +116,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             ErrorCode code = codeFor(ex);
             if (code != null) {
                 problem.setProperty("code", code.code());
-                problem.setType(code.type());
+                problem.setType(typeFor(code));
             }
             problem.setProperty("timestamp", Instant.now().truncatedTo(ChronoUnit.MILLIS));
         }
@@ -143,13 +131,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @Nullable
     private ErrorCode codeFor(Exception ex) {
         if (ex instanceof MissingRequestHeaderException) {
-            return ErrorCode.MISSING_TENANT;
+            return WebErrorCode.MISSING_TENANT;
         }
         if (ex instanceof MethodArgumentNotValidException) {
-            return ErrorCode.VALIDATION_FAILED;
+            return WebErrorCode.VALIDATION_FAILED;
         }
         if (ex instanceof HttpMessageNotReadableException || ex instanceof TypeMismatchException) {
-            return ErrorCode.MALFORMED_REQUEST;
+            return WebErrorCode.MALFORMED_REQUEST;
         }
         return null; // unknown framework error: keep the parent's status, no catalog code
     }
