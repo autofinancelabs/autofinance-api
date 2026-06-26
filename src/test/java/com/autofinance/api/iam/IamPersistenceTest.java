@@ -5,7 +5,7 @@ import com.autofinance.api.iam.domain.exceptions.DuplicateRucException;
 import com.autofinance.api.iam.domain.exceptions.DuplicateUsernameException;
 import com.autofinance.api.iam.domain.model.commands.RegisterDealershipCommand;
 import com.autofinance.api.iam.domain.model.queries.GetDealershipByIdQuery;
-import com.autofinance.api.iam.domain.model.valueobjects.DealershipId;
+import com.autofinance.api.shared.domain.model.valueobjects.DealershipId;
 import com.autofinance.api.iam.domain.repositories.UserRepository;
 import com.autofinance.api.iam.domain.services.IamCommandService;
 import com.autofinance.api.iam.domain.services.IamQueryService;

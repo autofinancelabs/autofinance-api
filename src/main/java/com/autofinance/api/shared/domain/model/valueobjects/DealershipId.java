@@ -1,4 +1,4 @@
-package com.autofinance.api.iam.domain.model.valueobjects;
+package com.autofinance.api.shared.domain.model.valueobjects;
 
 import com.fasterxml.uuid.Generators;
 import com.fasterxml.uuid.NoArgGenerator;
@@ -7,7 +7,11 @@ import jakarta.persistence.Embeddable;
 
 import java.util.UUID;
 
-/** Identity of a {@code Dealership} aggregate (the account / tenant). Generated as a time-ordered UUIDv7. */
+/**
+ * The dealership (tenant) identifier. Used as the IAM {@code Dealership} aggregate's {@code @EmbeddedId}
+ * ({@code @Column(name = "id")}) and as a by-id reference in other contexts' domain events. Generated as a
+ * time-ordered UUIDv7.
+ */
 @Embeddable
 public record DealershipId(@Column(name = "id") UUID value) {
 

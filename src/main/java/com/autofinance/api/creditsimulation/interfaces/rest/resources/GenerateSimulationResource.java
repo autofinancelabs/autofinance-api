@@ -1,7 +1,6 @@
 package com.autofinance.api.creditsimulation.interfaces.rest.resources;
 
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.Capitalization;
-import com.autofinance.api.shared.domain.model.valueobjects.Currency;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.GraceType;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.RateType;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -17,16 +16,14 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * Request body to generate a credit simulation. Mirrors {@code GenerateSimulationCommand} minus the
- * dealership, which comes from the {@code X-Dealership-Id} header (the tenant). Enum-typed inputs stay
- * Strings on the wire (mapped to domain enums in the assembler), but are documented with the enum's
- * allowed values via {@code @Schema(implementation = ...)} so the API docs show a dropdown, not "string".
+ * Request body to generate a credit simulation. The dealership (tenant) comes from the authenticated user
+ * and the sale price/currency are taken from the referenced vehicle offer (ACL) — so the body carries
+ * neither. Enum-typed inputs stay Strings on the wire (mapped in the assembler), documented with the
+ * enum's allowed values via {@code @Schema(implementation = ...)}.
  */
 public record GenerateSimulationResource(
         @NotNull UUID clientId,
         @NotNull UUID vehicleOfferId,
-        @NotNull @Positive BigDecimal salePrice,
-        @NotBlank @Schema(implementation = Currency.class) String currency,
         @NotNull BigDecimal rateValue,
         @NotBlank @Schema(implementation = RateType.class) String rateType,
         @Schema(implementation = Capitalization.class, nullable = true,

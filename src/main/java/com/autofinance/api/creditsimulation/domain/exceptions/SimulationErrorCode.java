@@ -10,7 +10,9 @@ public enum SimulationErrorCode implements ErrorCode {
     PERCENTAGE_OUT_OF_RANGE(ErrorCategory.VALIDATION),
     MISSING_CAPITALIZATION(ErrorCategory.VALIDATION),
     SCHEDULE_NOT_BALANCED(ErrorCategory.UNPROCESSABLE),
-    IRR_NOT_BRACKETED(ErrorCategory.UNPROCESSABLE);
+    IRR_NOT_BRACKETED(ErrorCategory.UNPROCESSABLE),
+    CLIENT_NOT_FOUND(ErrorCategory.UNPROCESSABLE),
+    VEHICLE_OFFER_NOT_FOUND(ErrorCategory.UNPROCESSABLE);
 
     private final ErrorCategory category;
 

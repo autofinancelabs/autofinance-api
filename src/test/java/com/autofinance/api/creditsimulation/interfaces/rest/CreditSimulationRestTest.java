@@ -22,9 +22,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 /**
  * End-to-end REST test over the real stack (Testcontainers Postgres + Flyway + Spring Security + JWT):
- * a dealership registers and signs in, generates a simulation with its bearer token (the tenant comes
- * from the token, not a header), reads it back, and a different dealership's token cannot see it.
- * Unauthenticated requests are rejected.
+ * a dealership registers and signs in, creates a client and a vehicle offer, then generates a simulation
+ * referencing them by id — the body carries no price (the ACL takes it from the offer). Reads back with
+ * its token; a different dealership's token cannot see it; unauthenticated requests are rejected.
  */
 @AutoConfigureMockMvc
 class CreditSimulationRestTest extends AbstractIntegrationTest {
@@ -35,28 +35,27 @@ class CreditSimulationRestTest extends AbstractIntegrationTest {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
-    void generatesScopedToTheAuthenticatedDealershipAndIsolatesByTenant() throws Exception {
+    void generatesFromTheReferencedOfferAndIsolatesByTenant() throws Exception {
         String tokenA = registerAndLogin("20100000001", "a@autonorte.pe", "dealerA");
-        String body = objectMapper.writeValueAsString(resourceFrom(GoldenDatasets.d1()));
+        UUID clientId = createClient(tokenA, "12345678");
+        UUID offerId = createOffer(tokenA);
 
+        String body = objectMapper.writeValueAsString(resourceFrom(GoldenDatasets.d1(), clientId, offerId));
         String created = mockMvc.perform(post("/api/v1/credit-simulations")
                         .header("Authorization", "Bearer " + tokenA)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(body))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id").exists())
                 .andExpect(jsonPath("$.state").value("GENERATED"))
-                .andExpect(jsonPath("$.schedule.length()").value(37))
+                .andExpect(jsonPath("$.schedule.length()").value(37))   // price (16000) came from the offer
                 .andReturn().getResponse().getContentAsString();
 
         String id = objectMapper.readTree(created).get("id").asText();
 
-        // same dealership token → found
         mockMvc.perform(get("/api/v1/credit-simulations/{id}", id).header("Authorization", "Bearer " + tokenA))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(id));
 
-        // a different dealership token → not visible
         String tokenB = registerAndLogin("20100000002", "b@autonorte.pe", "dealerB");
         mockMvc.perform(get("/api/v1/credit-simulations/{id}", id).header("Authorization", "Bearer " + tokenB))
                 .andExpect(status().isNotFound());
@@ -69,7 +68,6 @@ class CreditSimulationRestTest extends AbstractIntegrationTest {
                 .andExpect(jsonPath("$.code").value("UNAUTHENTICATED"));
     }
 
-    /** Registers a dealership (+ first user) and signs in; returns the bearer token. */
     private String registerAndLogin(String ruc, String email, String username) throws Exception {
         String register = """
                 {"name":"AutoNorte SAC","ruc":"%s","contactEmail":"%s","userEmail":"%s","username":"%s","password":"s3cr3t-pass"}
@@ -88,13 +86,37 @@ class CreditSimulationRestTest extends AbstractIntegrationTest {
         return objectMapper.readTree(body).get("token").asText();
     }
 
-    private static GenerateSimulationResource resourceFrom(GenerateSimulationCommand c) {
+    private UUID createClient(String token, String document) throws Exception {
+        String resource = """
+                {"documentType":"DNI","documentNumber":"%s","email":null,"phone":null,"address":null}
+                """.formatted(document);
+        String body = mockMvc.perform(post("/api/v1/clients")
+                        .header("Authorization", "Bearer " + token)
+                        .contentType(MediaType.APPLICATION_JSON).content(resource))
+                .andExpect(status().isCreated())
+                .andReturn().getResponse().getContentAsString();
+        return UUID.fromString(objectMapper.readTree(body).get("id").asText());
+    }
+
+    private UUID createOffer(String token) throws Exception {
+        String resource = """
+                {"make":"Toyota","model":"Corolla","year":2024,"salePrice":16000,"currency":"PEN","planName":null,"planInstallments":null}
+                """;
+        String body = mockMvc.perform(post("/api/v1/vehicle-offers")
+                        .header("Authorization", "Bearer " + token)
+                        .contentType(MediaType.APPLICATION_JSON).content(resource))
+                .andExpect(status().isCreated())
+                .andReturn().getResponse().getContentAsString();
+        return UUID.fromString(objectMapper.readTree(body).get("id").asText());
+    }
+
+    private static GenerateSimulationResource resourceFrom(GenerateSimulationCommand c, UUID clientId, UUID vehicleOfferId) {
         List<String> grace = c.gracePlan().stream().map(Enum::name).toList();
         List<CostResource> costs = c.costs().stream()
                 .map(x -> new CostResource(x.name(), x.value(), x.basis().name(), x.timing().name(), x.embedded()))
                 .toList();
         return new GenerateSimulationResource(
-                c.clientId(), c.vehicleOfferId(), c.salePrice(), c.currency().name(),
+                clientId, vehicleOfferId,
                 c.rateValue(), c.rateType().name(), c.capitalization() == null ? null : c.capitalization().name(),
                 c.initialPercentage(), c.balloonPercentage(),
                 c.numberOfInstallments(), c.frequencyDays(), c.daysPerYear(),

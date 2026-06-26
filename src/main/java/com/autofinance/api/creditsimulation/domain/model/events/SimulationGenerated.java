@@ -1,6 +1,6 @@
 package com.autofinance.api.creditsimulation.domain.model.events;
 
-import com.autofinance.api.creditsimulation.domain.model.valueobjects.DealershipId;
+import com.autofinance.api.shared.domain.model.valueobjects.DealershipId;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.SimulationId;
 import lombok.Getter;
 import org.springframework.context.ApplicationEvent;

@@ -1,7 +1,7 @@
 package com.autofinance.api.clients.domain.model.events;
 
 import com.autofinance.api.clients.domain.model.valueobjects.ClientId;
-import com.autofinance.api.clients.domain.model.valueobjects.DealershipId;
+import com.autofinance.api.shared.domain.model.valueobjects.DealershipId;
 import lombok.Getter;
 import org.springframework.context.ApplicationEvent;
 

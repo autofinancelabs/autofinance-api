@@ -8,7 +8,7 @@ import com.autofinance.api.creditsimulation.domain.services.CreditSimulationComm
 import com.autofinance.api.creditsimulation.domain.services.CreditSimulationQueryService;
 import com.autofinance.api.creditsimulation.interfaces.rest.resources.GenerateSimulationResource;
 import com.autofinance.api.creditsimulation.interfaces.rest.resources.SimulationResource;
-import com.autofinance.api.creditsimulation.interfaces.rest.transform.GenerateSimulationCommandFromResourceAssembler;
+import com.autofinance.api.creditsimulation.interfaces.rest.transform.RequestSimulationCommandFromResourceAssembler;
 import com.autofinance.api.creditsimulation.interfaces.rest.transform.SimulationResourceFromEntityAssembler;
 import com.autofinance.api.shared.interfaces.rest.CurrentUser;
 import jakarta.validation.Valid;
@@ -51,7 +51,7 @@ public class CreditSimulationsController implements CreditSimulationsApi {
     @Override
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SimulationResource> generate(@Valid @RequestBody GenerateSimulationResource resource) {
-        var command = GenerateSimulationCommandFromResourceAssembler.toCommandFromResource(
+        var command = RequestSimulationCommandFromResourceAssembler.toCommandFromResource(
                 currentUser.dealershipId(), resource);
         var simulationId = commandService.handle(command);
         return queryService.handle(new GetSimulationByIdQuery(simulationId))

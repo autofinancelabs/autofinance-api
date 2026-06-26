@@ -46,8 +46,6 @@ public interface CreditSimulationsApi {
                                             {
                                               "clientId": "22222222-2222-2222-2222-222222222222",
                                               "vehicleOfferId": "33333333-3333-3333-3333-333333333333",
-                                              "salePrice": 60000,
-                                              "currency": "PEN",
                                               "rateValue": 0.20,
                                               "rateType": "EFFECTIVE",
                                               "capitalization": null,
@@ -64,8 +62,6 @@ public interface CreditSimulationsApi {
                                             {
                                               "clientId": "22222222-2222-2222-2222-222222222222",
                                               "vehicleOfferId": "33333333-3333-3333-3333-333333333333",
-                                              "salePrice": 60000,
-                                              "currency": "PEN",
                                               "rateValue": 0.20,
                                               "rateType": "EFFECTIVE",
                                               "capitalization": null,
@@ -85,8 +81,6 @@ public interface CreditSimulationsApi {
                                             {
                                               "clientId": "22222222-2222-2222-2222-222222222222",
                                               "vehicleOfferId": "33333333-3333-3333-3333-333333333333",
-                                              "salePrice": 60000,
-                                              "currency": "PEN",
                                               "rateValue": 0.18,
                                               "rateType": "NOMINAL",
                                               "capitalization": "MONTHLY",

@@ -9,7 +9,7 @@ import com.autofinance.api.iam.domain.model.aggregates.DealershipFactory;
 import com.autofinance.api.iam.domain.model.aggregates.User;
 import com.autofinance.api.iam.domain.model.aggregates.UserFactory;
 import com.autofinance.api.iam.domain.model.commands.RegisterDealershipCommand;
-import com.autofinance.api.iam.domain.model.valueobjects.DealershipId;
+import com.autofinance.api.shared.domain.model.valueobjects.DealershipId;
 import com.autofinance.api.iam.domain.model.valueobjects.PasswordHash;
 import com.autofinance.api.iam.domain.model.valueobjects.Ruc;
 import com.autofinance.api.iam.domain.repositories.DealershipRepository;

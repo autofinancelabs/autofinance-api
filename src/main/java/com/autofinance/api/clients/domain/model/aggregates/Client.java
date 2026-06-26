@@ -4,7 +4,7 @@ import com.autofinance.api.clients.domain.model.events.ClientRegistered;
 import com.autofinance.api.clients.domain.model.events.ClientUpdated;
 import com.autofinance.api.clients.domain.model.valueobjects.ClientId;
 import com.autofinance.api.clients.domain.model.valueobjects.ContactInfo;
-import com.autofinance.api.clients.domain.model.valueobjects.DealershipId;
+import com.autofinance.api.shared.domain.model.valueobjects.DealershipId;
 import com.autofinance.api.clients.domain.model.valueobjects.DocumentId;
 import com.autofinance.api.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 import jakarta.persistence.Column;

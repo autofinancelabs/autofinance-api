@@ -1,7 +1,7 @@
 package com.autofinance.api.iam.interfaces.rest.controllers;
 
 import com.autofinance.api.iam.domain.model.queries.GetDealershipByIdQuery;
-import com.autofinance.api.iam.domain.model.valueobjects.DealershipId;
+import com.autofinance.api.shared.domain.model.valueobjects.DealershipId;
 import com.autofinance.api.iam.domain.services.IamCommandService;
 import com.autofinance.api.iam.domain.services.IamQueryService;
 import com.autofinance.api.iam.interfaces.rest.resources.DealershipResource;

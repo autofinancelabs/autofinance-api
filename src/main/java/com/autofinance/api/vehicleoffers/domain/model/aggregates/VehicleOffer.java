@@ -5,7 +5,7 @@ import com.autofinance.api.shared.domain.model.valueobjects.Money;
 import com.autofinance.api.vehicleoffers.domain.exceptions.InvalidVehicleOfferException;
 import com.autofinance.api.vehicleoffers.domain.model.events.VehicleOfferRegistered;
 import com.autofinance.api.vehicleoffers.domain.model.events.VehicleOfferUpdated;
-import com.autofinance.api.vehicleoffers.domain.model.valueobjects.DealershipId;
+import com.autofinance.api.shared.domain.model.valueobjects.DealershipId;
 import com.autofinance.api.vehicleoffers.domain.model.valueobjects.Plan;
 import com.autofinance.api.vehicleoffers.domain.model.valueobjects.Vehicle;
 import com.autofinance.api.vehicleoffers.domain.model.valueobjects.VehicleOfferId;

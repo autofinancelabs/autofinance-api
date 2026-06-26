@@ -60,7 +60,6 @@ class CreditSimulationsControllerTest {
     private GenerateSimulationResource validResource() {
         return new GenerateSimulationResource(
                 UUID.randomUUID(), UUID.randomUUID(),
-                new BigDecimal("60000"), "PEN",
                 new BigDecimal("0.20"), "EFFECTIVE", null,
                 new BigDecimal("0.20"), BigDecimal.ZERO,
                 12, 30, 360,
@@ -68,24 +67,22 @@ class CreditSimulationsControllerTest {
                 new BigDecimal("0.50"));
     }
 
-    /** Deserializes fine but violates a Bean Validation constraint (@Positive salePrice). */
+    /** Deserializes fine but violates a Bean Validation constraint (@Positive numberOfInstallments). */
     private GenerateSimulationResource constraintViolatingResource() {
         return new GenerateSimulationResource(
                 UUID.randomUUID(), UUID.randomUUID(),
-                new BigDecimal("-1"), "PEN",
                 new BigDecimal("0.20"), "EFFECTIVE", null,
                 new BigDecimal("0.20"), BigDecimal.ZERO,
-                12, 30, 360,
+                0, 30, 360,
                 List.of("NONE"), List.<CostResource>of(),
                 new BigDecimal("0.50"));
     }
 
-    /** Violates several constraints at once: gracePlan empty, numberOfInstallments and salePrice not positive. */
+    /** Violates several constraints at once: gracePlan empty, numberOfInstallments not positive, rateValue null. */
     private GenerateSimulationResource multiViolationResource() {
         return new GenerateSimulationResource(
                 UUID.randomUUID(), UUID.randomUUID(),
-                new BigDecimal("-1"), "PEN",
-                new BigDecimal("0.20"), "EFFECTIVE", null,
+                null, "EFFECTIVE", null,
                 new BigDecimal("0.20"), BigDecimal.ZERO,
                 0, 30, 360,
                 List.<String>of(), List.<CostResource>of(),
@@ -126,7 +123,7 @@ class CreditSimulationsControllerTest {
                 .andExpect(jsonPath("$.code").value("VALIDATION_FAILED"))
                 .andExpect(jsonPath("$.errors[0].field").value("gracePlan"))
                 .andExpect(jsonPath("$.errors[1].field").value("numberOfInstallments"))
-                .andExpect(jsonPath("$.errors[2].field").value("salePrice"));
+                .andExpect(jsonPath("$.errors[2].field").value("rateValue"));
     }
 
     @Test

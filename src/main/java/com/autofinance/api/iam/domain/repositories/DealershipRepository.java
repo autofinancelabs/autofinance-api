@@ -1,7 +1,7 @@
 package com.autofinance.api.iam.domain.repositories;
 
 import com.autofinance.api.iam.domain.model.aggregates.Dealership;
-import com.autofinance.api.iam.domain.model.valueobjects.DealershipId;
+import com.autofinance.api.shared.domain.model.valueobjects.DealershipId;
 import com.autofinance.api.iam.domain.model.valueobjects.Ruc;
 
 import java.util.Optional;
