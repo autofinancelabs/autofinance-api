@@ -111,6 +111,24 @@ public class CreditSimulationsController {
                                                 { "name": "desgravamen", "value": 0.00049, "basis": "ON_BALANCE", "timing": "PERIODIC", "embedded": true }
                                               ],
                                               "costOfCapitalAnnual": 0.30
+                                            }"""),
+                                    @ExampleObject(name = "Tasa nominal con capitalización mensual", value = """
+                                            {
+                                              "clientId": "22222222-2222-2222-2222-222222222222",
+                                              "vehicleOfferId": "33333333-3333-3333-3333-333333333333",
+                                              "salePrice": 60000,
+                                              "currency": "PEN",
+                                              "rateValue": 0.18,
+                                              "rateType": "NOMINAL",
+                                              "capitalization": "MONTHLY",
+                                              "initialPercentage": 0.20,
+                                              "balloonPercentage": 0,
+                                              "numberOfInstallments": 12,
+                                              "frequencyDays": 30,
+                                              "daysPerYear": 360,
+                                              "gracePlan": ["NONE","NONE","NONE","NONE","NONE","NONE","NONE","NONE","NONE","NONE","NONE","NONE"],
+                                              "costs": [],
+                                              "costOfCapitalAnnual": 0.30
                                             }""")
                             }))
             @Valid @RequestBody GenerateSimulationResource resource) {
