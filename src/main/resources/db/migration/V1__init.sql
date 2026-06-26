@@ -57,6 +57,7 @@ CREATE TABLE vehicle_offers (
     plan_installments    integer,
     created_at           timestamp     NOT NULL,
     updated_at           timestamp     NOT NULL,
+    version              bigint        NOT NULL,
     CONSTRAINT ck_offer_price_positive CHECK (sale_price_amount > 0),
     CONSTRAINT ck_offer_currency       CHECK (sale_price_currency IN ('PEN','USD'))
 );
