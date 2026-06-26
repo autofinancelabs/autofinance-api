@@ -1,7 +1,10 @@
 package com.autofinance.api.shared.infrastructure.documentation.openapi.configuration;
 
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -26,6 +29,17 @@ public class OpenApiConfiguration {
 
     @Bean
     public OpenAPI autoFinanceOpenApi() {
+        // Define the security scheme for JWT
+        var jwtSecurityScheme = new SecurityScheme()
+                .type(SecurityScheme.Type.HTTP)
+                .scheme("bearer")
+                .bearerFormat("JWT")
+                .in(SecurityScheme.In.HEADER)
+                .name("Authorization");
+
+        // Define the security requirement
+        var securityRequirement =  new SecurityRequirement()
+                .addList("Bearer Authentication");
 
         // Configure API information
         var info = new Info()
@@ -37,6 +51,9 @@ public class OpenApiConfiguration {
                 .openapi("3.1.1")
                 .info(info)
                 .servers(List.of(
-                        new Server().url(serverUrl).description("Current environment")));
+                        new Server().url(serverUrl).description("Current environment")))
+                .addSecurityItem(securityRequirement)
+                .components(new Components()
+                        .addSecuritySchemes("Bearer Authentication", jwtSecurityScheme));
     }
 }
