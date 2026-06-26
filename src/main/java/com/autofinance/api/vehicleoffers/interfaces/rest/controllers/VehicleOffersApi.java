@@ -30,12 +30,11 @@ public interface VehicleOffersApi {
             @ApiResponse(responseCode = "201", description = "Registered",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = VehicleOfferResource.class))),
-            @ApiResponse(responseCode = "400", description = "Validation / malformed body / missing tenant header (see 'code')",
+            @ApiResponse(responseCode = "400", description = "Validation / malformed body (see 'code')",
                     content = @Content(mediaType = "application/problem+json",
                             schema = @Schema(implementation = ApiErrorSchema.class)))
     })
     ResponseEntity<VehicleOfferResource> register(
-            UUID dealershipId,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     required = true,
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,

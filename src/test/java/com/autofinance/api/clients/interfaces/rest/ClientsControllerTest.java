@@ -14,10 +14,12 @@ import com.autofinance.api.clients.domain.services.ClientQueryService;
 import com.autofinance.api.clients.interfaces.rest.controllers.ClientsController;
 import com.autofinance.api.clients.interfaces.rest.resources.RegisterClientResource;
 import com.autofinance.api.clients.interfaces.rest.resources.UpdateClientResource;
+import com.autofinance.api.shared.interfaces.rest.CurrentUser;
 import com.autofinance.api.shared.interfaces.rest.GlobalExceptionHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
@@ -37,6 +39,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(ClientsController.class)
+@AutoConfigureMockMvc(addFilters = false)
 @Import(GlobalExceptionHandler.class)
 class ClientsControllerTest {
 
@@ -51,7 +54,9 @@ class ClientsControllerTest {
     @MockitoBean
     private ClientQueryService queryService;
 
-    private static final String HEADER = "X-Dealership-Id";
+    @MockitoBean
+    private CurrentUser currentUser;
+
     private static final UUID DEALER = UUID.randomUUID();
 
     private final Client client = new Client(
@@ -65,11 +70,11 @@ class ClientsControllerTest {
 
     @Test
     void registerReturns201WithTheStoredSnapshot() throws Exception {
+        when(currentUser.dealershipId()).thenReturn(DEALER);
         when(commandService.handle(any(RegisterClientCommand.class))).thenReturn(client.getId());
         when(queryService.handle(any(GetClientByIdQuery.class))).thenReturn(Optional.of(client));
 
         mockMvc.perform(post("/api/v1/clients")
-                        .header(HEADER, DEALER.toString())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(validRegister())))
                 .andExpect(status().isCreated())
@@ -80,20 +85,9 @@ class ClientsControllerTest {
     }
 
     @Test
-    void registerWithoutTenantHeaderReturns400() throws Exception {
-        mockMvc.perform(post("/api/v1/clients")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(validRegister())))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code").value("MISSING_TENANT"))
-                .andExpect(jsonPath("$.trace").doesNotExist());
-    }
-
-    @Test
     void registerWithInvalidBodyReturns400WithFieldErrors() throws Exception {
         var invalid = new RegisterClientResource("DNI", "  ", null, null, null);
         mockMvc.perform(post("/api/v1/clients")
-                        .header(HEADER, DEALER.toString())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(invalid)))
                 .andExpect(status().isBadRequest())
@@ -103,11 +97,11 @@ class ClientsControllerTest {
 
     @Test
     void registerWithDuplicateDocumentReturns409() throws Exception {
+        when(currentUser.dealershipId()).thenReturn(DEALER);
         when(commandService.handle(any(RegisterClientCommand.class)))
                 .thenThrow(new DuplicateClientDocumentException(new DocumentId(DocumentType.DNI, "12345678")));
 
         mockMvc.perform(post("/api/v1/clients")
-                        .header(HEADER, DEALER.toString())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(validRegister())))
                 .andExpect(status().isConflict())

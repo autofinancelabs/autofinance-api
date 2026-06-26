@@ -11,6 +11,7 @@ import com.autofinance.api.vehicleoffers.interfaces.rest.resources.VehicleOfferR
 import com.autofinance.api.vehicleoffers.interfaces.rest.transform.RegisterVehicleOfferCommandFromResourceAssembler;
 import com.autofinance.api.vehicleoffers.interfaces.rest.transform.UpdateVehicleOfferCommandFromResourceAssembler;
 import com.autofinance.api.vehicleoffers.interfaces.rest.transform.VehicleOfferResourceFromEntityAssembler;
+import com.autofinance.api.shared.interfaces.rest.CurrentUser;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,7 +21,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -39,19 +39,21 @@ public class VehicleOffersController implements VehicleOffersApi {
 
     private final VehicleOfferCommandService commandService;
     private final VehicleOfferQueryService queryService;
+    private final CurrentUser currentUser;
 
     public VehicleOffersController(VehicleOfferCommandService commandService,
-                                   VehicleOfferQueryService queryService) {
+                                   VehicleOfferQueryService queryService,
+                                   CurrentUser currentUser) {
         this.commandService = commandService;
         this.queryService = queryService;
+        this.currentUser = currentUser;
     }
 
     @Override
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<VehicleOfferResource> register(
-            @RequestHeader("X-Dealership-Id") UUID dealershipId,
-            @Valid @RequestBody RegisterVehicleOfferResource resource) {
-        var command = RegisterVehicleOfferCommandFromResourceAssembler.toCommandFromResource(dealershipId, resource);
+    public ResponseEntity<VehicleOfferResource> register(@Valid @RequestBody RegisterVehicleOfferResource resource) {
+        var command = RegisterVehicleOfferCommandFromResourceAssembler.toCommandFromResource(
+                currentUser.dealershipId(), resource);
         var id = commandService.handle(command);
         return queryService.handle(new GetVehicleOfferByIdQuery(id))
                 .map(offer -> new ResponseEntity<>(

@@ -11,6 +11,7 @@ import com.autofinance.api.clients.interfaces.rest.resources.UpdateClientResourc
 import com.autofinance.api.clients.interfaces.rest.transform.ClientResourceFromEntityAssembler;
 import com.autofinance.api.clients.interfaces.rest.transform.RegisterClientCommandFromResourceAssembler;
 import com.autofinance.api.clients.interfaces.rest.transform.UpdateClientCommandFromResourceAssembler;
+import com.autofinance.api.shared.interfaces.rest.CurrentUser;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,7 +21,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -39,18 +39,20 @@ public class ClientsController implements ClientsApi {
 
     private final ClientCommandService commandService;
     private final ClientQueryService queryService;
+    private final CurrentUser currentUser;
 
-    public ClientsController(ClientCommandService commandService, ClientQueryService queryService) {
+    public ClientsController(ClientCommandService commandService, ClientQueryService queryService,
+                            CurrentUser currentUser) {
         this.commandService = commandService;
         this.queryService = queryService;
+        this.currentUser = currentUser;
     }
 
     @Override
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ClientResource> register(
-            @RequestHeader("X-Dealership-Id") UUID dealershipId,
-            @Valid @RequestBody RegisterClientResource resource) {
-        var command = RegisterClientCommandFromResourceAssembler.toCommandFromResource(dealershipId, resource);
+    public ResponseEntity<ClientResource> register(@Valid @RequestBody RegisterClientResource resource) {
+        var command = RegisterClientCommandFromResourceAssembler.toCommandFromResource(
+                currentUser.dealershipId(), resource);
         var id = commandService.handle(command);
         return queryService.handle(new GetClientByIdQuery(id))
                 .map(client -> new ResponseEntity<>(

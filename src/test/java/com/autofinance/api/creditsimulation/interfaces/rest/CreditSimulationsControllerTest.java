@@ -8,12 +8,14 @@ import com.autofinance.api.creditsimulation.domain.model.queries.GetSimulationsB
 import com.autofinance.api.creditsimulation.domain.services.CreditSimulationCommandService;
 import com.autofinance.api.creditsimulation.domain.services.CreditSimulationQueryService;
 import com.autofinance.api.creditsimulation.interfaces.rest.controllers.CreditSimulationsController;
-import com.autofinance.api.shared.interfaces.rest.GlobalExceptionHandler;
 import com.autofinance.api.creditsimulation.interfaces.rest.resources.CostResource;
 import com.autofinance.api.creditsimulation.interfaces.rest.resources.GenerateSimulationResource;
+import com.autofinance.api.shared.interfaces.rest.CurrentUser;
+import com.autofinance.api.shared.interfaces.rest.GlobalExceptionHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
@@ -33,6 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(CreditSimulationsController.class)
+@AutoConfigureMockMvc(addFilters = false)
 @Import(GlobalExceptionHandler.class)
 class CreditSimulationsControllerTest {
 
@@ -47,7 +50,9 @@ class CreditSimulationsControllerTest {
     @MockitoBean
     private CreditSimulationQueryService queryService;
 
-    private static final String HEADER = "X-Dealership-Id";
+    @MockitoBean
+    private CurrentUser currentUser;
+
     private static final UUID DEALER = UUID.randomUUID();
 
     private final CreditSimulation generated = new CreditSimulationFactory().create(GoldenDatasets.d1());
@@ -89,11 +94,11 @@ class CreditSimulationsControllerTest {
 
     @Test
     void generateReturns201WithTheStoredSnapshot() throws Exception {
+        when(currentUser.dealershipId()).thenReturn(DEALER);
         when(commandService.handle(any())).thenReturn(generated.getId());
         when(queryService.handle(any(GetSimulationByIdQuery.class))).thenReturn(Optional.of(generated));
 
         mockMvc.perform(post("/api/v1/credit-simulations")
-                        .header(HEADER, DEALER.toString())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(validResource())))
                 .andExpect(status().isCreated())
@@ -103,19 +108,8 @@ class CreditSimulationsControllerTest {
     }
 
     @Test
-    void generateWithoutTenantHeaderReturns400WithProblemDetail() throws Exception {
-        mockMvc.perform(post("/api/v1/credit-simulations")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(validResource())))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code").value("MISSING_TENANT"))
-                .andExpect(jsonPath("$.trace").doesNotExist());
-    }
-
-    @Test
     void generateWithInvalidBodyReturns400WithFieldErrors() throws Exception {
         mockMvc.perform(post("/api/v1/credit-simulations")
-                        .header(HEADER, DEALER.toString())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(constraintViolatingResource())))
                 .andExpect(status().isBadRequest())
@@ -126,7 +120,6 @@ class CreditSimulationsControllerTest {
     @Test
     void validationErrorsAreSortedByField() throws Exception {
         mockMvc.perform(post("/api/v1/credit-simulations")
-                        .header(HEADER, DEALER.toString())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(multiViolationResource())))
                 .andExpect(status().isBadRequest())
@@ -139,7 +132,6 @@ class CreditSimulationsControllerTest {
     @Test
     void malformedBodyReturns400() throws Exception {
         mockMvc.perform(post("/api/v1/credit-simulations")
-                        .header(HEADER, DEALER.toString())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"clientId\":null}"))
                 .andExpect(status().isBadRequest())
@@ -149,10 +141,10 @@ class CreditSimulationsControllerTest {
 
     @Test
     void unexpectedErrorReturns500WithoutLeakingInternals() throws Exception {
+        when(currentUser.dealershipId()).thenReturn(DEALER);
         when(commandService.handle(any())).thenThrow(new RuntimeException("boom: secret stacktrace"));
 
         mockMvc.perform(post("/api/v1/credit-simulations")
-                        .header(HEADER, DEALER.toString())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(validResource())))
                 .andExpect(status().isInternalServerError())

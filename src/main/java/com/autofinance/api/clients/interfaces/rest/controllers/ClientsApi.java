@@ -30,7 +30,7 @@ public interface ClientsApi {
             @ApiResponse(responseCode = "201", description = "Registered",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = ClientResource.class))),
-            @ApiResponse(responseCode = "400", description = "Validation / malformed body / missing tenant header (see 'code')",
+            @ApiResponse(responseCode = "400", description = "Validation / malformed body (see 'code')",
                     content = @Content(mediaType = "application/problem+json",
                             schema = @Schema(implementation = ApiErrorSchema.class))),
             @ApiResponse(responseCode = "409", description = "A client with the same identity document already exists in the dealership (code DUPLICATE_CLIENT_DOCUMENT)",
@@ -38,7 +38,6 @@ public interface ClientsApi {
                             schema = @Schema(implementation = ApiErrorSchema.class)))
     })
     ResponseEntity<ClientResource> register(
-            UUID dealershipId,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     required = true,
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,

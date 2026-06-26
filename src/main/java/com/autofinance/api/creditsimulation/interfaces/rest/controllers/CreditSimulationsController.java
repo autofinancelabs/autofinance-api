@@ -10,6 +10,7 @@ import com.autofinance.api.creditsimulation.interfaces.rest.resources.GenerateSi
 import com.autofinance.api.creditsimulation.interfaces.rest.resources.SimulationResource;
 import com.autofinance.api.creditsimulation.interfaces.rest.transform.GenerateSimulationCommandFromResourceAssembler;
 import com.autofinance.api.creditsimulation.interfaces.rest.transform.SimulationResourceFromEntityAssembler;
+import com.autofinance.api.shared.interfaces.rest.CurrentUser;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,9 +28,9 @@ import java.util.UUID;
 
 /**
  * Inbound REST adapter for the Credit Simulation context. The dealership (tenant) is taken from the
- * {@code X-Dealership-Id} header; the body never carries it. Thin: resource → assembler → command/query
- * services → assembler → resource (re-querying after a write so the response reflects stored state).
- * OpenAPI docs live in {@link CreditSimulationsApi}.
+ * authenticated user; the body never carries it. Thin: resource → assembler → command/query services →
+ * assembler → resource (re-querying after a write so the response reflects stored state). OpenAPI docs
+ * live in {@link CreditSimulationsApi}.
  */
 @RestController
 @RequestMapping(value = "/api/v1/credit-simulations", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -38,19 +38,21 @@ public class CreditSimulationsController implements CreditSimulationsApi {
 
     private final CreditSimulationCommandService commandService;
     private final CreditSimulationQueryService queryService;
+    private final CurrentUser currentUser;
 
     public CreditSimulationsController(CreditSimulationCommandService commandService,
-                                       CreditSimulationQueryService queryService) {
+                                       CreditSimulationQueryService queryService,
+                                       CurrentUser currentUser) {
         this.commandService = commandService;
         this.queryService = queryService;
+        this.currentUser = currentUser;
     }
 
     @Override
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<SimulationResource> generate(
-            @RequestHeader("X-Dealership-Id") UUID dealershipId,
-            @Valid @RequestBody GenerateSimulationResource resource) {
-        var command = GenerateSimulationCommandFromResourceAssembler.toCommandFromResource(dealershipId, resource);
+    public ResponseEntity<SimulationResource> generate(@Valid @RequestBody GenerateSimulationResource resource) {
+        var command = GenerateSimulationCommandFromResourceAssembler.toCommandFromResource(
+                currentUser.dealershipId(), resource);
         var simulationId = commandService.handle(command);
         return queryService.handle(new GetSimulationByIdQuery(simulationId))
                 .map(simulation -> new ResponseEntity<>(

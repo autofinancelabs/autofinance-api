@@ -13,6 +13,10 @@ public enum ErrorCategory {
     NOT_FOUND,
     /** The request conflicts with the current state of a resource. */
     CONFLICT,
+    /** Authentication is missing or invalid. */
+    UNAUTHORIZED,
+    /** Authenticated, but not allowed to perform the action. */
+    FORBIDDEN,
     /** Unexpected server-side failure. */
     INTERNAL
 }

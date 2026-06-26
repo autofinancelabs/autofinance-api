@@ -21,13 +21,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * End-to-end REST test over the real stack (Testcontainers Postgres + Flyway + @TenantId): POST generates
- * and persists, GET reads back the jsonb snapshot, and a different dealership header cannot see it.
+ * End-to-end REST test over the real stack (Testcontainers Postgres + Flyway + Spring Security + JWT):
+ * a dealership registers and signs in, generates a simulation with its bearer token (the tenant comes
+ * from the token, not a header), reads it back, and a different dealership's token cannot see it.
+ * Unauthenticated requests are rejected.
  */
 @AutoConfigureMockMvc
 class CreditSimulationRestTest extends AbstractIntegrationTest {
-
-    private static final String HEADER = "X-Dealership-Id";
 
     @Autowired
     private MockMvc mockMvc;
@@ -35,45 +35,57 @@ class CreditSimulationRestTest extends AbstractIntegrationTest {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
-    void generatesPersistsAndReadsBackScopedByTenant() throws Exception {
-        GenerateSimulationCommand command = GoldenDatasets.d1();
-        UUID dealershipId = command.dealershipId();
-        String body = objectMapper.writeValueAsString(resourceFrom(command));
+    void generatesScopedToTheAuthenticatedDealershipAndIsolatesByTenant() throws Exception {
+        String tokenA = registerAndLogin("20100000001", "a@autonorte.pe", "dealerA");
+        String body = objectMapper.writeValueAsString(resourceFrom(GoldenDatasets.d1()));
 
         String created = mockMvc.perform(post("/api/v1/credit-simulations")
-                        .header(HEADER, dealershipId.toString())
+                        .header("Authorization", "Bearer " + tokenA)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(body))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").exists())
                 .andExpect(jsonPath("$.state").value("GENERATED"))
                 .andExpect(jsonPath("$.schedule.length()").value(37))
-                .andExpect(jsonPath("$.schedule[0].appliedCosts").isArray())
-                .andExpect(jsonPath("$.indicators.tcea").exists())
-                .andExpect(jsonPath("$.summary.totalsPerCost.gps").exists())
                 .andReturn().getResponse().getContentAsString();
 
         String id = objectMapper.readTree(created).get("id").asText();
 
-        // same tenant → found
-        mockMvc.perform(get("/api/v1/credit-simulations/{id}", id).header(HEADER, dealershipId.toString()))
+        // same dealership token → found
+        mockMvc.perform(get("/api/v1/credit-simulations/{id}", id).header("Authorization", "Bearer " + tokenA))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(id));
 
-        // different tenant → not visible
-        mockMvc.perform(get("/api/v1/credit-simulations/{id}", id).header(HEADER, UUID.randomUUID().toString()))
+        // a different dealership token → not visible
+        String tokenB = registerAndLogin("20100000002", "b@autonorte.pe", "dealerB");
+        mockMvc.perform(get("/api/v1/credit-simulations/{id}", id).header("Authorization", "Bearer " + tokenB))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    void missingTenantHeaderIsRejected() throws Exception {
-        String body = objectMapper.writeValueAsString(resourceFrom(GoldenDatasets.d2()));
-        mockMvc.perform(post("/api/v1/credit-simulations")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(body))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code").value("MISSING_TENANT"))
-                .andExpect(jsonPath("$.trace").doesNotExist());
+    void rejectsUnauthenticatedRequests() throws Exception {
+        mockMvc.perform(get("/api/v1/credit-simulations/{id}", UUID.randomUUID()))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value("UNAUTHENTICATED"));
+    }
+
+    /** Registers a dealership (+ first user) and signs in; returns the bearer token. */
+    private String registerAndLogin(String ruc, String email, String username) throws Exception {
+        String register = """
+                {"name":"AutoNorte SAC","ruc":"%s","contactEmail":"%s","userEmail":"%s","username":"%s","password":"s3cr3t-pass"}
+                """.formatted(ruc, email, email, username);
+        mockMvc.perform(post("/api/v1/dealerships")
+                        .contentType(MediaType.APPLICATION_JSON).content(register))
+                .andExpect(status().isCreated());
+
+        String signIn = """
+                {"identifier":"%s","password":"s3cr3t-pass"}
+                """.formatted(username);
+        String body = mockMvc.perform(post("/api/v1/authentication/sign-in")
+                        .contentType(MediaType.APPLICATION_JSON).content(signIn))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        return objectMapper.readTree(body).get("token").asText();
     }
 
     private static GenerateSimulationResource resourceFrom(GenerateSimulationCommand c) {

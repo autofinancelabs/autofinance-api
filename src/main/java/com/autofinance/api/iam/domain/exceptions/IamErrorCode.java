@@ -8,7 +8,8 @@ public enum IamErrorCode implements ErrorCode {
 
     DUPLICATE_RUC(ErrorCategory.CONFLICT),
     DUPLICATE_EMAIL(ErrorCategory.CONFLICT),
-    DUPLICATE_USERNAME(ErrorCategory.CONFLICT);
+    DUPLICATE_USERNAME(ErrorCategory.CONFLICT),
+    INVALID_CREDENTIALS(ErrorCategory.UNAUTHORIZED);
 
     private final ErrorCategory category;
 

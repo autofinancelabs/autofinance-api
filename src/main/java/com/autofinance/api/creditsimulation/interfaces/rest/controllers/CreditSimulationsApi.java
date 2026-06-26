@@ -29,7 +29,7 @@ public interface CreditSimulationsApi {
             @ApiResponse(responseCode = "201", description = "Generated",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = SimulationResource.class))),
-            @ApiResponse(responseCode = "400", description = "Invalid configuration / validation / missing tenant header (see 'code')",
+            @ApiResponse(responseCode = "400", description = "Invalid configuration / validation (see 'code')",
                     content = @Content(mediaType = "application/problem+json",
                             schema = @Schema(implementation = ApiErrorSchema.class))),
             @ApiResponse(responseCode = "422", description = "Valid request, but the schedule could not be computed (see 'code')",
@@ -37,7 +37,6 @@ public interface CreditSimulationsApi {
                             schema = @Schema(implementation = ApiErrorSchema.class)))
     })
     ResponseEntity<SimulationResource> generate(
-            UUID dealershipId,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     required = true,
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,

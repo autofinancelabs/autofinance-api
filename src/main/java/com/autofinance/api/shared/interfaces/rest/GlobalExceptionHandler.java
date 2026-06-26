@@ -1,14 +1,12 @@
 package com.autofinance.api.shared.interfaces.rest;
 
 import com.autofinance.api.shared.domain.exceptions.DomainException;
-import com.autofinance.api.shared.domain.exceptions.ErrorCategory;
 import com.autofinance.api.shared.domain.exceptions.ErrorCode;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +20,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import java.net.URI;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Comparator;
@@ -40,7 +37,6 @@ import java.util.Map;
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
-    private static final String TYPE_BASE = "https://api.autofinance/errors/";
 
     // --- Domain exceptions (any context) -----------------------------------
 
@@ -65,28 +61,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     private ProblemDetail problem(ErrorCode code, String detail, HttpServletRequest request) {
-        HttpStatus status = statusFor(code.category());
-        ProblemDetail problem = ProblemDetail.forStatusAndDetail(status, detail);
-        problem.setTitle(status.getReasonPhrase());
-        problem.setType(typeFor(code));
-        problem.setInstance(URI.create(request.getRequestURI()));
-        problem.setProperty("code", code.code());
-        problem.setProperty("timestamp", Instant.now().truncatedTo(ChronoUnit.MILLIS));
-        return problem;
-    }
-
-    private static HttpStatus statusFor(ErrorCategory category) {
-        return switch (category) {
-            case VALIDATION -> HttpStatus.BAD_REQUEST;
-            case UNPROCESSABLE -> HttpStatus.UNPROCESSABLE_ENTITY;
-            case NOT_FOUND -> HttpStatus.NOT_FOUND;
-            case CONFLICT -> HttpStatus.CONFLICT;
-            case INTERNAL -> HttpStatus.INTERNAL_SERVER_ERROR;
-        };
-    }
-
-    private static URI typeFor(ErrorCode code) {
-        return URI.create(TYPE_BASE + code.code().toLowerCase().replace('_', '-'));
+        return ProblemDetails.of(code, detail, request.getRequestURI());
     }
 
     // --- Spring MVC exceptions (override the base, then tag with a code) ----
@@ -116,7 +91,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             ErrorCode code = codeFor(ex);
             if (code != null) {
                 problem.setProperty("code", code.code());
-                problem.setType(typeFor(code));
+                problem.setType(ProblemDetails.typeFor(code));
             }
             problem.setProperty("timestamp", Instant.now().truncatedTo(ChronoUnit.MILLIS));
         }

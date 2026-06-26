@@ -13,6 +13,8 @@ public enum WebErrorCode implements ErrorCode {
     VALIDATION_FAILED(ErrorCategory.VALIDATION),
     MALFORMED_REQUEST(ErrorCategory.VALIDATION),
     MISSING_TENANT(ErrorCategory.VALIDATION),
+    UNAUTHENTICATED(ErrorCategory.UNAUTHORIZED),
+    ACCESS_DENIED(ErrorCategory.FORBIDDEN),
     INTERNAL_ERROR(ErrorCategory.INTERNAL);
 
     private final ErrorCategory category;

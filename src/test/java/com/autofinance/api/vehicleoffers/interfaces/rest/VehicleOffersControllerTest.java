@@ -2,6 +2,7 @@ package com.autofinance.api.vehicleoffers.interfaces.rest;
 
 import com.autofinance.api.shared.domain.model.valueobjects.Currency;
 import com.autofinance.api.shared.domain.model.valueobjects.Money;
+import com.autofinance.api.shared.interfaces.rest.CurrentUser;
 import com.autofinance.api.shared.interfaces.rest.GlobalExceptionHandler;
 import com.autofinance.api.vehicleoffers.domain.exceptions.InvalidVehicleOfferException;
 import com.autofinance.api.vehicleoffers.domain.model.aggregates.VehicleOffer;
@@ -19,6 +20,7 @@ import com.autofinance.api.vehicleoffers.interfaces.rest.resources.UpdateVehicle
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
@@ -39,6 +41,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(VehicleOffersController.class)
+@AutoConfigureMockMvc(addFilters = false)
 @Import(GlobalExceptionHandler.class)
 class VehicleOffersControllerTest {
 
@@ -53,7 +56,9 @@ class VehicleOffersControllerTest {
     @MockitoBean
     private VehicleOfferQueryService queryService;
 
-    private static final String HEADER = "X-Dealership-Id";
+    @MockitoBean
+    private CurrentUser currentUser;
+
     private static final UUID DEALER = UUID.randomUUID();
 
     private final VehicleOffer offer = new VehicleOffer(
@@ -67,20 +72,13 @@ class VehicleOffersControllerTest {
                 new BigDecimal("50000.00"), "PEN", "Plan 36", 36);
     }
 
-    /** Deserializes fine but violates Bean Validation (blank make + non-positive salePrice). */
-    private RegisterVehicleOfferResource invalidRegister() {
-        return new RegisterVehicleOfferResource("", "Corolla", 2024,
-                new BigDecimal("-1"), "PEN", null, null);
-    }
-
     @Test
     void registerReturns201WithTheStoredSnapshot() throws Exception {
-        when(commandService.handle(any(com.autofinance.api.vehicleoffers.domain.model.commands.RegisterVehicleOfferCommand.class)))
-                .thenReturn(offer.getId());
+        when(currentUser.dealershipId()).thenReturn(DEALER);
+        when(commandService.handle(any(RegisterVehicleOfferCommand.class))).thenReturn(offer.getId());
         when(queryService.handle(any(GetVehicleOfferByIdQuery.class))).thenReturn(Optional.of(offer));
 
         mockMvc.perform(post("/api/v1/vehicle-offers")
-                        .header(HEADER, DEALER.toString())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(validRegister())))
                 .andExpect(status().isCreated())
@@ -91,21 +89,12 @@ class VehicleOffersControllerTest {
     }
 
     @Test
-    void registerWithoutTenantHeaderReturns400WithProblemDetail() throws Exception {
-        mockMvc.perform(post("/api/v1/vehicle-offers")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(validRegister())))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.code").value("MISSING_TENANT"))
-                .andExpect(jsonPath("$.trace").doesNotExist());
-    }
-
-    @Test
     void registerWithInvalidBodyReturns400WithFieldErrors() throws Exception {
+        var invalid = new RegisterVehicleOfferResource("", "Corolla", 2024,
+                new BigDecimal("-1"), "PEN", null, null);
         mockMvc.perform(post("/api/v1/vehicle-offers")
-                        .header(HEADER, DEALER.toString())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(invalidRegister())))
+                        .content(objectMapper.writeValueAsString(invalid)))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code").value("VALIDATION_FAILED"))
                 .andExpect(jsonPath("$.errors").isArray());
@@ -113,11 +102,11 @@ class VehicleOffersControllerTest {
 
     @Test
     void registerWithDomainViolationReturns400WithItsCode() throws Exception {
+        when(currentUser.dealershipId()).thenReturn(DEALER);
         when(commandService.handle(any(RegisterVehicleOfferCommand.class)))
                 .thenThrow(new InvalidVehicleOfferException("sale price must be > 0"));
 
         mockMvc.perform(post("/api/v1/vehicle-offers")
-                        .header(HEADER, DEALER.toString())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(validRegister())))
                 .andExpect(status().isBadRequest())
