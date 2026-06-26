@@ -1,6 +1,6 @@
-package com.autofinance.api.creditsimulation.domain.exceptions;
+package com.autofinance.api.shared.domain.exceptions;
 
-import com.autofinance.api.creditsimulation.domain.model.valueobjects.Currency;
+import com.autofinance.api.shared.domain.model.valueobjects.Currency;
 
 /** Raised when arithmetic is attempted across two different currencies. */
 public class CurrencyMismatchException extends RuntimeException {

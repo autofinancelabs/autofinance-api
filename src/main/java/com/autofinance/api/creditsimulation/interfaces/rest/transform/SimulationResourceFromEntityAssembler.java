@@ -4,7 +4,7 @@ import com.autofinance.api.creditsimulation.domain.model.aggregates.CreditSimula
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.AppliedCost;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.Cost;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.Indicators;
-import com.autofinance.api.creditsimulation.domain.model.valueobjects.Money;
+import com.autofinance.api.shared.domain.model.valueobjects.Money;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.Rate;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.ScheduleRow;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.SimulationSummary;

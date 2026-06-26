@@ -1,7 +1,7 @@
 package com.autofinance.api.creditsimulation.interfaces.rest.resources;
 
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.Capitalization;
-import com.autofinance.api.creditsimulation.domain.model.valueobjects.Currency;
+import com.autofinance.api.shared.domain.model.valueobjects.Currency;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.GraceType;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.RateType;
 import io.swagger.v3.oas.annotations.media.ArraySchema;

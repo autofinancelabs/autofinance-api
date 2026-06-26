@@ -9,7 +9,7 @@ import com.autofinance.api.creditsimulation.domain.model.valueobjects.Dealership
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.GraceConfiguration;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.GraceType;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.Indicators;
-import com.autofinance.api.creditsimulation.domain.model.valueobjects.Money;
+import com.autofinance.api.shared.domain.model.valueobjects.Money;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.Percentage;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.Rate;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.ScheduleRow;

@@ -1,6 +1,6 @@
 package com.autofinance.api.creditsimulation.interfaces.rest;
 
-import com.autofinance.api.creditsimulation.domain.exceptions.CurrencyMismatchException;
+import com.autofinance.api.shared.domain.exceptions.CurrencyMismatchException;
 import com.autofinance.api.creditsimulation.domain.exceptions.InvalidSimulationConfigurationException;
 import com.autofinance.api.creditsimulation.domain.exceptions.IrrNotBracketedException;
 import com.autofinance.api.creditsimulation.domain.exceptions.MissingCapitalizationException;

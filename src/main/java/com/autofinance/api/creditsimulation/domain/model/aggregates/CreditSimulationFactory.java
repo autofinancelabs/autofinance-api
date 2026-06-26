@@ -5,7 +5,7 @@ import com.autofinance.api.creditsimulation.domain.model.commands.GenerateSimula
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.ClientId;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.Costs;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.GraceConfiguration;
-import com.autofinance.api.creditsimulation.domain.model.valueobjects.Money;
+import com.autofinance.api.shared.domain.model.valueobjects.Money;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.Percentage;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.Rate;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.SimulationId;

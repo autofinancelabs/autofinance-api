@@ -1,6 +1,6 @@
-package com.autofinance.api.creditsimulation.domain.model.valueobjects;
+package com.autofinance.api.shared.domain.model.valueobjects;
 
-import com.autofinance.api.creditsimulation.domain.exceptions.CurrencyMismatchException;
+import com.autofinance.api.shared.domain.exceptions.CurrencyMismatchException;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;

@@ -5,7 +5,7 @@ import com.autofinance.api.creditsimulation.domain.model.aggregates.CreditSimula
 import com.autofinance.api.creditsimulation.domain.model.commands.GenerateSimulationCommand;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.Capitalization;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.Cost;
-import com.autofinance.api.creditsimulation.domain.model.valueobjects.Currency;
+import com.autofinance.api.shared.domain.model.valueobjects.Currency;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.GraceType;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.RateType;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.SimulationSummary;
