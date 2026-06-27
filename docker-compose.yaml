@@ -12,6 +12,34 @@ services:
       - "${AUTOFINANCE_DB_PORT:-5252}:5432"
     volumes:
       - autofinance_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d autofinance_db_dev"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+  app:
+    build:
+      context: .
+    container_name: autofinance-api
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      # the dev datasource points at the db service (internal port 5432)
+      AUTOFINANCE_DB_HOST: db
+      AUTOFINANCE_DB_PORT: "5432"
+      AUTOFINANCE_DB_NAME: autofinance_db_dev
+      AUTOFINANCE_DB_USERNAME: admin
+      AUTOFINANCE_DB_PASSWORD: password
+      AUTOFINANCE_DB_SSLMODE: disable
+      AUTOFINANCE_SERVER_PORT: "8585"
+      # CHANGE THIS in any real deployment.
+      JWT_SECRET: ${JWT_SECRET:-dev-only-insecure-secret-change-me-please-0123456789-abcdef}
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-http://localhost:*,http://127.0.0.1:*}
+    ports:
+      - "${AUTOFINANCE_SERVER_PORT:-8585}:8585"
 
 volumes:
   autofinance_data:

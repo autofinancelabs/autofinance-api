@@ -1,0 +1,13 @@
+# Keep the build context small — the build stage only needs mvnw/.mvn/pom.xml/src.
+target/
+**/target/
+.git/
+.github/
+.idea/
+*.iml
+docs/
+*.md
+.dockerignore
+Dockerfile
+docker-compose.yml
+.DS_Store
