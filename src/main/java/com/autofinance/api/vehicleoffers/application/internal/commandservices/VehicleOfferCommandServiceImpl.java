@@ -5,7 +5,6 @@ import com.autofinance.api.vehicleoffers.domain.model.aggregates.VehicleOffer;
 import com.autofinance.api.vehicleoffers.domain.model.aggregates.VehicleOfferFactory;
 import com.autofinance.api.vehicleoffers.domain.model.commands.RegisterVehicleOfferCommand;
 import com.autofinance.api.vehicleoffers.domain.model.commands.UpdateVehicleOfferCommand;
-import com.autofinance.api.vehicleoffers.domain.model.valueobjects.Plan;
 import com.autofinance.api.vehicleoffers.domain.model.valueobjects.Vehicle;
 import com.autofinance.api.vehicleoffers.domain.model.valueobjects.VehicleOfferId;
 import com.autofinance.api.vehicleoffers.domain.repositories.VehicleOfferRepository;
@@ -46,8 +45,7 @@ public class VehicleOfferCommandServiceImpl implements VehicleOfferCommandServic
                 .map(offer -> {
                     offer.update(
                             new Vehicle(command.make(), command.model(), command.year()),
-                            new Money(command.salePrice(), command.currency()),
-                            Plan.of(command.planName(), command.planInstallments()));
+                            new Money(command.salePrice(), command.currency()));
                     repository.save(offer);
                     return offer.getId();
                 });

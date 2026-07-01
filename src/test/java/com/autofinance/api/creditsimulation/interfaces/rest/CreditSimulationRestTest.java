@@ -100,7 +100,7 @@ class CreditSimulationRestTest extends AbstractIntegrationTest {
 
     private UUID createOffer(String token) throws Exception {
         String resource = """
-                {"make":"Toyota","model":"Corolla","year":2024,"salePrice":16000,"currency":"PEN","planName":null,"planInstallments":null}
+                {"make":"Toyota","model":"Corolla","year":2024,"salePrice":16000,"currency":"PEN"}
                 """;
         String body = mockMvc.perform(post("/api/v1/vehicle-offers")
                         .header("Authorization", "Bearer " + token)

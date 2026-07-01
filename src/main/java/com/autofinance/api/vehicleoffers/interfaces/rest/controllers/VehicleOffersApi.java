@@ -40,25 +40,13 @@ public interface VehicleOffersApi {
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = RegisterVehicleOfferResource.class),
                             examples = {
-                                    @ExampleObject(name = "Oferta con plan", value = """
+                                    @ExampleObject(name = "Oferta vehicular", value = """
                                             {
                                               "make": "Toyota",
                                               "model": "Corolla",
                                               "year": 2024,
                                               "salePrice": 50000.00,
-                                              "currency": "PEN",
-                                              "planName": "Plan 36",
-                                              "planInstallments": 36
-                                            }"""),
-                                    @ExampleObject(name = "Oferta sin plan", value = """
-                                            {
-                                              "make": "Kia",
-                                              "model": "Rio",
-                                              "year": 2023,
-                                              "salePrice": 38000.00,
-                                              "currency": "USD",
-                                              "planName": null,
-                                              "planInstallments": null
+                                              "currency": "PEN"
                                             }""")
                             }))
             RegisterVehicleOfferResource resource);

@@ -10,16 +10,13 @@ import java.math.BigDecimal;
 
 /**
  * Request body to update a vehicle offer. Same shape as {@code RegisterVehicleOfferResource}; the offer
- * id comes from the path. {@code currency} stays a String on the wire; {@code planName}/
- * {@code planInstallments} are optional (both-or-neither).
+ * id comes from the path. {@code currency} stays a String on the wire.
  */
 public record UpdateVehicleOfferResource(
         @NotBlank String make,
         @NotBlank String model,
         @Positive int year,
         @NotNull @Positive BigDecimal salePrice,
-        @NotBlank @Schema(implementation = Currency.class) String currency,
-        String planName,
-        @Positive Integer planInstallments
+        @NotBlank @Schema(implementation = Currency.class) String currency
 ) {
 }
