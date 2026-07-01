@@ -51,4 +51,18 @@ class RateTest {
         Rate semiannual = Rate.effective(new BigDecimal("0.044030651"), 180);
         assertThat(semiannual.toEffectiveAnnual(360).doubleValue()).isCloseTo(0.09, within(1e-6));
     }
+
+    @Test
+    void supportsANonDivisorPeriodViaFractionalExponent() {
+        // Effective rate quoted for a 100-day period (m = 360/100 = 3.6, not an integer).
+        Rate effective100 = Rate.effective(new BigDecimal("0.05"), 100);
+        double expectedEff = Math.pow(1.05, 360.0 / 100.0) - 1;
+        assertThat(effective100.toEffectiveAnnual(360).doubleValue()).isCloseTo(expectedEff, within(1e-6));
+
+        // Nominal rate capitalized every 100 days (m = 3.6).
+        Rate nominal100 = Rate.nominal(new BigDecimal("0.15"), 100);
+        double m = 360.0 / 100.0;
+        double expectedNom = Math.pow(1 + 0.15 / m, m) - 1;
+        assertThat(nominal100.toEffectiveAnnual(360).doubleValue()).isCloseTo(expectedNom, within(1e-6));
+    }
 }

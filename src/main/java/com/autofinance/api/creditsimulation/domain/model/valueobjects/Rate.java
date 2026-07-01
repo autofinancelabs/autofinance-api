@@ -52,24 +52,27 @@ public record Rate(
     }
 
     /**
-     * Effective annual rate (TEA).
+     * Effective annual rate (TEA). Works for any period in days — {@code m = daysPerYear/period} may
+     * be fractional (e.g. a 100-day period → 3.6). {@link FinancialMath#pow(BigDecimal, BigDecimal)}
+     * uses an exact integer power when {@code m} is whole (the common 30/360 divisors), so those cases
+     * are bit-for-bit unchanged; non-divisor periods fall to the fractional path.
      * <ul>
      *   <li>Nominal: {@code (1 + TNA/m)^m - 1}, m = daysPerYear/capitalizationDays.</li>
-     *   <li>Effective: returned as-is when annual (or no period given); when a sub-annual period is
-     *       given (the {@code capitalization} days), compounded up: {@code (1 + value)^periods - 1}
-     *       (periods = daysPerYear/capitalizationDays; equals the value itself when periods = 1).</li>
+     *   <li>Effective: returned as-is when annual (no period); with a period, compounded up:
+     *       {@code (1 + value)^(daysPerYear/period) - 1} (equals the value when period = 1 year).</li>
      * </ul>
      */
     public BigDecimal toEffectiveAnnual(int daysPerYear) {
+        BigDecimal days = BigDecimal.valueOf(daysPerYear);
         if (type == RateType.EFFECTIVE) {
             if (capitalization == null) {
                 return value;
             }
-            int periods = daysPerYear / capitalization;
+            BigDecimal periods = days.divide(BigDecimal.valueOf(capitalization), FinancialMath.MC);
             return FinancialMath.pow(BigDecimal.ONE.add(value), periods).subtract(BigDecimal.ONE);
         }
-        int m = daysPerYear / capitalization;
-        BigDecimal base = BigDecimal.ONE.add(value.divide(BigDecimal.valueOf(m), FinancialMath.MC));
+        BigDecimal m = days.divide(BigDecimal.valueOf(capitalization), FinancialMath.MC);
+        BigDecimal base = BigDecimal.ONE.add(value.divide(m, FinancialMath.MC), FinancialMath.MC);
         return FinancialMath.pow(base, m).subtract(BigDecimal.ONE);
     }
 

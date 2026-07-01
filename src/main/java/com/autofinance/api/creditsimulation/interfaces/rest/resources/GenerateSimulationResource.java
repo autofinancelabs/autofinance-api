@@ -26,8 +26,10 @@ public record GenerateSimulationResource(
         @NotNull BigDecimal rateValue,
         @NotBlank @Schema(implementation = RateType.class) String rateType,
         @Schema(type = "integer", nullable = true,
-                description = "Capitalization frequency in days (e.g. 1=daily, 30=monthly, 360=annual). "
-                        + "Required only when rateType is NOMINAL") Integer capitalization,
+                description = "Period in days (e.g. 1=daily, 30=monthly, 180=semiannual, 360=annual, or "
+                        + "any value like 100). For NOMINAL it is the capitalization frequency (required); "
+                        + "for EFFECTIVE it is the period the rate is quoted for (optional; omit = annual TEA).")
+                Integer capitalization,
         @NotNull BigDecimal initialPercentage,
         @NotNull BigDecimal balloonPercentage,
         @Positive int numberOfInstallments,
