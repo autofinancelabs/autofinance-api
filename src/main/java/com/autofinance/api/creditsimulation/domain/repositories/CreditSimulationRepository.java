@@ -18,4 +18,7 @@ public interface CreditSimulationRepository {
     Optional<CreditSimulation> findById(SimulationId id);
 
     List<CreditSimulation> findByClientId(ClientId clientId);
+
+    /** All simulations of the current dealership (tenant-filtered via {@code @TenantId}). */
+    List<CreditSimulation> findAll();
 }

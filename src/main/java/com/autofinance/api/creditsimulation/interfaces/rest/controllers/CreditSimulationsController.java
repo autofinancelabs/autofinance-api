@@ -1,5 +1,6 @@
 package com.autofinance.api.creditsimulation.interfaces.rest.controllers;
 
+import com.autofinance.api.creditsimulation.domain.model.queries.GetAllSimulationsQuery;
 import com.autofinance.api.creditsimulation.domain.model.queries.GetSimulationByIdQuery;
 import com.autofinance.api.creditsimulation.domain.model.queries.GetSimulationsByClientIdQuery;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.ClientId;
@@ -73,6 +74,16 @@ public class CreditSimulationsController implements CreditSimulationsApi {
     @GetMapping(params = "clientId")
     public ResponseEntity<List<SimulationResource>> getByClient(@RequestParam UUID clientId) {
         List<SimulationResource> resources = queryService.handle(new GetSimulationsByClientIdQuery(new ClientId(clientId)))
+                .stream()
+                .map(SimulationResourceFromEntityAssembler::toResourceFromEntity)
+                .toList();
+        return ResponseEntity.ok(resources);
+    }
+
+    @Override
+    @GetMapping
+    public ResponseEntity<List<SimulationResource>> listAll() {
+        List<SimulationResource> resources = queryService.handle(new GetAllSimulationsQuery())
                 .stream()
                 .map(SimulationResourceFromEntityAssembler::toResourceFromEntity)
                 .toList();

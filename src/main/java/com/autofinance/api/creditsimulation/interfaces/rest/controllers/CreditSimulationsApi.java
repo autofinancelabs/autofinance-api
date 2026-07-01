@@ -110,4 +110,7 @@ public interface CreditSimulationsApi {
 
     @Operation(summary = "List a client's credit simulations")
     ResponseEntity<List<SimulationResource>> getByClient(UUID clientId);
+
+    @Operation(summary = "List all credit simulations of the current dealership")
+    ResponseEntity<List<SimulationResource>> listAll();
 }

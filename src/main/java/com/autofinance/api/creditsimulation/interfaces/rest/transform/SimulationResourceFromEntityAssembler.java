@@ -43,7 +43,8 @@ public final class SimulationResourceFromEntityAssembler {
                 indicators(s.getIndicators()),
                 s.getSchedule().stream().map(SimulationResourceFromEntityAssembler::row).toList(),
                 summary(s.getSummary()),
-                s.getState().name()
+                s.getState().name(),
+                s.getCreatedAt() == null ? null : s.getCreatedAt().toInstant().toString()
         );
     }
 

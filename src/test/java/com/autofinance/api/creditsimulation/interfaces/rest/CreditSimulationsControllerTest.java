@@ -3,6 +3,7 @@ package com.autofinance.api.creditsimulation.interfaces.rest;
 import com.autofinance.api.creditsimulation.GoldenDatasets;
 import com.autofinance.api.creditsimulation.domain.model.aggregates.CreditSimulation;
 import com.autofinance.api.creditsimulation.domain.model.aggregates.CreditSimulationFactory;
+import com.autofinance.api.creditsimulation.domain.model.queries.GetAllSimulationsQuery;
 import com.autofinance.api.creditsimulation.domain.model.queries.GetSimulationByIdQuery;
 import com.autofinance.api.creditsimulation.domain.model.queries.GetSimulationsByClientIdQuery;
 import com.autofinance.api.creditsimulation.domain.services.CreditSimulationCommandService;
@@ -175,5 +176,16 @@ class CreditSimulationsControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$[0].id").value(generated.getId().value().toString()));
+    }
+
+    @Test
+    void listAllReturns200WithEveryDealershipSimulation() throws Exception {
+        when(queryService.handle(any(GetAllSimulationsQuery.class))).thenReturn(List.of(generated));
+
+        mockMvc.perform(get("/api/v1/credit-simulations"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$[0].id").value(generated.getId().value().toString()))
+                .andExpect(jsonPath("$[0].state").value("GENERATED"));
     }
 }

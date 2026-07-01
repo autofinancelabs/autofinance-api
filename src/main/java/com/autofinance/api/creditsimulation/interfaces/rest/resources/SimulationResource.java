@@ -27,6 +27,9 @@ public record SimulationResource(
         IndicatorsResource indicators,
         List<ScheduleRowResource> schedule,
         SummaryResource summary,
-        @Schema(implementation = SimulationState.class) String state
+        @Schema(implementation = SimulationState.class) String state,
+        @Schema(type = "string", format = "date-time", nullable = true,
+                description = "Creation timestamp (ISO-8601), or null if not yet persisted.")
+        String createdAt
 ) {
 }

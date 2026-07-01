@@ -56,9 +56,19 @@ class CreditSimulationRestTest extends AbstractIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(id));
 
+        // Tenant-wide list: dealer A sees its simulation (with a createdAt); dealer B sees none.
+        mockMvc.perform(get("/api/v1/credit-simulations").header("Authorization", "Bearer " + tokenA))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(1))
+                .andExpect(jsonPath("$[0].id").value(id))
+                .andExpect(jsonPath("$[0].createdAt").isNotEmpty());
+
         String tokenB = registerAndLogin("20100000002", "b@autonorte.pe", "dealerB");
         mockMvc.perform(get("/api/v1/credit-simulations/{id}", id).header("Authorization", "Bearer " + tokenB))
                 .andExpect(status().isNotFound());
+        mockMvc.perform(get("/api/v1/credit-simulations").header("Authorization", "Bearer " + tokenB))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(0));
     }
 
     @Test
