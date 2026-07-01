@@ -12,6 +12,6 @@ public final class UpdateClientCommandFromResourceAssembler {
     }
 
     public static UpdateClientCommand toCommandFromResource(UUID clientId, UpdateClientResource r) {
-        return new UpdateClientCommand(clientId, r.email(), r.phone(), r.address());
+        return new UpdateClientCommand(clientId, r.firstName(), r.lastName(), r.email(), r.phone(), r.address());
     }
 }

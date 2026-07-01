@@ -13,6 +13,8 @@ public record RegisterClientCommand(
         UUID dealershipId,
         DocumentType documentType,
         String documentNumber,
+        String firstName,
+        String lastName,
         String email,
         String phone,
         String address

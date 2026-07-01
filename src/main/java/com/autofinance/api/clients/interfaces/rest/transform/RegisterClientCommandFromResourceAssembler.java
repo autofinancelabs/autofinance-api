@@ -21,6 +21,8 @@ public final class RegisterClientCommandFromResourceAssembler {
                 dealershipId,
                 DocumentType.valueOf(r.documentType()),
                 r.documentNumber(),
+                r.firstName(),
+                r.lastName(),
                 r.email(),
                 r.phone(),
                 r.address()

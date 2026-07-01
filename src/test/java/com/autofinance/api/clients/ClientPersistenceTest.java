@@ -39,6 +39,7 @@ class ClientPersistenceTest extends AbstractIntegrationTest {
     private static RegisterClientCommand registerCommand(UUID dealershipId) {
         return new RegisterClientCommand(
                 dealershipId, DocumentType.DNI, "12345678",
+                "Ana María", "Pérez García",
                 "ana@example.com", "+51 999 888 777", "Av. Lima 123");
     }
 
@@ -52,22 +53,27 @@ class ClientPersistenceTest extends AbstractIntegrationTest {
 
         assertThat(found.getDocumentId().type()).isEqualTo(DocumentType.DNI);
         assertThat(found.getDocumentId().number()).isEqualTo("12345678");
+        assertThat(found.getName().firstName()).isEqualTo("Ana María");
+        assertThat(found.getName().lastName()).isEqualTo("Pérez García");
         assertThat(found.getContactInfo().email()).isEqualTo("ana@example.com");
         assertThat(found.getContactInfo().phone()).isEqualTo("+51 999 888 777");
         assertThat(found.getContactInfo().address()).isEqualTo("Av. Lima 123");
     }
 
     @Test
-    void updatesContactKeepingTheDocument() {
+    void updatesNameAndContactKeepingTheDocument() {
         UUID dealershipId = UUID.randomUUID();
         TenantContext.setTenant(dealershipId);
         ClientId id = commandService.handle(registerCommand(dealershipId));
 
-        commandService.handle(new UpdateClientCommand(id.value(), "nuevo@example.com", null, null));
+        commandService.handle(new UpdateClientCommand(
+                id.value(), "Ana Lucía", "Pérez Soto", "nuevo@example.com", null, null));
 
         var found = repository.findById(id).orElseThrow();
         assertThat(found.getDocumentId().type()).isEqualTo(DocumentType.DNI);
         assertThat(found.getDocumentId().number()).isEqualTo("12345678");
+        assertThat(found.getName().firstName()).isEqualTo("Ana Lucía");
+        assertThat(found.getName().lastName()).isEqualTo("Pérez Soto");
         assertThat(found.getContactInfo().email()).isEqualTo("nuevo@example.com");
         assertThat(found.getContactInfo().phone()).isNull();
     }

@@ -54,7 +54,7 @@ class CreditSimulationPersistenceTest extends AbstractIntegrationTest {
 
     private UUID registerClient(UUID dealershipId, String document) {
         return clientCommandService.handle(new RegisterClientCommand(
-                dealershipId, DocumentType.DNI, document, null, null, null)).value();
+                dealershipId, DocumentType.DNI, document, "Cliente", "De Prueba", null, null, null)).value();
     }
 
     private static RequestSimulationCommand requestFrom(GenerateSimulationCommand d, UUID dealershipId,

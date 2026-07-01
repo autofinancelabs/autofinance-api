@@ -7,6 +7,8 @@ public record ClientResource(
         UUID id,
         String documentType,
         String documentNumber,
+        String firstName,
+        String lastName,
         String email,
         String phone,
         String address

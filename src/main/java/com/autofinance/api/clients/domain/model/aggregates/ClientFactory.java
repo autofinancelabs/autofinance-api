@@ -4,6 +4,7 @@ import com.autofinance.api.clients.domain.model.commands.RegisterClientCommand;
 import com.autofinance.api.clients.domain.model.valueobjects.ClientId;
 import com.autofinance.api.clients.domain.model.valueobjects.ContactInfo;
 import com.autofinance.api.clients.domain.model.valueobjects.DocumentId;
+import com.autofinance.api.clients.domain.model.valueobjects.PersonName;
 
 /**
  * Domain factory for the {@link Client} aggregate: assembles a valid client from raw inputs and
@@ -13,8 +14,9 @@ public class ClientFactory {
 
     public Client create(RegisterClientCommand command) {
         DocumentId documentId = new DocumentId(command.documentType(), command.documentNumber());
+        PersonName name = new PersonName(command.firstName(), command.lastName());
         ContactInfo contactInfo = ContactInfo.of(command.email(), command.phone(), command.address());
 
-        return new Client(ClientId.generate(), command.dealershipId(), documentId, contactInfo);
+        return new Client(ClientId.generate(), command.dealershipId(), documentId, name, contactInfo);
     }
 }

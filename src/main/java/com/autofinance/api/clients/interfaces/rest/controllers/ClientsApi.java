@@ -47,14 +47,18 @@ public interface ClientsApi {
                                             {
                                               "documentType": "DNI",
                                               "documentNumber": "12345678",
+                                              "firstName": "Ana María",
+                                              "lastName": "Pérez García",
                                               "email": "ana@example.com",
                                               "phone": "+51 999 888 777",
                                               "address": "Av. Lima 123"
                                             }"""),
-                                    @ExampleObject(name = "Cliente con CE (solo documento)", value = """
+                                    @ExampleObject(name = "Cliente con CE (sin contacto)", value = """
                                             {
                                               "documentType": "CE",
                                               "documentNumber": "001234567",
+                                              "firstName": "Carlos",
+                                              "lastName": "Rodríguez",
                                               "email": null,
                                               "phone": null,
                                               "address": null
@@ -62,7 +66,7 @@ public interface ClientsApi {
                             }))
             RegisterClientResource resource);
 
-    @Operation(summary = "Update a client's contact data and return the stored snapshot")
+    @Operation(summary = "Update a client's name and contact data and return the stored snapshot")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Updated",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,

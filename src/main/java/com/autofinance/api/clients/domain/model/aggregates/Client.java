@@ -6,6 +6,7 @@ import com.autofinance.api.clients.domain.model.valueobjects.ClientId;
 import com.autofinance.api.clients.domain.model.valueobjects.ContactInfo;
 import com.autofinance.api.shared.domain.model.valueobjects.DealershipId;
 import com.autofinance.api.clients.domain.model.valueobjects.DocumentId;
+import com.autofinance.api.clients.domain.model.valueobjects.PersonName;
 import com.autofinance.api.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -36,6 +37,10 @@ public class Client extends AuditableAbstractAggregateRoot<Client, ClientId> {
     @Embedded
     private DocumentId documentId;
 
+    /** The client's name. Required for new clients; {@code null} for legacy rows registered before names existed. */
+    @Embedded
+    private PersonName name;
+
     /** Optional contact data; {@code null} when none was provided. */
     @Embedded
     private ContactInfo contactInfo;
@@ -48,16 +53,18 @@ public class Client extends AuditableAbstractAggregateRoot<Client, ClientId> {
         // for JPA
     }
 
-    public Client(ClientId id, UUID dealershipId, DocumentId documentId, ContactInfo contactInfo) {
+    public Client(ClientId id, UUID dealershipId, DocumentId documentId, PersonName name, ContactInfo contactInfo) {
         this.id = id;
         this.dealershipId = dealershipId;
         this.documentId = documentId;
+        this.name = name;
         this.contactInfo = contactInfo;
         addDomainEvent(new ClientRegistered(id, new DealershipId(dealershipId)));
     }
 
-    /** Replaces the contact data. The identity document stays immutable. */
-    public void updateContactInfo(ContactInfo contactInfo) {
+    /** Replaces the editable data (name and contact). The identity document stays immutable. */
+    public void updateDetails(PersonName name, ContactInfo contactInfo) {
+        this.name = name;
         this.contactInfo = contactInfo;
         addDomainEvent(new ClientUpdated(id, new DealershipId(dealershipId)));
     }

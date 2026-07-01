@@ -98,7 +98,7 @@ class CreditSimulationRestTest extends AbstractIntegrationTest {
 
     private UUID createClient(String token, String document) throws Exception {
         String resource = """
-                {"documentType":"DNI","documentNumber":"%s","email":null,"phone":null,"address":null}
+                {"documentType":"DNI","documentNumber":"%s","firstName":"Cliente","lastName":"De Prueba","email":null,"phone":null,"address":null}
                 """.formatted(document);
         String body = mockMvc.perform(post("/api/v1/clients")
                         .header("Authorization", "Bearer " + token)

@@ -8,6 +8,8 @@ import java.util.UUID;
  */
 public record UpdateClientCommand(
         UUID clientId,
+        String firstName,
+        String lastName,
         String email,
         String phone,
         String address

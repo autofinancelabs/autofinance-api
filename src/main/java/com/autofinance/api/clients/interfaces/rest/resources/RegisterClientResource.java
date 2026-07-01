@@ -13,6 +13,8 @@ import jakarta.validation.constraints.NotBlank;
 public record RegisterClientResource(
         @NotBlank @Schema(implementation = DocumentType.class) String documentType,
         @NotBlank String documentNumber,
+        @NotBlank String firstName,
+        @NotBlank String lastName,
         String email,
         String phone,
         String address
