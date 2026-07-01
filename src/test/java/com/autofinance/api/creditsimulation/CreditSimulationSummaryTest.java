@@ -57,7 +57,7 @@ class CreditSimulationSummaryTest {
         GenerateSimulationCommand command = new GenerateSimulationCommand(
                 UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(),
                 new BigDecimal("15000"), Currency.PEN,
-                new BigDecimal("0.09"), RateType.EFFECTIVE, (Integer) null,
+                new BigDecimal("0.09"), RateType.EFFECTIVE, (Integer) null, (Integer) null,
                 new BigDecimal("0.20"), new BigDecimal("0.00"),
                 3, 30, 360,
                 Collections.nCopies(3, GraceType.NONE),

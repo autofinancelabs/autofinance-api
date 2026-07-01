@@ -60,7 +60,7 @@ class CreditSimulationsControllerTest {
     private GenerateSimulationResource validResource() {
         return new GenerateSimulationResource(
                 UUID.randomUUID(), UUID.randomUUID(),
-                new BigDecimal("0.20"), "EFFECTIVE", null,
+                new BigDecimal("0.20"), "EFFECTIVE", null, null,
                 new BigDecimal("0.20"), BigDecimal.ZERO,
                 12, 30, 360,
                 List.of("NONE"), List.<CostResource>of(),
@@ -71,7 +71,7 @@ class CreditSimulationsControllerTest {
     private GenerateSimulationResource constraintViolatingResource() {
         return new GenerateSimulationResource(
                 UUID.randomUUID(), UUID.randomUUID(),
-                new BigDecimal("0.20"), "EFFECTIVE", null,
+                new BigDecimal("0.20"), "EFFECTIVE", null, null,
                 new BigDecimal("0.20"), BigDecimal.ZERO,
                 0, 30, 360,
                 List.of("NONE"), List.<CostResource>of(),
@@ -82,7 +82,7 @@ class CreditSimulationsControllerTest {
     private GenerateSimulationResource multiViolationResource() {
         return new GenerateSimulationResource(
                 UUID.randomUUID(), UUID.randomUUID(),
-                null, "EFFECTIVE", null,
+                null, "EFFECTIVE", null, null,
                 new BigDecimal("0.20"), BigDecimal.ZERO,
                 0, 30, 360,
                 List.<String>of(), List.<CostResource>of(),

@@ -27,7 +27,7 @@ class CreditSimulationFactoryTest {
         return new GenerateSimulationCommand(
                 UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(),
                 new BigDecimal("15000"), Currency.PEN,
-                new BigDecimal("0.09"), RateType.EFFECTIVE, null,
+                new BigDecimal("0.09"), RateType.EFFECTIVE, null, null,
                 new BigDecimal(initialPct), new BigDecimal(balloonPct),
                 n, 30, 360,
                 gracePlan,
@@ -69,7 +69,7 @@ class CreditSimulationFactoryTest {
         GenerateSimulationCommand cmd = new GenerateSimulationCommand(
                 UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(),
                 new BigDecimal("12000"), Currency.PEN,
-                BigDecimal.ZERO, RateType.EFFECTIVE, null,
+                BigDecimal.ZERO, RateType.EFFECTIVE, null, null,
                 BigDecimal.ZERO, BigDecimal.ZERO,
                 12, 30, 360,
                 Collections.nCopies(12, GraceType.NONE),

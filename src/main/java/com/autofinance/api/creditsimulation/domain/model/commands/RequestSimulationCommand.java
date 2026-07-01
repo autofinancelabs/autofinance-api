@@ -20,6 +20,7 @@ public record RequestSimulationCommand(
         BigDecimal rateValue,
         RateType rateType,
         Integer capitalization,
+        Integer ratePeriod,
         BigDecimal initialPercentage,
         BigDecimal balloonPercentage,
         int numberOfInstallments,

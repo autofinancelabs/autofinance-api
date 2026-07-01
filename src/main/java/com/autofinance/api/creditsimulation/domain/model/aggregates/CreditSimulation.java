@@ -81,7 +81,8 @@ public class CreditSimulation extends AuditableAbstractAggregateRoot<CreditSimul
     @AttributeOverrides({
             @AttributeOverride(name = "value", column = @Column(name = "rate_value")),
             @AttributeOverride(name = "type", column = @Column(name = "rate_type")),
-            @AttributeOverride(name = "capitalization", column = @Column(name = "rate_capitalization"))
+            @AttributeOverride(name = "capitalization", column = @Column(name = "rate_capitalization")),
+            @AttributeOverride(name = "ratePeriod", column = @Column(name = "rate_period"))
     })
     private Rate rate;
 
@@ -114,7 +115,8 @@ public class CreditSimulation extends AuditableAbstractAggregateRoot<CreditSimul
     @AttributeOverrides({
             @AttributeOverride(name = "value", column = @Column(name = "cost_of_capital_value")),
             @AttributeOverride(name = "type", column = @Column(name = "cost_of_capital_type")),
-            @AttributeOverride(name = "capitalization", column = @Column(name = "cost_of_capital_capitalization"))
+            @AttributeOverride(name = "capitalization", column = @Column(name = "cost_of_capital_capitalization")),
+            @AttributeOverride(name = "ratePeriod", column = @Column(name = "cost_of_capital_rate_period"))
     })
     private Rate costOfCapital;
 

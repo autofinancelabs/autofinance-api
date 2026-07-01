@@ -49,7 +49,7 @@ public class CreditSimulationCommandServiceImpl implements CreditSimulationComma
         GenerateSimulationCommand command = new GenerateSimulationCommand(
                 request.dealershipId(), request.clientId(), request.vehicleOfferId(),
                 offer.salePrice(), Currency.valueOf(offer.currency()),
-                request.rateValue(), request.rateType(), request.capitalization(),
+                request.rateValue(), request.rateType(), request.capitalization(), request.ratePeriod(),
                 request.initialPercentage(), request.balloonPercentage(),
                 request.numberOfInstallments(), request.frequencyDays(), request.daysPerYear(),
                 request.gracePlan(), request.costs(), request.costOfCapitalAnnual());

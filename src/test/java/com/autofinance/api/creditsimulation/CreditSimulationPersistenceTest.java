@@ -61,7 +61,7 @@ class CreditSimulationPersistenceTest extends AbstractIntegrationTest {
                                                         UUID clientId, UUID vehicleOfferId) {
         return new RequestSimulationCommand(
                 dealershipId, clientId, vehicleOfferId,
-                d.rateValue(), d.rateType(), d.capitalization(),
+                d.rateValue(), d.rateType(), d.capitalization(), d.ratePeriod(),
                 d.initialPercentage(), d.balloonPercentage(),
                 d.numberOfInstallments(), d.frequencyDays(), d.daysPerYear(),
                 d.gracePlan(), d.costs(), d.costOfCapitalAnnual());

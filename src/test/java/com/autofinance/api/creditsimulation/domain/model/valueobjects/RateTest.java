@@ -13,7 +13,7 @@ class RateTest {
 
     @Test
     void nominalWithoutCapitalizationIsRejected() {
-        assertThatThrownBy(() -> new Rate(new BigDecimal("0.15"), RateType.NOMINAL, null))
+        assertThatThrownBy(() -> new Rate(new BigDecimal("0.15"), RateType.NOMINAL, null, null))
                 .isInstanceOf(MissingCapitalizationException.class);
     }
 
@@ -50,6 +50,25 @@ class RateTest {
         // An effective semiannual rate (TES, 180 days) likewise.
         Rate semiannual = Rate.effective(new BigDecimal("0.044030651"), 180);
         assertThat(semiannual.toEffectiveAnnual(360).doubleValue()).isCloseTo(0.09, within(1e-6));
+    }
+
+    @Test
+    void supportsANominalRateQuotedForASubAnnualPeriod() {
+        // A nominal rate quoted per 30 days (TNM 1.2%), capitalized daily (1 day).
+        // TEA = (1 + value·C/R)^(D/C) - 1, with C=1, R=30, D=360.
+        Rate nominalMonthly = Rate.nominal(new BigDecimal("0.012"), 1, 30);
+        double expected = Math.pow(1 + 0.012 * 1.0 / 30.0, 360.0 / 1.0) - 1;
+        assertThat(nominalMonthly.toEffectiveAnnual(360).doubleValue()).isCloseTo(expected, within(1e-6));
+    }
+
+    @Test
+    void aNominalRateWithAnnualPeriodMatchesTheAnnualQuote() {
+        // ratePeriod null (annual) must equal an explicit 360-day period and the plain nominal formula.
+        Rate annualImplicit = Rate.nominal(new BigDecimal("0.15"), 30);
+        Rate annualExplicit = Rate.nominal(new BigDecimal("0.15"), 30, 360);
+        double tea = annualImplicit.toEffectiveAnnual(360).doubleValue();
+        assertThat(tea).isCloseTo(Math.pow(1 + 0.15 / 12.0, 12) - 1, within(1e-9));
+        assertThat(annualExplicit.toEffectiveAnnual(360).doubleValue()).isCloseTo(tea, within(1e-9));
     }
 
     @Test

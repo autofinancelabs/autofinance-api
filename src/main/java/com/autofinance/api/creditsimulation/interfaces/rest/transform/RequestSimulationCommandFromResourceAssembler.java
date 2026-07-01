@@ -34,6 +34,7 @@ public final class RequestSimulationCommandFromResourceAssembler {
                 r.rateValue(),
                 RateType.valueOf(r.rateType()),
                 r.capitalization(),
+                r.ratePeriod(),
                 r.initialPercentage(),
                 r.balloonPercentage(),
                 r.numberOfInstallments(),

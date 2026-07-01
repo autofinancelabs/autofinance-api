@@ -43,7 +43,7 @@ public final class GoldenDatasets {
         return new GenerateSimulationCommand(
                 UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(),
                 bd("16000"), Currency.PEN,
-                bd("0.15"), RateType.NOMINAL, 1, // daily capitalization = 1 day
+                bd("0.15"), RateType.NOMINAL, 1, null, // daily capitalization = 1 day; annual quote (TNA)
                 bd("0.20"), bd("0.40"),
                 36, 30, 360,
                 grace(3, 3, 30),
@@ -56,7 +56,7 @@ public final class GoldenDatasets {
         return new GenerateSimulationCommand(
                 UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(),
                 bd("15000"), Currency.PEN,
-                bd("0.09"), RateType.EFFECTIVE, null,
+                bd("0.09"), RateType.EFFECTIVE, null, null,
                 bd("0.20"), bd("0.00"),
                 3, 30, 360,
                 grace(0, 0, 3),
@@ -78,7 +78,7 @@ public final class GoldenDatasets {
         return new GenerateSimulationCommand(
                 UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(),
                 bd("65000"), Currency.PEN,
-                bd("0.09"), RateType.EFFECTIVE, null,
+                bd("0.09"), RateType.EFFECTIVE, null, null,
                 bd("0.20"), bd("0.00"),
                 60, 30, 360,
                 grace(3, 0, 57),

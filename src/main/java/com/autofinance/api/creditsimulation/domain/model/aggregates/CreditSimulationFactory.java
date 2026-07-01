@@ -30,7 +30,7 @@ public class CreditSimulationFactory {
 
     public CreditSimulation create(GenerateSimulationCommand command) {
         Money salePrice = new Money(command.salePrice(), command.currency());
-        Rate rate = new Rate(command.rateValue(), command.rateType(), command.capitalization());
+        Rate rate = new Rate(command.rateValue(), command.rateType(), command.capitalization(), command.ratePeriod());
         Percentage initialPercentage = new Percentage(command.initialPercentage());
         Percentage balloonPercentage = new Percentage(command.balloonPercentage());
         Term term = Term.of(command.numberOfInstallments(), command.frequencyDays(), command.daysPerYear());
