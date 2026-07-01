@@ -164,6 +164,25 @@ public class CreditSimulation extends AuditableAbstractAggregateRoot<CreditSimul
                             Term term, GraceConfiguration grace, Costs costs, Rate costOfCapital) {
         this.id = id;
         this.dealershipId = dealershipId;
+        applyConfiguration(clientId, vehicleOfferId, salePrice, rate, initialPercentage, balloonPercentage,
+                term, grace, costs, costOfCapital);
+    }
+
+    /**
+     * Re-applies the full configuration to an existing simulation (edit). The identity, {@code createdAt}
+     * and audit stay; the caller must re-run {@link #generate} to recompute the schedule/indicators.
+     */
+    public void reconfigure(ClientId clientId, VehicleOfferId vehicleOfferId, Money salePrice, Rate rate,
+                            Percentage initialPercentage, Percentage balloonPercentage, Term term,
+                            GraceConfiguration grace, Costs costs, Rate costOfCapital) {
+        applyConfiguration(clientId, vehicleOfferId, salePrice, rate, initialPercentage, balloonPercentage,
+                term, grace, costs, costOfCapital);
+    }
+
+    /** Sets the configuration fields and derives the loan amount and financed balance. State → CONFIGURED. */
+    private void applyConfiguration(ClientId clientId, VehicleOfferId vehicleOfferId, Money salePrice, Rate rate,
+                                    Percentage initialPercentage, Percentage balloonPercentage, Term term,
+                                    GraceConfiguration grace, Costs costs, Rate costOfCapital) {
         this.clientId = clientId;
         this.vehicleOfferId = vehicleOfferId;
         this.salePrice = salePrice;

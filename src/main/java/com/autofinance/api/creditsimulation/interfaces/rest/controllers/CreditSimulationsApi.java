@@ -99,6 +99,21 @@ public interface CreditSimulationsApi {
                             }))
             GenerateSimulationResource resource);
 
+    @Operation(summary = "Edit an existing credit simulation (reconfigure + regenerate) and return the stored snapshot")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Updated",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SimulationResource.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid configuration / validation (see 'code')",
+                    content = @Content(mediaType = "application/problem+json",
+                            schema = @Schema(implementation = ApiErrorSchema.class))),
+            @ApiResponse(responseCode = "404", description = "Not found in the current dealership", content = @Content),
+            @ApiResponse(responseCode = "422", description = "Valid request, but the schedule could not be computed (see 'code')",
+                    content = @Content(mediaType = "application/problem+json",
+                            schema = @Schema(implementation = ApiErrorSchema.class)))
+    })
+    ResponseEntity<SimulationResource> update(UUID simulationId, GenerateSimulationResource resource);
+
     @Operation(summary = "Get a credit simulation by id")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Found",

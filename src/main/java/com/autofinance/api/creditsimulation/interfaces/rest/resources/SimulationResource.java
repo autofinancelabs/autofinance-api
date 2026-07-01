@@ -30,6 +30,9 @@ public record SimulationResource(
         @Schema(implementation = SimulationState.class) String state,
         @Schema(type = "string", format = "date-time", nullable = true,
                 description = "Creation timestamp (ISO-8601), or null if not yet persisted.")
-        String createdAt
+        String createdAt,
+        @Schema(type = "string", format = "date-time", nullable = true,
+                description = "Last-modification timestamp (ISO-8601); equals createdAt until first edited.")
+        String updatedAt
 ) {
 }

@@ -44,7 +44,8 @@ public final class SimulationResourceFromEntityAssembler {
                 s.getSchedule().stream().map(SimulationResourceFromEntityAssembler::row).toList(),
                 summary(s.getSummary()),
                 s.getState().name(),
-                s.getCreatedAt() == null ? null : s.getCreatedAt().toInstant().toString()
+                s.getCreatedAt() == null ? null : s.getCreatedAt().toInstant().toString(),
+                s.getUpdatedAt() == null ? null : s.getUpdatedAt().toInstant().toString()
         );
     }
 

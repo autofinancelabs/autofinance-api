@@ -7,6 +7,7 @@ import com.autofinance.api.creditsimulation.domain.model.aggregates.CreditSimula
 import com.autofinance.api.creditsimulation.domain.model.aggregates.CreditSimulationFactory;
 import com.autofinance.api.creditsimulation.domain.model.commands.GenerateSimulationCommand;
 import com.autofinance.api.creditsimulation.domain.model.commands.RequestSimulationCommand;
+import com.autofinance.api.creditsimulation.domain.model.commands.UpdateSimulationCommand;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.SimulationId;
 import com.autofinance.api.creditsimulation.domain.repositories.CreditSimulationRepository;
 import com.autofinance.api.creditsimulation.domain.services.CreditSimulationCommandService;
@@ -15,6 +16,8 @@ import com.autofinance.api.vehicleoffers.interfaces.acl.VehicleOfferSummary;
 import com.autofinance.api.vehicleoffers.interfaces.acl.VehicleOffersContextFacade;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 /**
  * Orchestrates the "generate simulation" use case. Anti-corruption layer: the referenced client must
@@ -57,5 +60,29 @@ public class CreditSimulationCommandServiceImpl implements CreditSimulationComma
         CreditSimulation simulation = factory.create(command);
         repository.save(simulation);
         return simulation.getId();
+    }
+
+    @Override
+    @Transactional
+    public Optional<SimulationId> handle(UpdateSimulationCommand request) {
+        if (!clientsFacade.existsById(request.clientId())) {
+            throw new ReferencedClientNotFoundException(request.clientId());
+        }
+        VehicleOfferSummary offer = vehicleOffersFacade.fetchById(request.vehicleOfferId())
+                .orElseThrow(() -> new ReferencedVehicleOfferNotFoundException(request.vehicleOfferId()));
+
+        return repository.findById(new SimulationId(request.simulationId()))
+                .map(simulation -> {
+                    GenerateSimulationCommand command = new GenerateSimulationCommand(
+                            request.dealershipId(), request.clientId(), request.vehicleOfferId(),
+                            offer.salePrice(), Currency.valueOf(offer.currency()),
+                            request.rateValue(), request.rateType(), request.capitalization(), request.ratePeriod(),
+                            request.initialPercentage(), request.balloonPercentage(),
+                            request.numberOfInstallments(), request.frequencyDays(), request.daysPerYear(),
+                            request.gracePlan(), request.costs(), request.costOfCapitalAnnual());
+                    factory.update(simulation, command);
+                    repository.save(simulation);
+                    return simulation.getId();
+                });
     }
 }

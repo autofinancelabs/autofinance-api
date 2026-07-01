@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -58,6 +59,19 @@ public class CreditSimulationsController implements CreditSimulationsApi {
         return queryService.handle(new GetSimulationByIdQuery(simulationId))
                 .map(simulation -> new ResponseEntity<>(
                         SimulationResourceFromEntityAssembler.toResourceFromEntity(simulation), HttpStatus.CREATED))
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @Override
+    @PutMapping(value = "/{simulationId}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<SimulationResource> update(@PathVariable UUID simulationId,
+                                                     @Valid @RequestBody GenerateSimulationResource resource) {
+        var command = RequestSimulationCommandFromResourceAssembler.toUpdateCommandFromResource(
+                currentUser.dealershipId(), simulationId, resource);
+        return commandService.handle(command)
+                .flatMap(id -> queryService.handle(new GetSimulationByIdQuery(id)))
+                .map(simulation -> ResponseEntity.ok(
+                        SimulationResourceFromEntityAssembler.toResourceFromEntity(simulation)))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
