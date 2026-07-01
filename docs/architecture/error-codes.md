@@ -67,6 +67,7 @@ All surface on `POST /credit-simulations` (the generate use case).
 | code | status | category | endpoint(s) | when |
 |------|--------|----------|-------------|------|
 | `INVALID_SIMULATION_CONFIGURATION` | 400 | VALIDATION | `POST /credit-simulations` | Cross-field invariant broken (e.g. initial % + balloon % ≥ 1). |
+| `INVALID_COST_CONFIGURATION` | 400 | VALIDATION | `POST /credit-simulations` | A cost's configuration is invalid (e.g. `embedded=true` requires `basis=ON_BALANCE` and `timing=PERIODIC`). |
 | `PERCENTAGE_OUT_OF_RANGE` | 400 | VALIDATION | `POST /credit-simulations` | A percentage is not within `[0, 1)`. |
 | `MISSING_CAPITALIZATION` | 400 | VALIDATION | `POST /credit-simulations` | A nominal rate without a capitalization frequency. |
 | `SCHEDULE_NOT_BALANCED` | 422 | UNPROCESSABLE | `POST /credit-simulations` | The generated schedule's final balance is not ~0. |

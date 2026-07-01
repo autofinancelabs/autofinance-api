@@ -1,5 +1,6 @@
 package com.autofinance.api.creditsimulation.domain.model.valueobjects;
 
+import com.autofinance.api.creditsimulation.domain.exceptions.InvalidCostConfigurationException;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -50,7 +51,9 @@ class CostsTest {
     @Test
     void embeddedMustBeAPeriodicOnBalanceRate() {
         assertThatThrownBy(() -> new Cost("x", BigDecimal.ONE, CostBasis.FIXED, CostTiming.PERIODIC, true))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(InvalidCostConfigurationException.class);
+        assertThatThrownBy(() -> new Cost("x", BigDecimal.ONE, CostBasis.ON_SALE_PRICE, CostTiming.PERIODIC, true))
+                .isInstanceOf(InvalidCostConfigurationException.class);
     }
 
     @Test

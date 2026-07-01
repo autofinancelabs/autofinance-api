@@ -7,6 +7,7 @@ import com.autofinance.api.shared.domain.exceptions.ErrorCode;
 public enum SimulationErrorCode implements ErrorCode {
 
     INVALID_SIMULATION_CONFIGURATION(ErrorCategory.VALIDATION),
+    INVALID_COST_CONFIGURATION(ErrorCategory.VALIDATION),
     PERCENTAGE_OUT_OF_RANGE(ErrorCategory.VALIDATION),
     MISSING_CAPITALIZATION(ErrorCategory.VALIDATION),
     SCHEDULE_NOT_BALANCED(ErrorCategory.UNPROCESSABLE),
