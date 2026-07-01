@@ -11,13 +11,14 @@ import java.math.BigDecimal;
 
 /**
  * An interest rate with its conversion behavior. Nominal rates require a capitalization
- * frequency. Conversions follow the 30/360 convention.
+ * frequency, expressed as a number of days (e.g. 1=daily, 30=monthly, 360=annual) so any
+ * frequency is supported. Conversions follow the 30/360 convention.
  */
 @Embeddable
 public record Rate(
         @Column(name = "value") BigDecimal value,
         @Enumerated(EnumType.STRING) @Column(name = "type") RateType type,
-        @Enumerated(EnumType.STRING) @Column(name = "capitalization") Capitalization capitalization
+        @Column(name = "capitalization") Integer capitalization
 ) {
     public Rate {
         if (value == null || type == null) {
@@ -25,6 +26,9 @@ public record Rate(
         }
         if (type == RateType.NOMINAL && capitalization == null) {
             throw new MissingCapitalizationException();
+        }
+        if (capitalization != null && capitalization <= 0) {
+            throw new IllegalArgumentException("capitalization (days) must be > 0");
         }
     }
 
@@ -37,33 +41,34 @@ public record Rate(
         return new Rate(effectiveAnnual, RateType.EFFECTIVE, null);
     }
 
-    /** An effective rate expressed for a given period (e.g. TEM = effective monthly). */
-    public static Rate effective(BigDecimal effectivePeriodic, Capitalization period) {
-        return new Rate(effectivePeriodic, RateType.EFFECTIVE, period);
+    /** An effective rate expressed for a given period, in days (e.g. 30 = effective monthly, TEM). */
+    public static Rate effective(BigDecimal effectivePeriodic, Integer periodDays) {
+        return new Rate(effectivePeriodic, RateType.EFFECTIVE, periodDays);
     }
 
-    /** A nominal annual rate with its capitalization frequency. */
-    public static Rate nominal(BigDecimal nominalAnnual, Capitalization capitalization) {
-        return new Rate(nominalAnnual, RateType.NOMINAL, capitalization);
+    /** A nominal annual rate with its capitalization frequency, in days. */
+    public static Rate nominal(BigDecimal nominalAnnual, Integer capitalizationDays) {
+        return new Rate(nominalAnnual, RateType.NOMINAL, capitalizationDays);
     }
 
     /**
      * Effective annual rate (TEA).
      * <ul>
-     *   <li>Nominal: {@code (1 + TNA/m)^m - 1}, m = daysPerYear/capDays.</li>
-     *   <li>Effective: returned as-is when annual; when a sub-annual period is given (the
-     *       {@code capitalization} field), compounded up: {@code (1 + value)^periods - 1}.</li>
+     *   <li>Nominal: {@code (1 + TNA/m)^m - 1}, m = daysPerYear/capitalizationDays.</li>
+     *   <li>Effective: returned as-is when annual (or no period given); when a sub-annual period is
+     *       given (the {@code capitalization} days), compounded up: {@code (1 + value)^periods - 1}
+     *       (periods = daysPerYear/capitalizationDays; equals the value itself when periods = 1).</li>
      * </ul>
      */
     public BigDecimal toEffectiveAnnual(int daysPerYear) {
         if (type == RateType.EFFECTIVE) {
-            if (capitalization == null || capitalization == Capitalization.ANNUAL) {
+            if (capitalization == null) {
                 return value;
             }
-            int periods = capitalization.periodsPerYear(daysPerYear);
+            int periods = daysPerYear / capitalization;
             return FinancialMath.pow(BigDecimal.ONE.add(value), periods).subtract(BigDecimal.ONE);
         }
-        int m = capitalization.periodsPerYear(daysPerYear);
+        int m = daysPerYear / capitalization;
         BigDecimal base = BigDecimal.ONE.add(value.divide(BigDecimal.valueOf(m), FinancialMath.MC));
         return FinancialMath.pow(base, m).subtract(BigDecimal.ONE);
     }

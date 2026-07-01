@@ -1,6 +1,5 @@
 package com.autofinance.api.creditsimulation.domain.model.commands;
 
-import com.autofinance.api.creditsimulation.domain.model.valueobjects.Capitalization;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.Cost;
 import com.autofinance.api.shared.domain.model.valueobjects.Currency;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.GraceType;
@@ -23,7 +22,7 @@ public record GenerateSimulationCommand(
         Currency currency,
         BigDecimal rateValue,
         RateType rateType,
-        Capitalization capitalization,
+        Integer capitalization,
         BigDecimal initialPercentage,
         BigDecimal balloonPercentage,
         int numberOfInstallments,

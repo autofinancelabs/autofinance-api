@@ -180,7 +180,7 @@ public class CreditSimulation extends AuditableAbstractAggregateRoot<CreditSimul
         this.loanAmount = new Money(loan, salePrice.currency());
 
         BigDecimal balloon = balloonPercentage.of(salePrice.amount());
-        BigDecimal balloonRate = i.add(costs.embeddedRate(), FinancialMath.MC);
+        BigDecimal balloonRate = i.add(costs.embeddedRate(term.frequencyDays()), FinancialMath.MC);
         BigDecimal presentValueOfBalloon = ScheduleCalculator.balloonPresentValue(
                 balloon, balloonRate, term.numberOfInstallments());
         this.financedBalance = new Money(loan.subtract(presentValueOfBalloon, FinancialMath.MC), salePrice.currency());

@@ -963,20 +963,26 @@ La regla operativa más importante es la siguiente: **los costos o gastos perió
 La **TSD** es la tasa del seguro de desgravamen. Este seguro cubre la deuda frente a riesgos como fallecimiento o invalidez del deudor, según las condiciones de la póliza. Suele contratarse en préstamos hipotecarios, vehiculares, de consumo y tarjetas de crédito.
 
 ```text
-Seguro de desgravamen = Saldo del préstamo * TSD%
+Seguro de desgravamen = Saldo del préstamo * TSD_periodo
+TSD_periodo = TSD_mensual * (frecuencia / 30)
 ```
 
-Como se calcula sobre el saldo del préstamo, normalmente disminuye cuando el saldo baja.
+La `TSD` se cotiza **mensual** (base 30 días) y se lleva a la frecuencia de pago con el factor
+`frecuencia/30` (con pago mensual el factor es 1). Como se calcula sobre el saldo, normalmente
+disminuye cuando el saldo baja.
 
 ### 19.8. Seguro contra todo riesgo: TSR
 
 La **TSR** es la tasa del seguro contra todo riesgo. Este seguro cubre una gama amplia de riesgos asociados al bien financiado, según la póliza. En ejercicios financieros suele calcularse sobre el precio de venta del activo asegurado.
 
 ```text
-Seguro contra todo riesgo = Precio de venta del bien * TSR%
+Seguro contra todo riesgo = Precio de venta del bien * TSR_periodo
+TSR_periodo = TSR_anual * (frecuencia / díasAño)
 ```
 
-Como se calcula sobre el precio del bien, puede mantenerse constante durante todo el cronograma si el precio base no cambia.
+La `TSR` se cotiza **anual** y se lleva a la frecuencia de pago con el factor `frecuencia/díasAño`
+(con pago mensual en 30/360 el factor es 1/12). Como se calcula sobre el precio del bien, el importe
+por periodo se mantiene constante durante todo el cronograma si el precio base no cambia.
 
 ### 19.9. Cuota total
 

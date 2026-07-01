@@ -52,8 +52,7 @@ public final class SimulationResourceFromEntityAssembler {
     }
 
     private static RateResource rate(Rate r) {
-        return new RateResource(r.value(), r.type().name(),
-                r.capitalization() == null ? null : r.capitalization().name());
+        return new RateResource(r.value(), r.type().name(), r.capitalization());
     }
 
     private static TermResource term(Term t) {

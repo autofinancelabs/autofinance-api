@@ -44,8 +44,10 @@ public final class ScheduleCalculator {
                                    GraceConfiguration grace,
                                    Costs costs) {
         final int n = term.numberOfInstallments();
+        final int frequencyDays = term.frequencyDays();
+        final int daysPerYear = term.daysPerYear();
         final BigDecimal i = periodicRate;
-        final BigDecimal embeddedRate = costs.embeddedRate();
+        final BigDecimal embeddedRate = costs.embeddedRate(frequencyDays);
         final BigDecimal rateForInstallment = i.add(embeddedRate, FinancialMath.MC);
         final List<Cost> periodic = costs.periodic();
         final boolean hasBalloon = balloon.signum() > 0;
@@ -63,7 +65,7 @@ public final class ScheduleCalculator {
 
             BigDecimal openingRegular = regularBalance;
             BigDecimal interestDisplayed = openingRegular.multiply(i, FinancialMath.MC); // plain i
-            CostEval ce = evaluateCosts(periodic, costs, openingRegular, salePrice);
+            CostEval ce = evaluateCosts(periodic, costs, openingRegular, salePrice, frequencyDays, daysPerYear);
 
             BigDecimal periodInstallment;
             BigDecimal amortization;
@@ -118,7 +120,7 @@ public final class ScheduleCalculator {
             // Settlement: the balloon grows one final period; it is paid at its nominal amount plus
             // the period costs (evaluated at a zero regular balance: balance-based costs vanish).
             BalloonStep settlement = growBalloon(balloonBalance, i, embeddedRate, true);
-            CostEval ce = evaluateCosts(periodic, costs, ZERO, salePrice);
+            CostEval ce = evaluateCosts(periodic, costs, ZERO, salePrice, frequencyDays, daysPerYear);
             BigDecimal settlementCashFlow = balloon.add(ce.other(), FinancialMath.MC);
             rows.add(new ScheduleRow(
                     n + 1, GraceType.NONE,
@@ -131,12 +133,13 @@ public final class ScheduleCalculator {
     }
 
     private CostEval evaluateCosts(List<Cost> periodic, Costs costs,
-                                   BigDecimal openingBalance, BigDecimal salePrice) {
+                                   BigDecimal openingBalance, BigDecimal salePrice,
+                                   int frequencyDays, int daysPerYear) {
         BigDecimal embedded = ZERO;
         BigDecimal other = ZERO;
         List<AppliedCost> applied = new ArrayList<>();
         for (Cost c : periodic) {
-            BigDecimal amount = costs.amountFor(c, openingBalance, salePrice);
+            BigDecimal amount = costs.amountFor(c, openingBalance, salePrice, frequencyDays, daysPerYear);
             // every applied cost is recorded for display/totals; whether it hits the cash flow is
             // decided per grace type (embedded costs are inside the installment on ordinary rows).
             applied.add(new AppliedCost(c.name(), amount));

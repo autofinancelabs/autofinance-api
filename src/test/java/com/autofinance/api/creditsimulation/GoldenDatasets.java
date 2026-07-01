@@ -1,7 +1,6 @@
 package com.autofinance.api.creditsimulation;
 
 import com.autofinance.api.creditsimulation.domain.model.commands.GenerateSimulationCommand;
-import com.autofinance.api.creditsimulation.domain.model.valueobjects.Capitalization;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.Cost;
 import com.autofinance.api.shared.domain.model.valueobjects.Currency;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.GraceType;
@@ -44,7 +43,7 @@ public final class GoldenDatasets {
         return new GenerateSimulationCommand(
                 UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(),
                 bd("16000"), Currency.PEN,
-                bd("0.15"), RateType.NOMINAL, Capitalization.DAILY,
+                bd("0.15"), RateType.NOMINAL, 1, // daily capitalization = 1 day
                 bd("0.20"), bd("0.40"),
                 36, 30, 360,
                 grace(3, 3, 30),
@@ -72,7 +71,8 @@ public final class GoldenDatasets {
                 Cost.initial("registral", bd("50")),
                 Cost.initial("comision", bd("30")),
                 Cost.onBalance("desgravamen", bd("0.000450"), false),
-                Cost.onSalePrice("riesgo", bd("0.00008333")),
+                Cost.onSalePrice("riesgo", bd("0.001")), // annual TSR (0.10%); ≈5.42/period at 30/360
+
                 Cost.fixedPeriodic("portes", bd("20.00")),
                 Cost.fixedPeriodic("gastosAdm", bd("40.00")));
         return new GenerateSimulationCommand(

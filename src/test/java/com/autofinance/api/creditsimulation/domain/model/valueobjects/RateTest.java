@@ -19,10 +19,18 @@ class RateTest {
 
     @Test
     void convertsNominalDailyToEffective() {
-        // D1: TNA 15% daily cap, 360-day year.
-        Rate rate = Rate.nominal(new BigDecimal("0.15"), Capitalization.DAILY);
+        // D1: TNA 15% daily cap (1 day), 360-day year.
+        Rate rate = Rate.nominal(new BigDecimal("0.15"), 1);
         assertThat(rate.toEffectiveAnnual(360).doubleValue()).isCloseTo(0.16179795, within(1e-6));
         assertThat(rate.toPeriodicRate(30, 360).doubleValue()).isCloseTo(0.012575815, within(1e-6));
+    }
+
+    @Test
+    void supportsAnArbitraryCapitalizationInDays() {
+        // TNA 15% capitalized every 15 days (m = 360/15 = 24).
+        Rate rate = Rate.nominal(new BigDecimal("0.15"), 15);
+        double expected = Math.pow(1 + 0.15 / 24.0, 24) - 1;
+        assertThat(rate.toEffectiveAnnual(360).doubleValue()).isCloseTo(expected, within(1e-6));
     }
 
     @Test
@@ -35,12 +43,12 @@ class RateTest {
 
     @Test
     void supportsEffectiveRateGivenForASubAnnualPeriod() {
-        // An effective monthly rate (TEM) compounds up to the annual effective rate (TEA).
-        Rate monthly = Rate.effective(new BigDecimal("0.0072073"), Capitalization.MONTHLY);
+        // An effective monthly rate (TEM, 30 days) compounds up to the annual effective rate (TEA).
+        Rate monthly = Rate.effective(new BigDecimal("0.0072073"), 30);
         assertThat(monthly.toEffectiveAnnual(360).doubleValue()).isCloseTo(0.09, within(1e-5));
 
-        // An effective semiannual rate (TES) likewise.
-        Rate semiannual = Rate.effective(new BigDecimal("0.044030651"), Capitalization.SEMIANNUAL);
+        // An effective semiannual rate (TES, 180 days) likewise.
+        Rate semiannual = Rate.effective(new BigDecimal("0.044030651"), 180);
         assertThat(semiannual.toEffectiveAnnual(360).doubleValue()).isCloseTo(0.09, within(1e-6));
     }
 }

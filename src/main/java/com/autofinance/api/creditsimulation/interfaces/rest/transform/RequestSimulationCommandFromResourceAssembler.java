@@ -1,7 +1,6 @@
 package com.autofinance.api.creditsimulation.interfaces.rest.transform;
 
 import com.autofinance.api.creditsimulation.domain.model.commands.RequestSimulationCommand;
-import com.autofinance.api.creditsimulation.domain.model.valueobjects.Capitalization;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.Cost;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.CostBasis;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.CostTiming;
@@ -27,9 +26,6 @@ public final class RequestSimulationCommandFromResourceAssembler {
     public static RequestSimulationCommand toCommandFromResource(UUID dealershipId, GenerateSimulationResource r) {
         List<GraceType> gracePlan = r.gracePlan().stream().map(GraceType::valueOf).toList();
         List<Cost> costs = r.costs().stream().map(RequestSimulationCommandFromResourceAssembler::toCost).toList();
-        Capitalization capitalization = (r.capitalization() == null || r.capitalization().isBlank())
-                ? null
-                : Capitalization.valueOf(r.capitalization());
 
         return new RequestSimulationCommand(
                 dealershipId,
@@ -37,7 +33,7 @@ public final class RequestSimulationCommandFromResourceAssembler {
                 r.vehicleOfferId(),
                 r.rateValue(),
                 RateType.valueOf(r.rateType()),
-                capitalization,
+                r.capitalization(),
                 r.initialPercentage(),
                 r.balloonPercentage(),
                 r.numberOfInstallments(),

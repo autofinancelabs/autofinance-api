@@ -117,7 +117,7 @@ class CreditSimulationRestTest extends AbstractIntegrationTest {
                 .toList();
         return new GenerateSimulationResource(
                 clientId, vehicleOfferId,
-                c.rateValue(), c.rateType().name(), c.capitalization() == null ? null : c.capitalization().name(),
+                c.rateValue(), c.rateType().name(), c.capitalization(),
                 c.initialPercentage(), c.balloonPercentage(),
                 c.numberOfInstallments(), c.frequencyDays(), c.daysPerYear(),
                 grace, costs, c.costOfCapitalAnnual());

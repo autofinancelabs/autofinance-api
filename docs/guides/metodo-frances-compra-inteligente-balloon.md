@@ -77,8 +77,12 @@ representa el valor presente del pago final. Por eso, cuanto mayor sea la cuota 
 En algunos modelos, como el Excel complementario, la cuota regular se calcula incluyendo el seguro de desgravamen dentro de la tasa de cálculo. Para ello se usa una tasa ajustada:
 
 ```text
-j = i + TSD
+j = i + TSD_periodo        (TSD_periodo = TSD_mensual × frecuencia/30; = TSD con pago mensual)
 ```
+
+Aquí `i` es la tasa efectiva del periodo (TEP/TEM) y `TSD_periodo` es la tasa de desgravamen
+llevada al periodo de pago (ver `planes-de-pago §19.7`). El mismo `j` capitaliza el cuotón
+(`VP = cuotón/(1+j)^(n+1)`).
 
 Entonces, la cuota regular se calcula así:
 
