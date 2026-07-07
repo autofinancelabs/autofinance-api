@@ -11,7 +11,7 @@ COPY src src
 
 # A BuildKit cache mount keeps the Maven repo (and the wrapper's distribution) across builds, so deps
 # aren't re-downloaded each time. Tests need Docker/Testcontainers, so they run in CI, not here.
-RUN --mount=type=cache,target=/root/.m2 \
+RUN --mount=type=cache,id=cacheKey-maven-cache,target=/root/.m2 \
     chmod +x mvnw && ./mvnw -B -DskipTests clean package && cp target/*.jar app.jar
 
 # ---- runtime stage: slim JRE, non-root ----
