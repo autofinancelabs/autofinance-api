@@ -49,21 +49,27 @@ Convención de días: `m = 360/días_capitalización`; al pasar de anual a perio
 ## 3. Conversión de tasas
 
 ```text
-TEA  = (1 + TNA/m)^m − 1                       (nominal → efectiva anual)
-TEP  = (1 + TNA/m)^n − 1                        (nominal → efectiva del periodo, directo)
-TEP  = (1 + TEA)^(días_periodo/días_año) − 1    (efectiva anual → efectiva del periodo)
-TEP2 = (1 + TEP1)^(n2/n1) − 1                   (tasas equivalentes)
+TEA  = (1 + TN·(D/R)/m)^m − 1 = (1 + TN·C/R)^(D/C) − 1   (nominal → efectiva anual)
+TEP  = (1 + TEA)^(días_periodo/días_año) − 1              (efectiva anual → efectiva del periodo)
+TEP2 = (1 + TEP1)^(n2/n1) − 1                             (tasas equivalentes)
 ```
 
 Reglas de aplicación:
 
-| Entrada                                 | Camino                                        | Resultado               |
-|-----------------------------------------|-----------------------------------------------|-------------------------|
-| Tasa **nominal** (TNA + capitalización) | `TEA = (1 + TNA/m)^m − 1`, luego a TEP        | requiere capitalización |
-| Tasa **efectiva** (TEA)                 | `TEP = (1 + TEA)^(días_periodo/días_año) − 1` | directo                 |
+| Entrada                                          | Camino                                              | Resultado                          |
+|--------------------------------------------------|-----------------------------------------------------|------------------------------------|
+| Tasa **nominal** (TN + capitalización + período) | `TEA = (1 + TN·C/R)^(D/C) − 1`, luego a TEP         | requiere capitalización            |
+| Tasa **efectiva** (período)                      | `TEA = (1 + value)^(D/R) − 1`, luego a TEP          | período opcional (ausente ⇒ anual) |
 
-Donde `m = 360/días_capitalización` y, para el camino directo nominal,
-`n = días_periodo/días_capitalización`. El **interés simple no se usa** (fuera de alcance).
+Donde `D = días_año`, `C = días_capitalización`, `m = D/C`, y `R = período de la tasa` en días
+(**ausente ⇒ anual**, `R = D`). El **interés simple no se usa** (fuera de alcance).
+
+**Período de la tasa (importante).** Toda tasa se cotiza sobre un **período** `R` en días (`ausente ⇒
+anual`). Para la **nominal**, `R` (p. ej. mensual = 30 ⇒ TNM) es **independiente** de la
+**capitalización** `C` (la frecuencia de composición); el `value` anualizado es `TN·(D/R)`. Para la
+**efectiva**, `R` es el período de la tasa (p. ej. TEM = 30, TES = 180). Los exponentes **no tienen que
+ser enteros**: se admite cualquier período (45, 100, …); el motor usa el camino exacto entero cuando el
+período divide al año y un exponente fraccional cuando no (p. ej. 100 → `m = 3.6`).
 
 ## 4. Cálculo del préstamo
 
@@ -160,11 +166,18 @@ material de referencia. Sin gracia, `R` se calcula desde el inicio sobre `C − 
 ## 10. Costos periódicos y flujo de caja del periodo
 
 ```text
-Seguro de desgravamen:   SD_t = SI_t × TSD          (sobre el saldo del periodo)
-Seguro contra todo riesgo: STR = PV × TSR            (o un monto fijo por periodo)
+Seguro de desgravamen:   SD_t = SI_t × TSD_periodo,   TSD_periodo = TSD × (frecuencia / 30)
+Seguro contra todo riesgo: STR = PV × TSR_periodo,     TSR_periodo = TSR × (frecuencia / díasAño)
 Cuota total:             CT_t = R + costos_periódicos
 Flujo del periodo:       Flujo_t = cuota + SD_t + STR + GPS + portes + gastos_adm
 ```
+
+**Convención de las tasas de seguro (importante).** La `TSD` (desgravamen) se cotiza **mensual**
+(base 30 días) y la `TSR` (riesgo) se cotiza **anual** (base `díasAño`); ambas se llevan a la
+frecuencia de pago con el factor `frecuencia/base` (lineal). Con la frecuencia mensual estándar
+(30 días, 30/360) el desgravamen queda ×1 y el riesgo ÷12. Los costos de **monto fijo** (GPS,
+portes, gastos adm.) ya son un importe por periodo y no se escalan. Coincide con los Excel de
+referencia (`compra_inteligente*.xlsx`: `pSegDes×frec/30` y `pSegRie×frec/360`).
 
 Los costos periódicos no amortizan capital y se pagan también durante la gracia.
 

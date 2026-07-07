@@ -6,8 +6,7 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 /**
- * Raw inputs to update an existing vehicle offer. Carries primitives/enums (not value objects);
- * {@code planName} and {@code planInstallments} are optional.
+ * Raw inputs to update an existing vehicle offer. Carries primitives/enums (not value objects).
  */
 public record UpdateVehicleOfferCommand(
         UUID vehicleOfferId,
@@ -15,8 +14,6 @@ public record UpdateVehicleOfferCommand(
         String model,
         int year,
         BigDecimal salePrice,
-        Currency currency,
-        String planName,
-        Integer planInstallments
+        Currency currency
 ) {
 }

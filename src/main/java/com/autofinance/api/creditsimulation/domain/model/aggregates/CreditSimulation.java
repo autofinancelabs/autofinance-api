@@ -81,7 +81,8 @@ public class CreditSimulation extends AuditableAbstractAggregateRoot<CreditSimul
     @AttributeOverrides({
             @AttributeOverride(name = "value", column = @Column(name = "rate_value")),
             @AttributeOverride(name = "type", column = @Column(name = "rate_type")),
-            @AttributeOverride(name = "capitalization", column = @Column(name = "rate_capitalization"))
+            @AttributeOverride(name = "capitalization", column = @Column(name = "rate_capitalization")),
+            @AttributeOverride(name = "ratePeriod", column = @Column(name = "rate_period"))
     })
     private Rate rate;
 
@@ -114,7 +115,8 @@ public class CreditSimulation extends AuditableAbstractAggregateRoot<CreditSimul
     @AttributeOverrides({
             @AttributeOverride(name = "value", column = @Column(name = "cost_of_capital_value")),
             @AttributeOverride(name = "type", column = @Column(name = "cost_of_capital_type")),
-            @AttributeOverride(name = "capitalization", column = @Column(name = "cost_of_capital_capitalization"))
+            @AttributeOverride(name = "capitalization", column = @Column(name = "cost_of_capital_capitalization")),
+            @AttributeOverride(name = "ratePeriod", column = @Column(name = "cost_of_capital_rate_period"))
     })
     private Rate costOfCapital;
 
@@ -162,6 +164,25 @@ public class CreditSimulation extends AuditableAbstractAggregateRoot<CreditSimul
                             Term term, GraceConfiguration grace, Costs costs, Rate costOfCapital) {
         this.id = id;
         this.dealershipId = dealershipId;
+        applyConfiguration(clientId, vehicleOfferId, salePrice, rate, initialPercentage, balloonPercentage,
+                term, grace, costs, costOfCapital);
+    }
+
+    /**
+     * Re-applies the full configuration to an existing simulation (edit). The identity, {@code createdAt}
+     * and audit stay; the caller must re-run {@link #generate} to recompute the schedule/indicators.
+     */
+    public void reconfigure(ClientId clientId, VehicleOfferId vehicleOfferId, Money salePrice, Rate rate,
+                            Percentage initialPercentage, Percentage balloonPercentage, Term term,
+                            GraceConfiguration grace, Costs costs, Rate costOfCapital) {
+        applyConfiguration(clientId, vehicleOfferId, salePrice, rate, initialPercentage, balloonPercentage,
+                term, grace, costs, costOfCapital);
+    }
+
+    /** Sets the configuration fields and derives the loan amount and financed balance. State → CONFIGURED. */
+    private void applyConfiguration(ClientId clientId, VehicleOfferId vehicleOfferId, Money salePrice, Rate rate,
+                                    Percentage initialPercentage, Percentage balloonPercentage, Term term,
+                                    GraceConfiguration grace, Costs costs, Rate costOfCapital) {
         this.clientId = clientId;
         this.vehicleOfferId = vehicleOfferId;
         this.salePrice = salePrice;
@@ -180,7 +201,7 @@ public class CreditSimulation extends AuditableAbstractAggregateRoot<CreditSimul
         this.loanAmount = new Money(loan, salePrice.currency());
 
         BigDecimal balloon = balloonPercentage.of(salePrice.amount());
-        BigDecimal balloonRate = i.add(costs.embeddedRate(), FinancialMath.MC);
+        BigDecimal balloonRate = i.add(costs.embeddedRate(term.frequencyDays()), FinancialMath.MC);
         BigDecimal presentValueOfBalloon = ScheduleCalculator.balloonPresentValue(
                 balloon, balloonRate, term.numberOfInstallments());
         this.financedBalance = new Money(loan.subtract(presentValueOfBalloon, FinancialMath.MC), salePrice.currency());

@@ -43,7 +43,7 @@ class VehicleOfferPersistenceTest extends AbstractIntegrationTest {
     private static RegisterVehicleOfferCommand registerCommand(UUID dealershipId) {
         return new RegisterVehicleOfferCommand(
                 dealershipId, "Toyota", "Corolla", 2024,
-                new BigDecimal("50000.00"), Currency.PEN, "Plan 36", 36);
+                new BigDecimal("50000.00"), Currency.PEN);
     }
 
     @Test
@@ -59,8 +59,6 @@ class VehicleOfferPersistenceTest extends AbstractIntegrationTest {
         assertThat(found.getVehicle().year()).isEqualTo(2024);
         assertThat(found.getSalePrice().amount()).isEqualByComparingTo("50000.00");
         assertThat(found.getSalePrice().currency()).isEqualTo(Currency.PEN);
-        assertThat(found.getPlan().name()).isEqualTo("Plan 36");
-        assertThat(found.getPlan().installments()).isEqualTo(36);
         assertThat(queryService.handle(new GetAllVehicleOffersQuery())).hasSize(1);
     }
 
@@ -72,14 +70,13 @@ class VehicleOfferPersistenceTest extends AbstractIntegrationTest {
 
         commandService.handle(new UpdateVehicleOfferCommand(
                 id.value(), "Toyota", "Yaris", 2025,
-                new BigDecimal("42000.00"), Currency.USD, null, null));
+                new BigDecimal("42000.00"), Currency.USD));
 
         var found = repository.findById(id).orElseThrow();
         assertThat(found.getVehicle().model()).isEqualTo("Yaris");
         assertThat(found.getVehicle().year()).isEqualTo(2025);
         assertThat(found.getSalePrice().amount()).isEqualByComparingTo("42000.00");
         assertThat(found.getSalePrice().currency()).isEqualTo(Currency.USD);
-        assertThat(found.getPlan()).isNull();
     }
 
     @Test

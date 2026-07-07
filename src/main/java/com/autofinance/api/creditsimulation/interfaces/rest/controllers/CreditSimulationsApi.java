@@ -49,6 +49,7 @@ public interface CreditSimulationsApi {
                                               "rateValue": 0.20,
                                               "rateType": "EFFECTIVE",
                                               "capitalization": null,
+                                              "ratePeriod": null,
                                               "initialPercentage": 0.20,
                                               "balloonPercentage": 0,
                                               "numberOfInstallments": 12,
@@ -65,6 +66,7 @@ public interface CreditSimulationsApi {
                                               "rateValue": 0.20,
                                               "rateType": "EFFECTIVE",
                                               "capitalization": null,
+                                              "ratePeriod": null,
                                               "initialPercentage": 0.20,
                                               "balloonPercentage": 0.30,
                                               "numberOfInstallments": 12,
@@ -83,7 +85,8 @@ public interface CreditSimulationsApi {
                                               "vehicleOfferId": "33333333-3333-3333-3333-333333333333",
                                               "rateValue": 0.18,
                                               "rateType": "NOMINAL",
-                                              "capitalization": "MONTHLY",
+                                              "capitalization": 30,
+                                              "ratePeriod": null,
                                               "initialPercentage": 0.20,
                                               "balloonPercentage": 0,
                                               "numberOfInstallments": 12,
@@ -96,6 +99,21 @@ public interface CreditSimulationsApi {
                             }))
             GenerateSimulationResource resource);
 
+    @Operation(summary = "Edit an existing credit simulation (reconfigure + regenerate) and return the stored snapshot")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Updated",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = SimulationResource.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid configuration / validation (see 'code')",
+                    content = @Content(mediaType = "application/problem+json",
+                            schema = @Schema(implementation = ApiErrorSchema.class))),
+            @ApiResponse(responseCode = "404", description = "Not found in the current dealership", content = @Content),
+            @ApiResponse(responseCode = "422", description = "Valid request, but the schedule could not be computed (see 'code')",
+                    content = @Content(mediaType = "application/problem+json",
+                            schema = @Schema(implementation = ApiErrorSchema.class)))
+    })
+    ResponseEntity<SimulationResource> update(UUID simulationId, GenerateSimulationResource resource);
+
     @Operation(summary = "Get a credit simulation by id")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Found",
@@ -107,4 +125,7 @@ public interface CreditSimulationsApi {
 
     @Operation(summary = "List a client's credit simulations")
     ResponseEntity<List<SimulationResource>> getByClient(UUID clientId);
+
+    @Operation(summary = "List all credit simulations of the current dealership")
+    ResponseEntity<List<SimulationResource>> listAll();
 }

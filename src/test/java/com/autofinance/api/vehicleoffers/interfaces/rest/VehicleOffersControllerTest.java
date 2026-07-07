@@ -9,7 +9,6 @@ import com.autofinance.api.vehicleoffers.domain.model.aggregates.VehicleOffer;
 import com.autofinance.api.vehicleoffers.domain.model.commands.RegisterVehicleOfferCommand;
 import com.autofinance.api.vehicleoffers.domain.model.queries.GetAllVehicleOffersQuery;
 import com.autofinance.api.vehicleoffers.domain.model.queries.GetVehicleOfferByIdQuery;
-import com.autofinance.api.vehicleoffers.domain.model.valueobjects.Plan;
 import com.autofinance.api.vehicleoffers.domain.model.valueobjects.Vehicle;
 import com.autofinance.api.vehicleoffers.domain.model.valueobjects.VehicleOfferId;
 import com.autofinance.api.vehicleoffers.domain.services.VehicleOfferCommandService;
@@ -64,12 +63,11 @@ class VehicleOffersControllerTest {
     private final VehicleOffer offer = new VehicleOffer(
             VehicleOfferId.generate(), DEALER,
             new Vehicle("Toyota", "Corolla", 2024),
-            Money.of(new BigDecimal("50000.00"), Currency.PEN),
-            new Plan("Plan 36", 36));
+            Money.of(new BigDecimal("50000.00"), Currency.PEN));
 
     private RegisterVehicleOfferResource validRegister() {
         return new RegisterVehicleOfferResource("Toyota", "Corolla", 2024,
-                new BigDecimal("50000.00"), "PEN", "Plan 36", 36);
+                new BigDecimal("50000.00"), "PEN");
     }
 
     @Test
@@ -84,14 +82,13 @@ class VehicleOffersControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(offer.getId().value().toString()))
                 .andExpect(jsonPath("$.make").value("Toyota"))
-                .andExpect(jsonPath("$.salePrice.currency").value("PEN"))
-                .andExpect(jsonPath("$.planInstallments").value(36));
+                .andExpect(jsonPath("$.salePrice.currency").value("PEN"));
     }
 
     @Test
     void registerWithInvalidBodyReturns400WithFieldErrors() throws Exception {
         var invalid = new RegisterVehicleOfferResource("", "Corolla", 2024,
-                new BigDecimal("-1"), "PEN", null, null);
+                new BigDecimal("-1"), "PEN");
         mockMvc.perform(post("/api/v1/vehicle-offers")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(invalid)))
@@ -121,7 +118,7 @@ class VehicleOffersControllerTest {
         when(queryService.handle(any(GetVehicleOfferByIdQuery.class))).thenReturn(Optional.of(offer));
 
         var body = new UpdateVehicleOfferResource("Toyota", "Yaris", 2025,
-                new BigDecimal("42000.00"), "USD", null, null);
+                new BigDecimal("42000.00"), "USD");
 
         mockMvc.perform(put("/api/v1/vehicle-offers/{id}", offer.getId().value())
                         .contentType(MediaType.APPLICATION_JSON)
@@ -136,7 +133,7 @@ class VehicleOffersControllerTest {
                 .thenReturn(Optional.empty());
 
         var body = new UpdateVehicleOfferResource("Toyota", "Yaris", 2025,
-                new BigDecimal("42000.00"), "USD", null, null);
+                new BigDecimal("42000.00"), "USD");
 
         mockMvc.perform(put("/api/v1/vehicle-offers/{id}", UUID.randomUUID())
                         .contentType(MediaType.APPLICATION_JSON)

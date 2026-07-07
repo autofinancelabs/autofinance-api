@@ -1,5 +1,6 @@
 package com.autofinance.api.creditsimulation.interfaces.rest.controllers;
 
+import com.autofinance.api.creditsimulation.domain.model.queries.GetAllSimulationsQuery;
 import com.autofinance.api.creditsimulation.domain.model.queries.GetSimulationByIdQuery;
 import com.autofinance.api.creditsimulation.domain.model.queries.GetSimulationsByClientIdQuery;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.ClientId;
@@ -18,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -61,6 +63,19 @@ public class CreditSimulationsController implements CreditSimulationsApi {
     }
 
     @Override
+    @PutMapping(value = "/{simulationId}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<SimulationResource> update(@PathVariable UUID simulationId,
+                                                     @Valid @RequestBody GenerateSimulationResource resource) {
+        var command = RequestSimulationCommandFromResourceAssembler.toUpdateCommandFromResource(
+                currentUser.dealershipId(), simulationId, resource);
+        return commandService.handle(command)
+                .flatMap(id -> queryService.handle(new GetSimulationByIdQuery(id)))
+                .map(simulation -> ResponseEntity.ok(
+                        SimulationResourceFromEntityAssembler.toResourceFromEntity(simulation)))
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @Override
     @GetMapping("/{simulationId}")
     public ResponseEntity<SimulationResource> getById(@PathVariable UUID simulationId) {
         return queryService.handle(new GetSimulationByIdQuery(new SimulationId(simulationId)))
@@ -73,6 +88,16 @@ public class CreditSimulationsController implements CreditSimulationsApi {
     @GetMapping(params = "clientId")
     public ResponseEntity<List<SimulationResource>> getByClient(@RequestParam UUID clientId) {
         List<SimulationResource> resources = queryService.handle(new GetSimulationsByClientIdQuery(new ClientId(clientId)))
+                .stream()
+                .map(SimulationResourceFromEntityAssembler::toResourceFromEntity)
+                .toList();
+        return ResponseEntity.ok(resources);
+    }
+
+    @Override
+    @GetMapping
+    public ResponseEntity<List<SimulationResource>> listAll() {
+        List<SimulationResource> resources = queryService.handle(new GetAllSimulationsQuery())
                 .stream()
                 .map(SimulationResourceFromEntityAssembler::toResourceFromEntity)
                 .toList();

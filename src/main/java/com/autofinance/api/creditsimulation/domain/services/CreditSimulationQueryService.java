@@ -1,6 +1,7 @@
 package com.autofinance.api.creditsimulation.domain.services;
 
 import com.autofinance.api.creditsimulation.domain.model.aggregates.CreditSimulation;
+import com.autofinance.api.creditsimulation.domain.model.queries.GetAllSimulationsQuery;
 import com.autofinance.api.creditsimulation.domain.model.queries.GetSimulationByIdQuery;
 import com.autofinance.api.creditsimulation.domain.model.queries.GetSimulationsByClientIdQuery;
 
@@ -13,4 +14,6 @@ public interface CreditSimulationQueryService {
     Optional<CreditSimulation> handle(GetSimulationByIdQuery query);
 
     List<CreditSimulation> handle(GetSimulationsByClientIdQuery query);
+
+    List<CreditSimulation> handle(GetAllSimulationsQuery query);
 }

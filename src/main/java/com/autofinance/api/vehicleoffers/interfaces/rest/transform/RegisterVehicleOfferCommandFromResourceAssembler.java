@@ -24,9 +24,7 @@ public final class RegisterVehicleOfferCommandFromResourceAssembler {
                 r.model(),
                 r.year(),
                 r.salePrice(),
-                Currency.valueOf(r.currency()),
-                r.planName(),
-                r.planInstallments()
+                Currency.valueOf(r.currency())
         );
     }
 }

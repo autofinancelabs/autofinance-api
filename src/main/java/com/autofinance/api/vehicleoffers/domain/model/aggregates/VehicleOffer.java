@@ -6,7 +6,6 @@ import com.autofinance.api.vehicleoffers.domain.exceptions.InvalidVehicleOfferEx
 import com.autofinance.api.vehicleoffers.domain.model.events.VehicleOfferRegistered;
 import com.autofinance.api.vehicleoffers.domain.model.events.VehicleOfferUpdated;
 import com.autofinance.api.shared.domain.model.valueobjects.DealershipId;
-import com.autofinance.api.vehicleoffers.domain.model.valueobjects.Plan;
 import com.autofinance.api.vehicleoffers.domain.model.valueobjects.Vehicle;
 import com.autofinance.api.vehicleoffers.domain.model.valueobjects.VehicleOfferId;
 import jakarta.persistence.AttributeOverride;
@@ -22,8 +21,8 @@ import org.hibernate.annotations.TenantId;
 import java.util.UUID;
 
 /**
- * Aggregate root of the Vehicle Offers supporting context: the vehicle offer (vehicle + sale price +
- * optional plan) that the Credit Simulation core consumes by-id. Enforces the sale-price invariant.
+ * Aggregate root of the Vehicle Offers supporting context: the vehicle offer (vehicle + sale price)
+ * that the Credit Simulation core consumes by-id. Enforces the sale-price invariant.
  */
 @Getter
 @Entity
@@ -46,14 +45,6 @@ public class VehicleOffer extends AuditableAbstractAggregateRoot<VehicleOffer, V
     })
     private Money salePrice;
 
-    /** Optional standard plan; {@code null} when the offer has no associated plan. */
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "name", column = @Column(name = "plan_name")),
-            @AttributeOverride(name = "installments", column = @Column(name = "plan_installments"))
-    })
-    private Plan plan;
-
     @Version
     @Column(name = "version")
     private long version;
@@ -62,20 +53,18 @@ public class VehicleOffer extends AuditableAbstractAggregateRoot<VehicleOffer, V
         // for JPA
     }
 
-    public VehicleOffer(VehicleOfferId id, UUID dealershipId, Vehicle vehicle, Money salePrice, Plan plan) {
+    public VehicleOffer(VehicleOfferId id, UUID dealershipId, Vehicle vehicle, Money salePrice) {
         this.id = id;
         this.dealershipId = dealershipId;
         this.vehicle = vehicle;
         this.salePrice = requirePositivePrice(salePrice);
-        this.plan = plan;
         addDomainEvent(new VehicleOfferRegistered(id, new DealershipId(dealershipId)));
     }
 
-    /** Re-applies the vehicle, sale price and plan, enforcing the price invariant. */
-    public void update(Vehicle vehicle, Money salePrice, Plan plan) {
+    /** Re-applies the vehicle and sale price, enforcing the price invariant. */
+    public void update(Vehicle vehicle, Money salePrice) {
         this.vehicle = vehicle;
         this.salePrice = requirePositivePrice(salePrice);
-        this.plan = plan;
         addDomainEvent(new VehicleOfferUpdated(id, new DealershipId(dealershipId)));
     }
 

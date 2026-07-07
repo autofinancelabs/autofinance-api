@@ -3,7 +3,9 @@ package com.autofinance.api.creditsimulation.interfaces.rest;
 import com.autofinance.api.creditsimulation.GoldenDatasets;
 import com.autofinance.api.creditsimulation.domain.model.aggregates.CreditSimulation;
 import com.autofinance.api.creditsimulation.domain.model.aggregates.CreditSimulationFactory;
+import com.autofinance.api.creditsimulation.domain.model.queries.GetAllSimulationsQuery;
 import com.autofinance.api.creditsimulation.domain.model.queries.GetSimulationByIdQuery;
+import com.autofinance.api.creditsimulation.domain.model.commands.RequestSimulationCommand;
 import com.autofinance.api.creditsimulation.domain.model.queries.GetSimulationsByClientIdQuery;
 import com.autofinance.api.creditsimulation.domain.services.CreditSimulationCommandService;
 import com.autofinance.api.creditsimulation.domain.services.CreditSimulationQueryService;
@@ -60,7 +62,7 @@ class CreditSimulationsControllerTest {
     private GenerateSimulationResource validResource() {
         return new GenerateSimulationResource(
                 UUID.randomUUID(), UUID.randomUUID(),
-                new BigDecimal("0.20"), "EFFECTIVE", null,
+                new BigDecimal("0.20"), "EFFECTIVE", null, null,
                 new BigDecimal("0.20"), BigDecimal.ZERO,
                 12, 30, 360,
                 List.of("NONE"), List.<CostResource>of(),
@@ -71,7 +73,7 @@ class CreditSimulationsControllerTest {
     private GenerateSimulationResource constraintViolatingResource() {
         return new GenerateSimulationResource(
                 UUID.randomUUID(), UUID.randomUUID(),
-                new BigDecimal("0.20"), "EFFECTIVE", null,
+                new BigDecimal("0.20"), "EFFECTIVE", null, null,
                 new BigDecimal("0.20"), BigDecimal.ZERO,
                 0, 30, 360,
                 List.of("NONE"), List.<CostResource>of(),
@@ -82,7 +84,7 @@ class CreditSimulationsControllerTest {
     private GenerateSimulationResource multiViolationResource() {
         return new GenerateSimulationResource(
                 UUID.randomUUID(), UUID.randomUUID(),
-                null, "EFFECTIVE", null,
+                null, "EFFECTIVE", null, null,
                 new BigDecimal("0.20"), BigDecimal.ZERO,
                 0, 30, 360,
                 List.<String>of(), List.<CostResource>of(),
@@ -92,7 +94,7 @@ class CreditSimulationsControllerTest {
     @Test
     void generateReturns201WithTheStoredSnapshot() throws Exception {
         when(currentUser.dealershipId()).thenReturn(DEALER);
-        when(commandService.handle(any())).thenReturn(generated.getId());
+        when(commandService.handle(any(RequestSimulationCommand.class))).thenReturn(generated.getId());
         when(queryService.handle(any(GetSimulationByIdQuery.class))).thenReturn(Optional.of(generated));
 
         mockMvc.perform(post("/api/v1/credit-simulations")
@@ -139,7 +141,7 @@ class CreditSimulationsControllerTest {
     @Test
     void unexpectedErrorReturns500WithoutLeakingInternals() throws Exception {
         when(currentUser.dealershipId()).thenReturn(DEALER);
-        when(commandService.handle(any())).thenThrow(new RuntimeException("boom: secret stacktrace"));
+        when(commandService.handle(any(RequestSimulationCommand.class))).thenThrow(new RuntimeException("boom: secret stacktrace"));
 
         mockMvc.perform(post("/api/v1/credit-simulations")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -175,5 +177,16 @@ class CreditSimulationsControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$[0].id").value(generated.getId().value().toString()));
+    }
+
+    @Test
+    void listAllReturns200WithEveryDealershipSimulation() throws Exception {
+        when(queryService.handle(any(GetAllSimulationsQuery.class))).thenReturn(List.of(generated));
+
+        mockMvc.perform(get("/api/v1/credit-simulations"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$[0].id").value(generated.getId().value().toString()))
+                .andExpect(jsonPath("$[0].state").value("GENERATED"));
     }
 }

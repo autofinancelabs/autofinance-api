@@ -1,5 +1,6 @@
 package com.autofinance.api.creditsimulation.domain.model.valueobjects;
 
+import com.autofinance.api.creditsimulation.domain.exceptions.InvalidCostConfigurationException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
@@ -33,7 +34,8 @@ public record Cost(
             throw new IllegalArgumentException("Cost requires a basis and a timing");
         }
         if (embedded && (basis != CostBasis.ON_BALANCE || timing != CostTiming.PERIODIC)) {
-            throw new IllegalArgumentException("An embedded cost must be a periodic ON_BALANCE rate");
+            throw new InvalidCostConfigurationException(
+                    "An embedded cost must be a periodic rate over the balance (ON_BALANCE)");
         }
     }
 

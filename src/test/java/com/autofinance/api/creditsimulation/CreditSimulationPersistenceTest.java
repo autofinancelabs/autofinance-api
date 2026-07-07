@@ -49,19 +49,19 @@ class CreditSimulationPersistenceTest extends AbstractIntegrationTest {
 
     private UUID registerOffer(UUID dealershipId, GenerateSimulationCommand d) {
         return vehicleOfferCommandService.handle(new RegisterVehicleOfferCommand(
-                dealershipId, "Toyota", "Corolla", 2024, d.salePrice(), d.currency(), null, null)).value();
+                dealershipId, "Toyota", "Corolla", 2024, d.salePrice(), d.currency())).value();
     }
 
     private UUID registerClient(UUID dealershipId, String document) {
         return clientCommandService.handle(new RegisterClientCommand(
-                dealershipId, DocumentType.DNI, document, null, null, null)).value();
+                dealershipId, DocumentType.DNI, document, "Cliente", "De Prueba", null, null, null)).value();
     }
 
     private static RequestSimulationCommand requestFrom(GenerateSimulationCommand d, UUID dealershipId,
                                                         UUID clientId, UUID vehicleOfferId) {
         return new RequestSimulationCommand(
                 dealershipId, clientId, vehicleOfferId,
-                d.rateValue(), d.rateType(), d.capitalization(),
+                d.rateValue(), d.rateType(), d.capitalization(), d.ratePeriod(),
                 d.initialPercentage(), d.balloonPercentage(),
                 d.numberOfInstallments(), d.frequencyDays(), d.daysPerYear(),
                 d.gracePlan(), d.costs(), d.costOfCapitalAnnual());

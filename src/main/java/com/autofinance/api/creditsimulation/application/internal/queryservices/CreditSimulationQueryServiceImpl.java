@@ -1,6 +1,7 @@
 package com.autofinance.api.creditsimulation.application.internal.queryservices;
 
 import com.autofinance.api.creditsimulation.domain.model.aggregates.CreditSimulation;
+import com.autofinance.api.creditsimulation.domain.model.queries.GetAllSimulationsQuery;
 import com.autofinance.api.creditsimulation.domain.model.queries.GetSimulationByIdQuery;
 import com.autofinance.api.creditsimulation.domain.model.queries.GetSimulationsByClientIdQuery;
 import com.autofinance.api.creditsimulation.domain.repositories.CreditSimulationRepository;
@@ -31,5 +32,11 @@ public class CreditSimulationQueryServiceImpl implements CreditSimulationQuerySe
     @Transactional(readOnly = true)
     public List<CreditSimulation> handle(GetSimulationsByClientIdQuery query) {
         return repository.findByClientId(query.clientId());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<CreditSimulation> handle(GetAllSimulationsQuery query) {
+        return repository.findAll();
     }
 }

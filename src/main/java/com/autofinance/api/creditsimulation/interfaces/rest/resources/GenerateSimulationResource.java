@@ -1,6 +1,5 @@
 package com.autofinance.api.creditsimulation.interfaces.rest.resources;
 
-import com.autofinance.api.creditsimulation.domain.model.valueobjects.Capitalization;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.GraceType;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.RateType;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -26,8 +25,15 @@ public record GenerateSimulationResource(
         @NotNull UUID vehicleOfferId,
         @NotNull BigDecimal rateValue,
         @NotBlank @Schema(implementation = RateType.class) String rateType,
-        @Schema(implementation = Capitalization.class, nullable = true,
-                description = "Required only when rateType is NOMINAL") String capitalization,
+        @Schema(type = "integer", nullable = true,
+                description = "Capitalization (compounding) frequency in days for NOMINAL rates: required "
+                        + "(e.g. 1=daily, 30=monthly, 90=quarterly, 180=semiannual, 360=annual, or any value "
+                        + "like 100). Omit for EFFECTIVE rates.")
+                Integer capitalization,
+        @Schema(type = "integer", nullable = true,
+                description = "Period in days the rate value is quoted over (both types). Optional; omit = "
+                        + "annual (e.g. TNA / TEA). For NOMINAL it is independent of the capitalization.")
+                Integer ratePeriod,
         @NotNull BigDecimal initialPercentage,
         @NotNull BigDecimal balloonPercentage,
         @Positive int numberOfInstallments,

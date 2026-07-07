@@ -7,8 +7,7 @@ import java.util.UUID;
 
 /**
  * Raw inputs to register a vehicle offer. Carries primitives/enums (not value objects) so the
- * application/REST boundary can map flat input directly; the factory builds the VOs. {@code planName}
- * and {@code planInstallments} are optional.
+ * application/REST boundary can map flat input directly; the factory builds the VOs.
  */
 public record RegisterVehicleOfferCommand(
         UUID dealershipId,
@@ -16,8 +15,6 @@ public record RegisterVehicleOfferCommand(
         String model,
         int year,
         BigDecimal salePrice,
-        Currency currency,
-        String planName,
-        Integer planInstallments
+        Currency currency
 ) {
 }

@@ -43,7 +43,9 @@ public final class SimulationResourceFromEntityAssembler {
                 indicators(s.getIndicators()),
                 s.getSchedule().stream().map(SimulationResourceFromEntityAssembler::row).toList(),
                 summary(s.getSummary()),
-                s.getState().name()
+                s.getState().name(),
+                s.getCreatedAt() == null ? null : s.getCreatedAt().toInstant().toString(),
+                s.getUpdatedAt() == null ? null : s.getUpdatedAt().toInstant().toString()
         );
     }
 
@@ -52,8 +54,7 @@ public final class SimulationResourceFromEntityAssembler {
     }
 
     private static RateResource rate(Rate r) {
-        return new RateResource(r.value(), r.type().name(),
-                r.capitalization() == null ? null : r.capitalization().name());
+        return new RateResource(r.value(), r.type().name(), r.capitalization(), r.ratePeriod());
     }
 
     private static TermResource term(Term t) {

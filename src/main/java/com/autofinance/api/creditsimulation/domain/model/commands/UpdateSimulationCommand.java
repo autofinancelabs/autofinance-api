@@ -1,7 +1,6 @@
 package com.autofinance.api.creditsimulation.domain.model.commands;
 
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.Cost;
-import com.autofinance.api.shared.domain.model.valueobjects.Currency;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.GraceType;
 import com.autofinance.api.creditsimulation.domain.model.valueobjects.RateType;
 
@@ -10,16 +9,15 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * Raw inputs to generate a credit-simulation quote. Carries primitives/enums (not value objects)
- * so the application/REST boundary can map flat input directly; the factory builds the VOs.
- * Costs are a flexible list, so any entity's cost structure can be expressed.
+ * Use-case request to edit an existing simulation. Same shape as {@link RequestSimulationCommand} plus the
+ * target {@code simulationId}: it carries NO sale price / currency — those are resolved from the (possibly
+ * changed) referenced vehicle offer by the command service (ACL) before the aggregate is reconfigured.
  */
-public record GenerateSimulationCommand(
+public record UpdateSimulationCommand(
+        UUID simulationId,
         UUID dealershipId,
         UUID clientId,
         UUID vehicleOfferId,
-        BigDecimal salePrice,
-        Currency currency,
         BigDecimal rateValue,
         RateType rateType,
         Integer capitalization,
