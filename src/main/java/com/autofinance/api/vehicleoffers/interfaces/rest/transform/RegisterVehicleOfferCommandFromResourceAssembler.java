@@ -9,7 +9,8 @@ import java.util.UUID;
 /**
  * Builds a {@link RegisterVehicleOfferCommand} from the request resource and the current dealership
  * (tenant, from the header). Translates the wire currency String into the domain enum — an unknown
- * value raises {@code IllegalArgumentException}, mapped to 400 by the global handler.
+ * value raises {@code IllegalArgumentException}, mapped to 400 by the global handler. The optional 3D
+ * model is mapped null-safely by {@link Model3dResourceAssembler} (absent means no 3D model).
  */
 public final class RegisterVehicleOfferCommandFromResourceAssembler {
 
@@ -24,7 +25,8 @@ public final class RegisterVehicleOfferCommandFromResourceAssembler {
                 r.model(),
                 r.year(),
                 r.salePrice(),
-                Currency.valueOf(r.currency())
+                Currency.valueOf(r.currency()),
+                Model3dResourceAssembler.toValueObject(r.model3d())
         );
     }
 }

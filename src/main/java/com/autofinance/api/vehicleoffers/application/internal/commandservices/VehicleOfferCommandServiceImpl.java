@@ -45,7 +45,8 @@ public class VehicleOfferCommandServiceImpl implements VehicleOfferCommandServic
                 .map(offer -> {
                     offer.update(
                             new Vehicle(command.make(), command.model(), command.year()),
-                            new Money(command.salePrice(), command.currency()));
+                            new Money(command.salePrice(), command.currency()),
+                            command.model3d());
                     repository.save(offer);
                     return offer.getId();
                 });

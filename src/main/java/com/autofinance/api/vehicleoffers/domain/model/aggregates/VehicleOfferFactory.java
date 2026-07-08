@@ -16,6 +16,7 @@ public class VehicleOfferFactory {
         Money salePrice = new Money(command.salePrice(), command.currency());
 
         return new VehicleOffer(
-                VehicleOfferId.generate(), command.dealershipId(), vehicle, salePrice);
+                VehicleOfferId.generate(), command.dealershipId(), vehicle, salePrice,
+                command.model3d());
     }
 }

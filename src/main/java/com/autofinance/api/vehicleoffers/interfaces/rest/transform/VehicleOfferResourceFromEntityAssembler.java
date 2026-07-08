@@ -17,7 +17,8 @@ public final class VehicleOfferResourceFromEntityAssembler {
                 o.getVehicle().make(),
                 o.getVehicle().model(),
                 o.getVehicle().year(),
-                money(o.getSalePrice())
+                money(o.getSalePrice()),
+                Model3dResourceAssembler.toResource(o.getModel3d())
         );
     }
 

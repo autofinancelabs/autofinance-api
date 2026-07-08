@@ -9,7 +9,8 @@ import java.util.UUID;
 /**
  * Builds an {@link UpdateVehicleOfferCommand} from the path id and the request resource. Translates the
  * wire currency String into the domain enum — an unknown value raises {@code IllegalArgumentException},
- * mapped to 400 by the global handler.
+ * mapped to 400 by the global handler. The optional 3D model is mapped null-safely by
+ * {@link Model3dResourceAssembler}.
  */
 public final class UpdateVehicleOfferCommandFromResourceAssembler {
 
@@ -24,7 +25,8 @@ public final class UpdateVehicleOfferCommandFromResourceAssembler {
                 r.model(),
                 r.year(),
                 r.salePrice(),
-                Currency.valueOf(r.currency())
+                Currency.valueOf(r.currency()),
+                Model3dResourceAssembler.toValueObject(r.model3d())
         );
     }
 }

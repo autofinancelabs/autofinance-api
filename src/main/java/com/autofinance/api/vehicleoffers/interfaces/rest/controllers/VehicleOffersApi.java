@@ -46,7 +46,16 @@ public interface VehicleOffersApi {
                                               "model": "Corolla",
                                               "year": 2024,
                                               "salePrice": 50000.00,
-                                              "currency": "PEN"
+                                              "currency": "PEN",
+                                              "model3d": {
+                                                "preset": "SEDAN",
+                                                "bodyColor": "#16b1b1",
+                                                "windowColor": "#1b2b33",
+                                                "sportWheels": true,
+                                                "spoiler": false,
+                                                "panoRoof": true,
+                                                "plateText": "ABC-123"
+                                              }
                                             }""")
                             }))
             RegisterVehicleOfferResource resource);

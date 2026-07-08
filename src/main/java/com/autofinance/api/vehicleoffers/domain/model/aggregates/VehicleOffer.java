@@ -7,6 +7,7 @@ import com.autofinance.api.vehicleoffers.domain.model.events.VehicleOfferRegiste
 import com.autofinance.api.vehicleoffers.domain.model.events.VehicleOfferUpdated;
 import com.autofinance.api.shared.domain.model.valueobjects.DealershipId;
 import com.autofinance.api.vehicleoffers.domain.model.valueobjects.Vehicle;
+import com.autofinance.api.vehicleoffers.domain.model.valueobjects.Vehicle3dModel;
 import com.autofinance.api.vehicleoffers.domain.model.valueobjects.VehicleOfferId;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
@@ -45,6 +46,10 @@ public class VehicleOffer extends AuditableAbstractAggregateRoot<VehicleOffer, V
     })
     private Money salePrice;
 
+    /** Optional low-poly 3D model of the offer (null when none was generated). */
+    @Embedded
+    private Vehicle3dModel model3d;
+
     @Version
     @Column(name = "version")
     private long version;
@@ -53,19 +58,27 @@ public class VehicleOffer extends AuditableAbstractAggregateRoot<VehicleOffer, V
         // for JPA
     }
 
-    public VehicleOffer(VehicleOfferId id, UUID dealershipId, Vehicle vehicle, Money salePrice) {
+    public VehicleOffer(VehicleOfferId id, UUID dealershipId, Vehicle vehicle, Money salePrice,
+                        Vehicle3dModel model3d) {
         this.id = id;
         this.dealershipId = dealershipId;
         this.vehicle = vehicle;
         this.salePrice = requirePositivePrice(salePrice);
+        this.model3d = model3d;
         addDomainEvent(new VehicleOfferRegistered(id, new DealershipId(dealershipId)));
     }
 
-    /** Re-applies the vehicle and sale price, enforcing the price invariant. */
-    public void update(Vehicle vehicle, Money salePrice) {
+    /** Re-applies the vehicle, sale price and 3D model, enforcing the price invariant. */
+    public void update(Vehicle vehicle, Money salePrice, Vehicle3dModel model3d) {
         this.vehicle = vehicle;
         this.salePrice = requirePositivePrice(salePrice);
+        this.model3d = model3d;
         addDomainEvent(new VehicleOfferUpdated(id, new DealershipId(dealershipId)));
+    }
+
+    /** Whether this offer has a 3D model configured. */
+    public boolean has3dModel() {
+        return model3d != null;
     }
 
     private static Money requirePositivePrice(Money salePrice) {
