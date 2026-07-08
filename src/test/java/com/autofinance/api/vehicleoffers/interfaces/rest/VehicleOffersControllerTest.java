@@ -9,8 +9,11 @@ import com.autofinance.api.vehicleoffers.domain.model.aggregates.VehicleOffer;
 import com.autofinance.api.vehicleoffers.domain.model.commands.RegisterVehicleOfferCommand;
 import com.autofinance.api.vehicleoffers.domain.model.queries.GetAllVehicleOffersQuery;
 import com.autofinance.api.vehicleoffers.domain.model.queries.GetVehicleOfferByIdQuery;
+import com.autofinance.api.vehicleoffers.domain.model.valueobjects.Model3dPreset;
 import com.autofinance.api.vehicleoffers.domain.model.valueobjects.Vehicle;
+import com.autofinance.api.vehicleoffers.domain.model.valueobjects.Vehicle3dModel;
 import com.autofinance.api.vehicleoffers.domain.model.valueobjects.VehicleOfferId;
+import com.autofinance.api.vehicleoffers.interfaces.rest.resources.Model3dResource;
 import com.autofinance.api.vehicleoffers.domain.services.VehicleOfferCommandService;
 import com.autofinance.api.vehicleoffers.domain.services.VehicleOfferQueryService;
 import com.autofinance.api.vehicleoffers.interfaces.rest.controllers.VehicleOffersController;
@@ -63,11 +66,14 @@ class VehicleOffersControllerTest {
     private final VehicleOffer offer = new VehicleOffer(
             VehicleOfferId.generate(), DEALER,
             new Vehicle("Toyota", "Corolla", 2024),
-            Money.of(new BigDecimal("50000.00"), Currency.PEN));
+            Money.of(new BigDecimal("50000.00"), Currency.PEN),
+            new Vehicle3dModel(Model3dPreset.SEDAN, "#16b1b1", "#1b2b33",
+                    true, false, true, "ABC-123"));
 
     private RegisterVehicleOfferResource validRegister() {
         return new RegisterVehicleOfferResource("Toyota", "Corolla", 2024,
-                new BigDecimal("50000.00"), "PEN");
+                new BigDecimal("50000.00"), "PEN",
+                new Model3dResource("SEDAN", "#16b1b1", "#1b2b33", true, false, true, "ABC-123"));
     }
 
     @Test
@@ -82,13 +88,17 @@ class VehicleOffersControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(offer.getId().value().toString()))
                 .andExpect(jsonPath("$.make").value("Toyota"))
-                .andExpect(jsonPath("$.salePrice.currency").value("PEN"));
+                .andExpect(jsonPath("$.salePrice.currency").value("PEN"))
+                .andExpect(jsonPath("$.model3d.preset").value("SEDAN"))
+                .andExpect(jsonPath("$.model3d.bodyColor").value("#16b1b1"))
+                .andExpect(jsonPath("$.model3d.sportWheels").value(true))
+                .andExpect(jsonPath("$.model3d.plateText").value("ABC-123"));
     }
 
     @Test
     void registerWithInvalidBodyReturns400WithFieldErrors() throws Exception {
         var invalid = new RegisterVehicleOfferResource("", "Corolla", 2024,
-                new BigDecimal("-1"), "PEN");
+                new BigDecimal("-1"), "PEN", null);
         mockMvc.perform(post("/api/v1/vehicle-offers")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(invalid)))
@@ -118,7 +128,8 @@ class VehicleOffersControllerTest {
         when(queryService.handle(any(GetVehicleOfferByIdQuery.class))).thenReturn(Optional.of(offer));
 
         var body = new UpdateVehicleOfferResource("Toyota", "Yaris", 2025,
-                new BigDecimal("42000.00"), "USD");
+                new BigDecimal("42000.00"), "USD",
+                new Model3dResource("SUV", "#d93a54", "#1b2b33", false, true, false, "XYZ-987"));
 
         mockMvc.perform(put("/api/v1/vehicle-offers/{id}", offer.getId().value())
                         .contentType(MediaType.APPLICATION_JSON)
@@ -133,7 +144,8 @@ class VehicleOffersControllerTest {
                 .thenReturn(Optional.empty());
 
         var body = new UpdateVehicleOfferResource("Toyota", "Yaris", 2025,
-                new BigDecimal("42000.00"), "USD");
+                new BigDecimal("42000.00"), "USD",
+                new Model3dResource("SUV", "#d93a54", "#1b2b33", false, true, false, "XYZ-987"));
 
         mockMvc.perform(put("/api/v1/vehicle-offers/{id}", UUID.randomUUID())
                         .contentType(MediaType.APPLICATION_JSON)
